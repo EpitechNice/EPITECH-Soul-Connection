@@ -1,0 +1,6 @@
+DB_HOST=172.20.0.2
+DB_USER=user
+DB_PASS=P4ssw0rd
+DB_NAME=database
+
+DATABASE_URL="mysql://$(DB_USER):$(DB_PASS)@$(DB_HOST):3306/$(DB_NAME)"

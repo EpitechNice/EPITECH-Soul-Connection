@@ -1,1 +1,5 @@
 .env
+.vscode/
+data/
+dev/
+node_modules/

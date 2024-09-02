@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+enum UserType {
+    Client
+    Employee
+    Manager
+}
+
+model Clothe {
+    id                  Int     @id @default(autoincrement())
+    type                String
+    path                String
+}
+
+model User {
+    id                  Int     @id @default(autoincrement())
+    email               String  @unique
+    password            String      //Hashing !
+    type                UserType
+    name                String
+    surname             String
+    birth_date          String
+    gender              String
+    description         String?                                                 //Client
+    astrological_sign   String?                                                 //Client
+    work                String?                                                 //Employee
+    client_list         User[]?                                                 //Employee
+    coach               User?   @relation(fields: [authorId], references: [id]) //Employee
+    coach_id            Int?                                                    //Employee
+}
+
+// model User {
+//   id        Int      @id @default(autoincrement())
+//   name      String
+//   email     String   @unique
+//   posts     Post[]
+// }
+// 
+// model Post {
+//   id        Int      @id @default(autoincrement())
+//   title     String
+//   content   String?
+//   published Boolean   @default(false)
+//   author    User     @relation(fields: [authorId], references: [id])
+//   authorId  Int
+//   comments  Comment[]
+// }
+// 
+// model Comment {
+//   id        Int      @id @default(autoincrement())
+//   text      String
+//   postId   Int
+//   authorId  Int
+//   author   User
+//   post     Post     @relation(fields: [postId], references: [id])
+// }

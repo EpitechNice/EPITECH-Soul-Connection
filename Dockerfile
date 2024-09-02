@@ -1,4 +1,4 @@
-FROM node:current-alpine3.20
+FROM node:22.7.0-alpine3.20
 
 RUN mkdir -p /usr/src/app/backend/
 RUN mkdir -p /usr/src/app/frontend/

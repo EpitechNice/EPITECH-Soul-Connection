@@ -1,0 +1,25 @@
+{
+  "name": "soulconnection",
+  "version": "1.0.0",
+  "description": "App for a kind fucking client.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EpitechNice/EPITECH-Soul-Connection.git"
+  },
+  "author": "Arthur Guyetand, Caroline Boilly, Clément Piasco, Mickael Frigo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EpitechNice/EPITECH-Soul-Connection/issues"
+  },
+  "homepage": "https://github.com/EpitechNice/EPITECH-Soul-Connection#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mysql": "^2.18.1",
+    "typescript": "^5.5.4"
+  }
+}
