@@ -1,0 +1,39 @@
+version: "3.10"
+
+services:
+  db:
+    image: mysql:9.0.1
+    container_name: soul-connection-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+    networks:
+      back:
+        ipv4_address: 172.20.0.2
+    volumes:
+      - "db_storage:/var/lib/mysql"
+
+  backend:
+    build:
+      context: ./
+    container_name: soul-connection-backend
+    restart: always
+    environment:
+      DB_HOST: 172.20.0.2
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+    networks:
+      - back
+    depends_on:
+      - db
+
+volumes:
+  test_db:
+networks:
+  back:
+    external: false
+    name: back
