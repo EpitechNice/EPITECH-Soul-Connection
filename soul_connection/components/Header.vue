@@ -1,11 +1,11 @@
 <template>
     <nav>
-      <NuxtLink to="/">Home</NuxtLink>
-      <NuxtLink to="/coaches">Coaches</NuxtLink>
-      <NuxtLink to="/customers">Customers</NuxtLink>
-      <NuxtLink to="/statistics">Statistics</NuxtLink>
+        <NuxtLink to="/">Home</NuxtLink>
+        <NuxtLink to="/coaches">Coaches</NuxtLink>
+        <NuxtLink to="/customers">Customers</NuxtLink>
+        <NuxtLink to="/statistics">Statistics</NuxtLink>
     </nav>
-  </template>
+</template>
   
   <style scoped>
   nav {

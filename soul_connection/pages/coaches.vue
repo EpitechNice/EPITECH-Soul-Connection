@@ -2,13 +2,57 @@
     <div class="pages">
         <h1>Coaches</h1>
         <div class="separator"></div>
-        <article v-for="post in posts" :key="post.id">
-            <h2>{{ post.title }}</h2>
-            <p>{{ post.body }}</p>
-        </article>
+        <div class="user-table">
+            <div class="user-table-header">
+                <div class="user-table-header-cell">Photo</div>
+                <div class="user-table-header-cell">Name</div>
+                <div class="user-table-header-cell">Email</div>
+                <div class="user-table-header-cell">Birth Date</div>
+                <div class="user-table-header-cell">Customers</div>
+                <div class="user-table-header-cell">Last connection</div>
+            </div>
+            <div class="user-table-body">
+                <div class="user-table-row" v-for="user in users.results" :key="user.login.uuid">
+                    <div class="user-table-cell user-picture">
+                        <img :src="user.picture.medium" alt="User Picture">
+                    </div>
+                    <div class="user-table-cell">
+                        {{ user.name.first }} {{ user.name.last }}
+                    </div>
+                    <div class="user-table-cell">
+                        {{ user.email }}
+                    </div>
+                    <div class="user-table-cell">
+                        {{ formatDate(user.dob.date) }}
+                    </div>
+                    <div class="user-table-cell">
+                        <p>Edit List ...</p>
+                    </div>
+                    <div class="user-table-cell">
+                        <p>...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
-const { data: posts } = useFetch('https://jsonplaceholder.typicode.com/posts?_limit=10');
+import { useFetch } from '#app';
+
+const { data: users, error } = useFetch('https://randomuser.me/api/?results=10');
+
+if (error.value) {
+  console.error('Failed to fetch data:', error.value);
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Les mois commencent à 0
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+}
 </script>
+
+<style src="./assets/css/coaches.css"></style>
