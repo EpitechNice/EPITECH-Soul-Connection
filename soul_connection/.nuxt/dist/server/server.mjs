@@ -1,0 +1,1 @@
+export { default } from "file:///home/Mika/Desktop/delivery/3year/EPITECH-Soul-Connection/soul_connection/node_modules/@nuxt/vite-builder/dist/runtime/vite-node.mjs"

@@ -71,6 +71,9 @@
       "assets": [
         "../assets"
       ],
+      "assets/*": [
+        "../assets/*"
+      ],
       "public": [
         "../public"
       ],
@@ -93,7 +96,7 @@
         "./imports"
       ],
       "#app-manifest": [
-        "./manifest/meta/0f5d8a9b-805f-4b36-9515-041ef6653b71.json"
+        "./manifest/meta/dev.json"
       ],
       "#build": [
         "."
