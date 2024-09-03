@@ -9,4 +9,4 @@ sudo docker rmi epitech-soul-connection-backend
 
 ./scripts/build_env > .env
 
-sudo bash -c "export $(cat .env | xargs) && docker compose up"
+sudo bash -c "export $(cat .env | xargs) && docker-compose up"

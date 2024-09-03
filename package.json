@@ -18,12 +18,11 @@
   },
   "homepage": "https://github.com/EpitechNice/EPITECH-Soul-Connection#readme",
   "dependencies": {
-    "@prisma/client": "^5.19.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "mysql": "^2.18.1",
-    "prisma": "^5.19.1",
+    "sequelize": "^6.37.3",
     "typescript": "^5.5.4"
   },
   "devDependencies": {
