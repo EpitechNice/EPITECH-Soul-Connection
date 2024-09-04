@@ -24,7 +24,7 @@ User.init({
     },
 
     type: {
-        type: DataTypes.ENUM("Manager", "Employee", "Client"),
+        type: DataTypes.ENUM("Manager", "Coach", "Client"),
         allowNull: false,
     },
 

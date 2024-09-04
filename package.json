@@ -2,10 +2,11 @@
   "name": "soulconnection",
   "version": "1.0.0",
   "type": "module",
-  "description": "App for a kind fucking client.",
+  "description": "Soul Connection employees dashboard app",
   "main": "app.js",
   "scripts": {
-    "start": "export $(cat .env | xargs) && node backend/app.js"
+    "start": "export $(cat .env | xargs) && node backend/app.js",
+    "seeder": "export $(cat .env | xargs) && node backend/seeder/employeeSeeder.js"
   },
   "repository": {
     "type": "git",
