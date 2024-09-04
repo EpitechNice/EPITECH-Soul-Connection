@@ -2,14 +2,18 @@
     font-family: Arial, sans-serif;
 }
 
-.container {
+.container-statistics {
     display: flex;
     justify-content: space-around;
+    flex-direction: column;
 }
 
-.rowmain {
+.row {
     display: flex;
     gap: 80px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 70px;
 }
 
 .card {

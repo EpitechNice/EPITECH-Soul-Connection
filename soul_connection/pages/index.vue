@@ -4,7 +4,7 @@
         <h2>Dashboard</h2>
         <div class="separator"></div>
         <div class="container">
-            <div class="row">
+            <div class="rowmain">
                 <div class="card" id="cardclient">
                     <img src="../assets/User.svg"/>
                     <p>2500</p>
