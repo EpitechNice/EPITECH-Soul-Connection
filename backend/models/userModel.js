@@ -1,8 +1,7 @@
-import { sequelize } from "../config/database";
+import { sequelize } from "../config/database.js";
 import { Model, DataTypes } from "sequelize";
-import { Clothe } from "./Clothe";
-import { Encounter } from "./Encounters";
-import { Event } from "./Events";
+import { Encounter } from "./encounterModel.js";
+import { Clothe } from "./clotheModel.js";
 
 class User extends Model {}
 
@@ -73,20 +72,11 @@ User.init({
         }                                               //
     },                                                  //
 
-    encounters_id: {                                     //
+    encounter_id: {                                         //
         type: DataTypes.INTEGER,                        //
         allowNull: true,                                // Only for
         references: {                                   // Clients
-            model: "Encounter",                         //
-            key: "id",                                  //
-        }                                               //
-    },                                                  //
-
-    events_id: {                                        //
-        type: DataTypes.INTEGER,                        //
-        allowNull: true,                                //
-        references: {                                   // Only for
-            model: "Event",                             // Employee
+            model: "Encounter",                             //
             key: "id",                                  //
         }                                               //
     },                                                  //
@@ -140,24 +130,12 @@ Clothe.belongsToMany(User, {
 
 User.hasMany(Encounter, {
     as: "encounter_list",
-    foreignKey: "encounters_id"
+    foreignKey: "encounter_id"
 })
 
 Encounter.belongsTo(User, {
     as: "user",
     foreignKey: "customer_id",
-})
-
-// Interaction between employee and event
-
-User.hasMany(Event, {
-    as: "event_list",
-    foreignKey: "events_id"
-})
-
-Event.belongsTo(User, {
-    as: "user",
-    foreignKey: "employee_id",
 })
 
 export default User;
