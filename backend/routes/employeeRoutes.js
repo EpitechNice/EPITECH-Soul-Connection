@@ -1,6 +1,6 @@
 import express from "express"
 
-import { getEmployee } from employeeController.js
+import { getEmployee } from "../controllers/employeeController.js"
 
 
 const router = express.Router();

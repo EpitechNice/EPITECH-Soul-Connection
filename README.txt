@@ -18,4 +18,4 @@
     - Tech0ne 2/09/24 14:33
 
 0x03
-    Prisma documentation: https://www.prisma.io/docs/getting-started
+    Sequelize documentation: https://sequelize.org/docs/v6/getting-started/

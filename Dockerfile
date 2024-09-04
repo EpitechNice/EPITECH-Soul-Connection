@@ -9,8 +9,6 @@ WORKDIR /usr/src/app/
 COPY package.json /usr/src/app/
 RUN npm install
 
-COPY ./prisma/ /usr/src/app/prisma/
-RUN npx prisma generate
 COPY ./backend/ /usr/src/app/backend/
 COPY ./frontend/ /usr/src/app/frontend/
 COPY .env /usr/src/app/
