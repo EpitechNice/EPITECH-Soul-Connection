@@ -1,0 +1,59 @@
+.user-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.user-info {
+    flex: 1;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: -15px;
+}
+
+.info-item img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.user-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 10%;
+    object-fit: cover;
+    margin-left: 20px;
+}
+
+.customers select {
+    width: 250px;
+    height: 30px;
+    border: 2px solid #000000;
+    background-color: rgb(255, 255, 255);
+    color: #000000;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.tables-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.ta .user-table {
+    grid-template-columns: repeat(3, minmax(0, auto));
+}
+
+.tb .user-table {
+    grid-template-columns: repeat(4, minmax(0, auto));
+}

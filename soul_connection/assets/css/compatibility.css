@@ -1,11 +1,11 @@
-label {
+.compatibility label {
     display: block;
     margin: 10px 0 5px;
     font-weight: bold;
     color: #555;
 }
 
-select {
+.compatibility select {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
@@ -17,12 +17,12 @@ select {
     transition: border-color 0.3s;
 }
 
-select:focus {
+.compatibility select:focus {
     border-color: #007bff;
     outline: none;
 }
 
-button {
+.compatibility button {
     width: 100%;
     padding: 10px;
     font-size: 18px;
@@ -34,7 +34,7 @@ button {
     transition: background-color 0.3s;
 }
 
-button:hover {
+.compatibility button:hover {
     background-color: #0056b3;
 }
 

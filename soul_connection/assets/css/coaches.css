@@ -1,9 +1,14 @@
 .user-table {
+    flex: 1;
+    margin: 0 10px;
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, auto));
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.coaches .user-table {
+    grid-template-columns: repeat(6, minmax(0, auto));
 }
 
 .user-table-header, .user-table-row {

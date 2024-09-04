@@ -1,5 +1,5 @@
 <template>
-    <div class="pages">
+    <div class="coaches pages">
         <h1>Coaches</h1>
         <div class="separator"></div>
         <div class="user-table">
