@@ -1,4 +1,6 @@
 import express from "express";
+import { createDB } from "./config/dbCreate.js";
+
 const app = express()
 
 //Handle Uncaught exceptions
@@ -16,6 +18,7 @@ import employeeRoutes from "./routes/employeeRoutes.js";
 
 app.use("/api/", employeeRoutes);
 
+createDB();
 
 //TODO : add port in env
 const server = app.listen(process.env.BACK_PORT, () => {
