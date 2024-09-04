@@ -1,10 +1,11 @@
 {
   "name": "soulconnection",
+  "type": "module",
   "version": "1.0.0",
   "description": "App for a kind fucking client.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "export $(cat .env | xargs) && node backend/app.js"
   },
   "repository": {
     "type": "git",
@@ -17,9 +18,9 @@
   },
   "homepage": "https://github.com/EpitechNice/EPITECH-Soul-Connection#readme",
   "dependencies": {
-    "dotenv": "^16.4.5",
+    "bcrypt": "^5.1.1",
     "express": "^4.19.2",
-    "mysql": "^2.18.1",
-    "typescript": "^5.5.4"
+    "sequelize": "^6.37.3",
+    "sqlite3": "^5.1.7"
   }
 }
