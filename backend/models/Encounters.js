@@ -1,4 +1,4 @@
-import { sequelize } from "../local_db/database";
+import { sequelize } from "../config/database";
 import { Model, DataTypes, INTEGER } from "sequelize";
 
 class Encounter extends Model {}

@@ -1,7 +1,8 @@
-import { sequelize } from "../local_db/database";
+import { sequelize } from "../config/database";
 import { Model, DataTypes } from "sequelize";
-import { Encounter } from "./Encounters";
 import { Clothe } from "./Clothe";
+import { Encounter } from "./Encounters";
+import { Event } from "./Events";
 
 class User extends Model {}
 
@@ -72,11 +73,20 @@ User.init({
         }                                               //
     },                                                  //
 
-    encounter_id: {                                         //
+    encounters_id: {                                     //
         type: DataTypes.INTEGER,                        //
         allowNull: true,                                // Only for
         references: {                                   // Clients
-            model: "Encounter",                             //
+            model: "Encounter",                         //
+            key: "id",                                  //
+        }                                               //
+    },                                                  //
+
+    events_id: {                                        //
+        type: DataTypes.INTEGER,                        //
+        allowNull: true,                                //
+        references: {                                   // Only for
+            model: "Event",                             // Employee
             key: "id",                                  //
         }                                               //
     },                                                  //
@@ -130,12 +140,24 @@ Clothe.belongsToMany(User, {
 
 User.hasMany(Encounter, {
     as: "encounter_list",
-    foreignKey: "encounter_id"
+    foreignKey: "encounters_id"
 })
 
 Encounter.belongsTo(User, {
     as: "user",
     foreignKey: "customer_id",
+})
+
+// Interaction between employee and event
+
+User.hasMany(Event, {
+    as: "event_list",
+    foreignKey: "events_id"
+})
+
+Event.belongsTo(User, {
+    as: "user",
+    foreignKey: "employee_id",
 })
 
 export default User;

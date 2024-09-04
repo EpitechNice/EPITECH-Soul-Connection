@@ -1,4 +1,4 @@
-import { sequelize } from "../local_db/database";
+import { sequelize } from "../config/database";
 import { Model, DataTypes } from "sequelize";
 
 class Event extends Model {}
@@ -53,4 +53,14 @@ Event.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
-})
+}, {
+    sequelize,
+    modelName: "Event",
+    tableName: "events",
+    timestamps: true,
+});
+
+/*
+ * Implicit attributes:
+ * - client_list
+*/
