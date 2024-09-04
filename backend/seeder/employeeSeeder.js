@@ -10,10 +10,6 @@ const seedEmployees = async () => {
     // await sequelize.authenticate();
     console.log("\x1b[32m%s\x1b[0m", "Connected to the database successfully");
 
-    // // Delete existing products
-    // await User.destroy({ where: {}, truncate: true });
-    // console.log("\x1b[33m%s\x1b[0m", "All employees are deleted");
-
     // Insert new employees
     await User.bulkCreate(newEmployees);
     console.log("\x1b[32m%s\x1b[0m", "New employees are added");
