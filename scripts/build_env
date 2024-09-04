@@ -3,7 +3,7 @@
 DB_HOST=172.20.0.2
 DB_USER=root
 DB_PASS=cf8337a841ce8088aef49d9bedb0655c5f5f4ef7e2f0d5d9bec280611a603faf
-DB_NAME=database
+DB_NAME=soul_connection
 
 DEV_DB_PORT=3306
 

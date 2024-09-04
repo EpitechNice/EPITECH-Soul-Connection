@@ -67,16 +67,16 @@ User.init({
         type: DataTypes.INTEGER,                        //
         allowNull: true,                                // Only for
         references: {                                   // Clients
-            model: "Users",                             //
+            model: "users",                             //
             key: "id",                                  //
         }                                               //
     },                                                  //
 
-    encounter_id: {                                         //
+    encounter_id: {                                     //
         type: DataTypes.INTEGER,                        //
         allowNull: true,                                // Only for
         references: {                                   // Clients
-            model: "Encounter",                             //
+            model: "encounters",                        //
             key: "id",                                  //
         }                                               //
     },                                                  //
