@@ -1,14 +1,10 @@
 import express from "express"
-
-import getEmployee from "../controllers/employeeController.js"
+import { getEmployees } from "../controllers/employeeController.js"
 
 
 const router = express.Router();
 
-router.route("employees").get(getEmployee);
-
-
-
+router.route("/employees").get(getEmployees);
 
 
 export default router;
