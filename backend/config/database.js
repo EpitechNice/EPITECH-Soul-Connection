@@ -1,8 +1,8 @@
-import { Sequelize } from '@sequelize/core';
-import { MySqlDialect } from '@sequelize/mysql';
+import { Sequelize } from "sequelize";
+// import { MySqlDialect } from "sequelize";
 
 const sequelize = new Sequelize({
-    dialect: MySqlDialect,
+    dialect: "mysql",
     database: process.env.DB_NAME,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,

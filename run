@@ -1,5 +1,12 @@
 #!/bin/bash
 
+DC_COMMAND="docker-compose"
+
+if ! command -v $DC_COMMAND &> /dev/null
+then
+    DC_COMMAND="docker compose"
+fi
+
 sudo docker stop soul-connection-db soul-connection-backend
 sudo docker rm soul-connection-db soul-connection-backend
 
@@ -9,4 +16,4 @@ sudo docker rmi epitech-soul-connection-backend
 
 ./scripts/build_env > .env
 
-sudo bash -c "export $(cat .env | xargs) && docker-compose up"
+sudo bash -c "export $(cat .env | xargs) && $DC_COMMAND up"

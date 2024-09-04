@@ -1,5 +1,5 @@
-import { sequelize } from "../config/database";
-import { Model, DataTypes, INTEGER } from "sequelize";
+import { sequelize } from "../config/database.js";
+import { Model, DataTypes } from "sequelize";
 
 class Encounter extends Model {}
 
