@@ -4,6 +4,7 @@
         <NuxtLink to="/coaches">Coaches</NuxtLink>
         <NuxtLink to="/customers">Customers</NuxtLink>
         <NuxtLink to="/statistics">Statistics</NuxtLink>
+        <NuxtLink to="/compatibility">Compatibility</NuxtLink>
     </nav>
 </template>
   
