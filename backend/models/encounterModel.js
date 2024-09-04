@@ -1,4 +1,4 @@
-import { sequelize } from "../config/database.js";
+import sequelize from "../config/database.js";
 import { Model, DataTypes } from "sequelize";
 
 class Encounter extends Model {}
@@ -44,6 +44,8 @@ Encounter.init({
     tableName: "encounters",
     timestamps: true,
 });
+
+export default Encounter;
 
 /*
  * Implicit attributes:

@@ -1,7 +1,7 @@
-import { sequelize } from "../config/database.js";
+import sequelize from "../config/database.js";
 import { Model, DataTypes } from "sequelize";
-import { Encounter } from "./encounterModel.js";
-import { Clothe } from "./clotheModel.js";
+import Encounter from "./encounterModel.js";
+import Clothe from "./clotheModel.js";
 
 class User extends Model {}
 

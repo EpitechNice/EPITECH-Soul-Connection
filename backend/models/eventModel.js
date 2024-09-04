@@ -1,4 +1,4 @@
-import { sequelize } from "../config/database.js";
+import sequelize from "../config/database.js";
 import { Model, DataTypes } from "sequelize";
 
 class Event extends Model {}
@@ -59,6 +59,8 @@ Event.init({
     tableName: "events",
     timestamps: true,
 });
+
+export default Event;
 
 /*
  * Implicit attributes:
