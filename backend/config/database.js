@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 // import { MySqlDialect } from "sequelize";
 
-const tagrandmerelaputenodejaimepa = new Sequelize({
+const sequ = new Sequelize({
     dialect: "mysql",
     database: process.env.DB_NAME,
     user: process.env.DB_USER,
@@ -10,4 +10,4 @@ const tagrandmerelaputenodejaimepa = new Sequelize({
     port: 3306,
 });
 
-export default tagrandmerelaputenodejaimepa;
+export default sequ;
