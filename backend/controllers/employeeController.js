@@ -1,10 +1,10 @@
-import catchAsyncErrors from "../middleware/catchAsyncErrors";
+import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import User from "../models/userModel.js"
 
 // Create new employee: /api/employee/...
 export const createEmployee = catchAsyncErrors(async (req, res) => {
     try {
-        const employee = await Employee.create(req.body);
+        const employee = await User.create(req.body);
 
         res.status(201).json({
             message: "New employee created successfully",
