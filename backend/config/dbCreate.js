@@ -11,6 +11,14 @@ function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
+async function setupDB()
+{
+    await sequelize.query(`USE ${process.env.DB_NAME};`);
+    await sequelize.sync({
+        force: false
+    });
+}
+
 async function tryCreateDB() {
     const db_connection = new Sequelize({
         dialect: "mysql",
@@ -21,13 +29,8 @@ async function tryCreateDB() {
     });
 
     try {
-        db_connection.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME};`)
+        await db_connection.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME};`)
         console.log("\x1b[34m%s\x1b[0m", "[INFO] DB Connection successfull !");
-
-        sequelize.query(`USE ${process.env.DB_NAME};`);
-        sequelize.sync({
-            force: false
-        });
 
         return true;
     } catch (err) {
@@ -48,12 +51,6 @@ export async function createDB() {
             break;
     }
 
-    return new Sequelize({
-        dialect: "mysql",
-        database: process.env.DB_NAME,
-        username: process.env.DB_USER,
-        password: process.env.DB_PASS,
-        host: process.env.DB_HOST,
-        port: 3306,
-    });
+    await setupDB(sequelize);
+    console.log("\x1b[34m%s\x1b[0m", "[INFO] DB Initiation successfull");
 }
