@@ -8,6 +8,9 @@ process.on("uncaughtException", (err) => {
     process.exit(1);
 });
 
+//Configure Express middleware to handle JSON req for routes
+app.use(express.json({ limit: "10mb" }));
+
 //Import all routes
 import employeeRoutes from "./routes/employeeRoutes.js";
 
@@ -15,8 +18,8 @@ app.use("/api/", employeeRoutes);
 
 
 //TODO : add port in env
-const server = app.listen(3000, () => {
-    console.log('\x1b[34m%s\x1b[0m', `[INFO] Server started on the PORT: ${process.env.LOCAL_PORT} in ${process.env.NODE_ENV} mode`);
+const server = app.listen(process.env.BACK_PORT, () => {
+    console.log('\x1b[34m%s\x1b[0m', `[INFO] Server started on the PORT: ${process.env.BACK_PORT}`);
 });
 
 //Handle unheandled promise rejections
