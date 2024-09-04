@@ -1,5 +1,5 @@
 <template>
-    <div class="pages">
+    <div class="compatibility pages">
         <h1>Astrological Sign Compatibility</h1>
         <div class="separator"></div>
             <div>
