@@ -23,7 +23,7 @@ services:
       DB_PASS: ${DB_PASS}
       DB_NAME: ${DB_NAME}
     ports:
-      - 80
+      - "80:80"
     networks:
       - soul-connection-back
     volumes:
