@@ -18,14 +18,9 @@
   },
   "homepage": "https://github.com/EpitechNice/EPITECH-Soul-Connection#readme",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "dotenv": "^16.4.5",
+    "bcrypt": "^5.1.1",
     "express": "^4.19.2",
-    "mysql": "^2.18.1",
     "sequelize": "^6.37.3",
-    "typescript": "^5.5.4"
-  },
-  "devDependencies": {
-    "@types/node": "^22.5.2"
+    "sqlite3": "^5.1.7"
   }
 }

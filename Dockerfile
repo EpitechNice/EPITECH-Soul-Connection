@@ -1,5 +1,7 @@
 FROM node:22.7.0
 
+ENV CI=true
+
 RUN mkdir -p /usr/src/app/backend/
 RUN mkdir -p /usr/src/app/frontend/
 WORKDIR /usr/src/app/
