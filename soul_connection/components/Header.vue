@@ -1,37 +1,44 @@
 <template>
     <nav>
-        <NuxtLink to="/">Home</NuxtLink>
-        <NuxtLink to="/coaches">Coaches</NuxtLink>
-        <NuxtLink to="/customers">Customers</NuxtLink>
-        <NuxtLink to="/statistics">Statistics</NuxtLink>
-        <NuxtLink to="/compatibility">Compatibility</NuxtLink>
+        <NuxtLink 
+            to="/" 
+            :class="{ active: isActive('/') }" 
+            @click="setActive('/')">Home</NuxtLink>
+        <NuxtLink 
+            to="/coaches" 
+            :class="{ active: isActive('/coaches') }" 
+            @click="setActive('/coaches')">Coaches</NuxtLink>
+        <NuxtLink 
+            to="/customers" 
+            :class="{ active: isActive('/customers') }" 
+            @click="setActive('/customers')">Customers</NuxtLink>
+        <NuxtLink 
+            to="/statistics" 
+            :class="{ active: isActive('/statistics') }" 
+            @click="setActive('/statistics')">Statistics</NuxtLink>
+        <NuxtLink 
+            to="/compatibility" 
+            :class="{ active: isActive('/compatibility') }" 
+            @click="setActive('/compatibility')">Compatibility</NuxtLink>
     </nav>
 </template>
   
-  <style scoped>
-  nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 200px;
-      background-color: #f8f9fa;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      padding: 10px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-  }
-  
-  nav a {
-      text-decoration: none;
-      color: #333;
-      margin-bottom: 15px;
-      font-size: 18px;
-  }
-  
-  nav a:hover {
-      color: #007bff;
-  }
-  </style>
-  
+<script>
+    export default {
+        data() {
+        return {
+            activePath: '/'
+        };
+        },
+        methods: {
+        setActive(path) {
+            this.activePath = path;
+        },
+        isActive(path) {
+            return this.activePath === path;
+        }
+        }
+    };
+</script>
+
+<style src="../assets/css/header.css"></style>
