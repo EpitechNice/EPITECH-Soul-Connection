@@ -4,7 +4,7 @@
         <div class="separator"></div>
         <div class="user-table">
             <div class="user-table-header">
-                <div class="user-table-header-cell">Photo</div>
+                <div class="user-table-header-cell">Number</div>
                 <div class="user-table-header-cell">Name</div>
                 <div class="user-table-header-cell">Email</div>
                 <div class="user-table-header-cell">Birth Date</div>
@@ -12,9 +12,9 @@
                 <div class="user-table-header-cell">Last connection</div>
             </div>
             <div class="user-table-body">
-                <div class="user-table-row" v-for="user in users.results" :key="user.login.uuid">
-                    <div class="user-table-cell user-picture">
-                        <img :src="user.picture.medium" alt="User Picture">
+                <div class="user-table-row" v-for="(user, index) in users.results" :key="user.login.uuid">
+                    <div class="user-table-cell user-number">
+                        {{ index + 1 }}
                     </div>
                     <div class="user-table-cell">
                         {{ user.name.first }} {{ user.name.last }}
@@ -49,10 +49,11 @@ if (error.value) {
 function formatDate(dateString) {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Les mois commencent à 0
+    const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
 }
+
 </script>
 
 <style src="./assets/css/coaches.css"></style>
