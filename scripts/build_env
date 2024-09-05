@@ -10,7 +10,9 @@ DEV_DB_PORT=3306
 DEV_BACK_PORT=3000
 BACK_PORT=80
 
-variables=("DB_HOST" "DB_USER" "DB_PASS" "DB_NAME" "DEV_DB_PORT" "DEV_BACK_PORT" "BACK_PORT")
+SECRET_KEY=c2f7bdab992343c995bad42153eb3bf6d44e6580f7ecf86457ec3cbac9e0bc3c
+
+variables=("DB_HOST" "DB_USER" "DB_PASS" "DB_NAME" "DEV_DB_PORT" "DEV_BACK_PORT" "BACK_PORT" "SECRET_KEY")
 
 for var in "${variables[@]}"; do
     value="${!var}"

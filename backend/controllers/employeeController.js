@@ -1,6 +1,14 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import ErrorHandler from "../utils/errorHandler.js"
 import User from "../models/userModel.js"
+import ErrorHandler from "../utils/errorHandler.js";
+import { isEmail } from "../utils/typeValidator.js";
+import { randint } from "../utils/random.js";
+import { compareSync } from "bcrypt";
+import { getRole } from "../utils/security.js";
+import jwt from "jsonwebtoken";
+
+import { SECRET_KEY } from "../config/secrets.js";
 
 //TODO: to test
 // Display all employees: /api/employees
@@ -165,3 +173,40 @@ export const getEmployeeImg = catchAsyncErrors(async (req, res, next) => {
 //         next(new ErrorHandler("An error occurred while deleting the employee", 500));
 //     }
 // });
+
+export const loginEmployee = catchAsyncErrors(async (req, res, next) => {
+    const { email, password } = req.body;
+
+    if (!isEmail(email))
+        return next(new ErrorHandler("Invalid email/password", (randint(0, 100) == 0 ? 418 : 400)));
+
+    const result = await User.findAll({
+        where: {
+            email: email,
+        }
+    });
+
+    let luser = null;
+
+    for (var user in result)
+        if (compareSync(password, result[user].password))
+            luser = result[user];
+
+    if (luser === null)
+        return next(new ErrorHandler("Invalid email/password", (randint(0, 100) == 0 ? 418 : 400)));
+
+    const token = jwt.sign({
+        id: luser.id,
+        email: luser.email,
+        role: luser.type,
+        name: luser.name,
+        surname: luser.surname,
+    },
+    SECRET_KEY,
+    {
+        expiresIn: 3 * 7 * 24 * 60 * 60,
+    });
+
+    res.cookie("token", token);
+    res.status(200).send("Nice negga");
+})
