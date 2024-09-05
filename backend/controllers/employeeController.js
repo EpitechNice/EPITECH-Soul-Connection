@@ -9,9 +9,7 @@ import { randint } from "../utils/random.js";
 // Display all employees: /api/employees
 export const getEmployees = catchAsyncErrors(async (req, res, next) => {
     try {
-        const employees = await User.findAll({
-            attributes: ['id', 'email', 'name', 'surname']
-        });
+        const employees = await User.findAll();
 
         res.status(200).json({
             employees,
@@ -202,6 +200,7 @@ export const loginEmployee = catchAsyncErrors(async (req, res, next) => {
         expiresIn: 3 * 7 * 24 * 60 * 60,
     });
 
-    res.cookie("token", token);
-    res.status(200).send("Nice negga");
+    res.status(200).cookie("token", token).json({
+        token,
+    });
 })
