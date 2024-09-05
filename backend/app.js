@@ -15,8 +15,10 @@ app.use(express.json({ limit: "10mb" }));
 
 //Import all routes
 import employeeRoutes from "./routes/employeeRoutes.js";
+import customerRoutes from "./routes/customerRoutes.js"
 
 app.use("/api/", employeeRoutes);
+app.use("/api", customerRoutes);
 
 createDB();
 
