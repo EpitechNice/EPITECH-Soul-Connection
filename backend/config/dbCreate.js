@@ -3,7 +3,7 @@ import sequelize from "./database.js";
 import Clothe from "../models/clotheModel.js";
 import Encounter from "../models/encounterModel.js";
 import Event from "../models/eventModel.js";
-// import Payment from "../models/paymentModel.js";
+import Payment from "../models/paymentModel.js";
 import Tip from "../models/tipModel.js";
 import User from "../models/userModel.js";
 

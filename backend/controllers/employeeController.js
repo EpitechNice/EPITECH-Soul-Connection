@@ -5,7 +5,6 @@ import ErrorHandler from "../utils/errorHandler.js";
 import { isEmail } from "../utils/typeValidator.js";
 import { randint } from "../utils/random.js";
 import { compareSync } from "bcrypt";
-import { getRole } from "../utils/security.js";
 import jwt from "jsonwebtoken";
 
 import { SECRET_KEY } from "../config/secrets.js";
@@ -166,12 +165,4 @@ export const loginEmployee = catchAsyncErrors(async (req, res, next) => {
 
     res.cookie("token", token);
     res.status(200).send("Nice negga");
-})
-
-export const verifyLoginExample = catchAsyncErrors(async (req, res, next) => {
-    const role = getRole(req);
-
-    console.log(role);
-
-    res.status(200).send("Ok");
 })
