@@ -9,6 +9,8 @@
 
 .coaches .user-table {
     grid-template-columns: repeat(6, minmax(0, auto));
+    min-width: 900px;
+    overflow-x: auto;
 }
 
 .user-table-header, .user-table-row {
