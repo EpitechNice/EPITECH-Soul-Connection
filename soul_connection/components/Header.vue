@@ -20,6 +20,10 @@
             to="/compatibility" 
             :class="{ active: isActive('/compatibility') }" 
             @click="setActive('/compatibility')">Compatibility</NuxtLink>
+        <NuxtLink
+            to="/garde-robe"
+            :class="{ active: isActive('/garde-robe') }"
+            @click="setActive('/garde-robe')">Garde-robe</NuxtLink>
     </nav>
     <button @click="toggleNav" class="button-toggle">
         {{ isNavVisible ? '<' : '>' }}

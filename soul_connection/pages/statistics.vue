@@ -20,7 +20,7 @@
             <p>Total Event</p>
           </div>
           <div class="card" id="cardtips">
-            <img src="../assets/Briefcase.svg" />
+            <img src="../assets/Info.svg" />
             <p>2500</p>
             <p>Total tips</p>
           </div>
