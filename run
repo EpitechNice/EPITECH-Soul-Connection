@@ -14,6 +14,8 @@ sudo docker network rm soul-connection-back
 sudo docker network create --gateway 172.20.0.1 --subnet 172.20.0.0/24 soul-connection-back
 sudo docker rmi epitech-soul-connection-backend
 
-./scripts/build_env > .env
+./scripts/read_env.py > .env
 
 sudo bash -c "export $(cat .env | xargs) && $DC_COMMAND up"
+
+rm -f .env
