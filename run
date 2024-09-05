@@ -14,9 +14,9 @@ sudo docker network rm soul-connection
 sudo docker network create --gateway 172.20.0.1 --subnet 172.20.0.0/24 soul-connection
 sudo docker rmi epitech-soul-connection-backend epitech-soul-connection-frontend
 
-./scripts/read_env.py > frontend/.env
+./scripts/read_env.py > ./frontend/.env
 
-sudo bash -c "export $(cat .env | xargs) && $DC_COMMAND up"
+sudo bash -c "export $(cat ./frontend/.env | xargs) && $DC_COMMAND up"
 
 rm ./frontend/.env
 rm ./.env
