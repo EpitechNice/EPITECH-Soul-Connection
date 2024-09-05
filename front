@@ -1,4 +1,0 @@
-cd frontend
-npm install chart.js
-npm run dev
-cd ../

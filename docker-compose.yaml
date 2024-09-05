@@ -7,7 +7,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASS}
       MYSQL_DATABASE: ${DB_NAME}
     networks:
-      soul-connection-back:
+      soul-connection:
         ipv4_address: ${DB_HOST}
     volumes:
       - "./data/db/:/var/lib/mysql"
@@ -15,6 +15,7 @@ services:
   backend:
     build:
       context: ./
+      dockerfile: Dockerfile-Backend
     container_name: soul-connection-backend
     restart: always
     environment:
@@ -22,18 +23,35 @@ services:
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
       DB_NAME: ${DB_NAME}
-    ports:
-      - "80:80"
     networks:
-      - soul-connection-back
+      soul-connection:
+        ipv4_address: ${BACK_HOST}
     volumes:
       - "./data/images/:/usr/src/app/images/"
     depends_on:
       - db
 
-volumes:
-  test_db:
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: ./Dockerfile-Frontend
+    container_name: soul-connection-frontend
+    restart: always
+    environment:
+      API_BASE_URL: ${LOCAL_API_BASE_URL}
+      FRONT_PROD_PORT: ${FRONT_PROD_PORT}
+      FRONT_DEV_PORT: ${FRONT_DEV_PORT}
+    networks:
+      soul-connection:
+        ipv4_address: ${FRONT_HOST}
+    ports:
+      - 80:80
+      - 3000:3000
+    depends_on:
+      - db
+      - backend
+
 networks:
-  soul-connection-back:
+  soul-connection:
     external: true
-    name: soul-connection-back
+    name: soul-connection
