@@ -1,16 +1,11 @@
+import jwt from "jsonwebtoken";
+import { compareSync } from "bcrypt";
+import User from "../models/userModel.js"
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import ErrorHandler from "../utils/errorHandler.js"
-import User from "../models/userModel.js"
-import ErrorHandler from "../utils/errorHandler.js";
 import { isEmail } from "../utils/typeValidator.js";
 import { randint } from "../utils/random.js";
-import { compareSync } from "bcrypt";
-import { getRole } from "../utils/security.js";
-import jwt from "jsonwebtoken";
 
-import { SECRET_KEY } from "../config/secrets.js";
-
-//TODO: to test
 // Display all employees: /api/employees
 export const getEmployees = catchAsyncErrors(async (req, res, next) => {
     try {
@@ -202,7 +197,7 @@ export const loginEmployee = catchAsyncErrors(async (req, res, next) => {
         name: luser.name,
         surname: luser.surname,
     },
-    SECRET_KEY,
+    process.env.SECRET_KEY,
     {
         expiresIn: 3 * 7 * 24 * 60 * 60,
     });
