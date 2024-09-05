@@ -1,6 +1,8 @@
 import express from "express";
 import { createDB } from "./config/dbCreate.js";
 
+import cookieParser from "cookie-parser";
+
 const app = express()
 
 //Handle Uncaught exceptions
@@ -9,6 +11,9 @@ process.on("uncaughtException", (err) => {
     console.log('\x1b[34m%s\x1b[0m', "[INFO] Shutting down server due to Unhandled Promise Rejection");
     process.exit(1);
 });
+
+// Configure app to use cookieParser
+app.use(cookieParser());
 
 //Configure Express middleware to handle JSON req for routes
 app.use(express.json({ limit: "10mb" }));

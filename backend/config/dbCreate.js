@@ -7,6 +7,8 @@ import Event from "../models/eventModel.js";
 import Tip from "../models/tipModel.js";
 import User from "../models/userModel.js";
 
+import { genSaltSync, hashSync } from "bcrypt";
+
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
