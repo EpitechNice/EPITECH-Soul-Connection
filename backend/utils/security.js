@@ -5,12 +5,14 @@
 import { SECRET_KEY } from "../config/secrets.js";
 import jwt from "jsonwebtoken";
 
-export function getRole(req) {
+export const isAuth = catchAsyncErrors(async (req, res, next) => {
     if (!req.cookies.token)
-        return null
+        return next(new ErrorHandler("Node weird refuse", 401));
     var cookie = req.cookies.token;
     const decoded = jwt.verify(cookie, SECRET_KEY);
     if (!decoded)
-        return null;
-    return decoded.role;
-}
+        return next(new ErrorHandler("Node weird refuse", 401));
+
+    req.user = await User.findById(decoded.id);
+    next();
+});
