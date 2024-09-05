@@ -1,0 +1,63 @@
+.pages {
+    font-family: Arial, sans-serif;
+}
+
+.container-statistics {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    gap: 80px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 70px;
+}
+
+.card {
+    width: 200px;
+    height: 150px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+    align-items: flex-start;
+}
+
+#cardclient {
+    background-color: #ffe7e7;
+}
+
+#cardcoach {
+    background-color: #fff3d9;
+}
+
+#cardrdv {
+    background-color: #e6fae6;
+}
+
+.card img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 15px;
+}
+
+.card p {
+    margin: 5px 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+}
+
+.card p:last-child {
+    font-size: 16px;
+    font-weight: normal;
+    color: #666;
+}
