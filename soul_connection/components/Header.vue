@@ -1,5 +1,5 @@
 <template>
-    <nav>
+    <nav v-if="isNavVisible">
         <NuxtLink 
             to="/" 
             :class="{ active: isActive('/') }" 
@@ -21,13 +21,17 @@
             :class="{ active: isActive('/compatibility') }" 
             @click="setActive('/compatibility')">Compatibility</NuxtLink>
     </nav>
+    <button @click="toggleNav" class="button-toggle">
+        {{ isNavVisible ? '<' : '>' }}
+    </button>
 </template>
   
 <script>
     export default {
         data() {
         return {
-            activePath: '/'
+            activePath: '/',
+            isNavVisible: true
         };
         },
         methods: {
@@ -36,9 +40,19 @@
         },
         isActive(path) {
             return this.activePath === path;
+        },
+        toggleNav() {
+            this.isNavVisible = !this.isNavVisible;
+
+            const pageElement = document.querySelector('.pages');
+            if (this.isNavVisible) {
+                pageElement.classList.remove('margin-zero');
+            } else {
+                pageElement.classList.add('margin-zero');
+            }
         }
-        }
-    };
+    }
+};
 </script>
 
 <style src="../assets/css/header.css"></style>
