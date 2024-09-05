@@ -5,26 +5,26 @@ dev/
 node_modules/
 
 # Nuxt dev/build outputs
-soul_connection/.output
-soul_connection/.data
-soul_connection/.nuxt
-soul_connection/.nitro
-soul_connection/.cache
-soul_connection/dist
+frontend/.output
+frontend/.data
+frontend/.nuxt
+frontend/.nitro
+frontend/.cache
+frontend/dist
 
 # Node dependencies
-soul_connection/node_modules
+frontend/node_modules
 
 # Logs
-soul_connection/logs
-soul_connection/*.log
+frontend/logs
+frontend/*.log
 
 # Misc
-soul_connection/.DS_Store
-soul_connection/.fleet
-soul_connection/.idea
+frontend/.DS_Store
+frontend/.fleet
+frontend/.idea
 
 # Local env files
-soul_connection/.env
-soul_connection/.env.*
-soul_connection/!.env.example
+frontend/.env
+frontend/.env.*
+frontend/!.env.example
