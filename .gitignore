@@ -1,0 +1,30 @@
+.env
+.vscode/
+data/
+dev/
+node_modules/
+
+# Nuxt dev/build outputs
+soul_connection/.output
+soul_connection/.data
+soul_connection/.nuxt
+soul_connection/.nitro
+soul_connection/.cache
+soul_connection/dist
+
+# Node dependencies
+soul_connection/node_modules
+
+# Logs
+soul_connection/logs
+soul_connection/*.log
+
+# Misc
+soul_connection/.DS_Store
+soul_connection/.fleet
+soul_connection/.idea
+
+# Local env files
+soul_connection/.env
+soul_connection/.env.*
+soul_connection/!.env.example

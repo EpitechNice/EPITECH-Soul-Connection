@@ -1,0 +1,39 @@
+services:
+  db:
+    image: mysql:9.0.1
+    container_name: soul-connection-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+    networks:
+      soul-connection-back:
+        ipv4_address: ${DB_HOST}
+    volumes:
+      - "./data/db/:/var/lib/mysql"
+
+  backend:
+    build:
+      context: ./
+    container_name: soul-connection-backend
+    restart: always
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+    ports:
+      - "80:80"
+    networks:
+      - soul-connection-back
+    volumes:
+      - "./data/images/:/usr/src/app/images/"
+    depends_on:
+      - db
+
+volumes:
+  test_db:
+networks:
+  soul-connection-back:
+    external: true
+    name: soul-connection-back

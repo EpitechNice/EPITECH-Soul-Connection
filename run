@@ -1,0 +1,19 @@
+#!/bin/bash
+
+DC_COMMAND="docker-compose"
+
+if ! command -v $DC_COMMAND &> /dev/null
+then
+    DC_COMMAND="docker compose"
+fi
+
+sudo docker stop soul-connection-db soul-connection-backend
+sudo docker rm soul-connection-db soul-connection-backend
+
+sudo docker network rm soul-connection-back
+sudo docker network create --gateway 172.20.0.1 --subnet 172.20.0.0/24 soul-connection-back
+sudo docker rmi epitech-soul-connection-backend
+
+./scripts/build_env > .env
+
+sudo bash -c "export $(cat .env | xargs) && $DC_COMMAND up"
