@@ -19,4 +19,3 @@ sudo docker rmi epitech-soul-connection-backend epitech-soul-connection-frontend
 sudo bash -c "export $(cat ./frontend/.env | xargs) && $DC_COMMAND up"
 
 rm ./frontend/.env
-rm ./.env
