@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { hashSync } from "bcrypt";
+import { hashSync, genSaltSync } from "bcrypt";
 import { compareSync } from "bcrypt";
 import { randint } from "../utils/random.js";
 import ErrorHandler from "../utils/errorHandler.js"
@@ -116,13 +116,14 @@ export const getEmployeeImg = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-//TODO: to fix
 // Create new employee: /api/employees
 export const createEmployee = catchAsyncErrors(async (req, res) => {
     try {
+        const salt = genSaltSync(10);
+
         const modifiedBody = {
             ...req.body,
-            password: req.body.password ? await hashSync(req.body.password) : null,
+            password: req.body.password ? hashSync(req.body.password, salt) : null,
             birth_date: new Date(req.body.birth_date),
         };
 
@@ -142,65 +143,61 @@ export const createEmployee = catchAsyncErrors(async (req, res) => {
     }
 });
 
-//TODO: to test + id condition
-// Update specific employee: /api/employees/:id
-export const updateEmployee = catchAsyncErrors(async (req, res, next) => {
-    const id = req.params;
+// //TODO: TO FIX
+// // Update specific employee: /api/employees/:id
+// export const updateEmployee = catchAsyncErrors(async (req, res, next) => {
+//     const id = req.params.id;
 
-    if (!id || isNaN(id)) {
-        return next(new ErrorHandler("Invalid employee ID", 400));
-    }
+//     if (!id ) {
+//         return next(new ErrorHandler("Invalid employee ID", 400));
+//     }
 
-    try {
-        const [updatedRows, [updatedEmployee]] = await User.update(
-            req.body,
-            {
-                where: { id: parseInt(id) },
-                returning: true
-            }
-        );
+//     try {
+//         const newData = {
+//             name: req.body.name,
+//             email: req.body.email,
+//             role: req.body.role
+//         };
 
-        if (updatedRows === 0) {
-            return next(new ErrorHandler("Employee not found", 404));
-        }
+//         const user = await User.findByPk(req.params.id, {
+//             new: true
+//         });
 
-        res.status(200).json({
-            message: "Employee updated successfully",
-            employee: updatedEmployee[0],
-        });
-    } catch (err) {
-        console.error(err);
-        next(new ErrorHandler("An error occurred while updating the employee", 500));
-    }
-});
+//         res.status(200).json({
+//             user,
+//         });
+//     } catch (err) {
+//         console.error(err);
+//         next(new ErrorHandler("An error occurred while updating the employee", 500));
+//     }
+// });
 
-
-//TODO: to test
+//TODO: TO FIX
 // Delete specific employee: /api/employees/:id
-export const deleteEmployee = catchAsyncErrors(async (req, res, next) => {
-    const id = req.params;
+// export const deleteEmployee = catchAsyncErrors(async (req, res, next) => {
+//     const id = req.params.id
 
-    if (!id || isNaN(id)) {
-        return next(new ErrorHandler("Invalid employee ID", 400));
-    }
+//     if (!id || isNaN(id)) {
+//         return next(new ErrorHandler("Invalid employee ID", 400));
+//     }
 
-    try {
-        const result = await User.destroy({
-            where: { id: parseInt(id) },
-            returning: true
-        });
+//     try {
+//         const result = await User.destroy({
+//             where: { id: parseInt(id) },
+//             returning: true
+//         });
 
-        if (result[0] === 0) {
-            return next(new ErrorHandler("Employee not found", 404));
-        }
+//         if (result[0] === 0) {
+//             return next(new ErrorHandler("Employee not found", 404));
+//         }
 
-        res.status(200).json({
-            message: "Employee deleted successfully",
-            count: result[0]
-        });
-    } catch (err) {
-        console.error(err);
-        next(new ErrorHandler("An error occurred while deleting the employee", 500));
-    }
-});
+//         res.status(200).json({
+//             message: "Employee deleted successfully",
+//             count: result[0]
+//         });
+//     } catch (err) {
+//         console.error(err);
+//         next(new ErrorHandler("An error occurred while deleting the employee", 500));
+//     }
+// });
 

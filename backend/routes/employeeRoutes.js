@@ -10,9 +10,9 @@ router.route("/employees/me").get(isAuth, getEmployeeProfile);
 router.route("/employees/:id").get(isAuth, authorizeRoles("Manager") , getEmployeeDetails);
 router.route("/employees/:id/image").get(isAuth, authorizeRoles("Manager"), getEmployeeImg);
 
-router.route("/employees").post(isAuth, authorizeRoles("Manager", createEmployee));
-router.route("/employees").put(isAuth, authorizeRoles("Manager", updateEmployee));
-router.route("/employees").delete(isAuth, authorizeRoles("Manager", deleteEmployee));
+router.route("/employees").post(isAuth, authorizeRoles("Manager"), createEmployee);
+// router.route("/employees/:id").put(isAuth, authorizeRoles("Manager"), updateEmployee);
+// router.route("/employees/:id").delete(isAuth, authorizeRoles("Manager"), deleteEmployee);
 
 
 export default router;

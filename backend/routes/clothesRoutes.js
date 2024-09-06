@@ -1,6 +1,6 @@
 import express from "express"
 import { getClothes, getClothesImg } from "../controllers/clothesController.js"
-import { isAuth, authorizeRoles } from "../middlewares/userAuthentication.js";
+import { isAuth } from "../middlewares/userAuthentication.js";
 
 
 const router = express.Router();
