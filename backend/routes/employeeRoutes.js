@@ -1,5 +1,5 @@
 import express from "express"
-import { getEmployees, getEmployeeDetails, loginEmployee, getEmployeeProfile, getEmployeeImg, createEmployee } from "../controllers/employeeController.js"
+import { getEmployees, getEmployeeDetails, loginEmployee, getEmployeeProfile, getEmployeeImg, createEmployee, updateEmployee, deleteEmployee } from "../controllers/employeeController.js"
 import { isAuth, authorizeRoles } from "../middlewares/userAuthentication.js";
 
 const router = express.Router();
