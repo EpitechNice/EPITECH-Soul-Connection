@@ -2,20 +2,20 @@ FROM node:22.7.0
 
 ENV CI=true
 
-RUN mkdir -p /usr/src/app/frontend/
+RUN mkdir -p /usr/src/app/
 WORKDIR /usr/src/app/
 
 COPY package.json /usr/src/app/
 RUN npm install
 
-COPY ./assets/ /usr/src/app/frontend/
-COPY ./components/ /usr/src/app/frontend/
-COPY ./pages/ /usr/src/app/frontend/
-COPY ./public/ /usr/src/app/frontend/
-COPY ./server/ /usr/src/app/frontend/
-COPY ./app.vue /usr/src/app/frontend/
-COPY ./nuxt.config.ts /usr/src/app/frontend/
-COPY ./tsconfig.json /usr/src/app/frontend/
+COPY ./assets/ /usr/src/app/assets/
+COPY ./components/ /usr/src/app/components/
+COPY ./pages/ /usr/src/app/pages/
+COPY ./public/ /usr/src/app/public/
+COPY ./server/ /usr/src/app/server/
+COPY ./app.vue /usr/src/app/
+COPY ./nuxt.config.ts /usr/src/app/
+COPY ./tsconfig.json /usr/src/app/
 COPY ./.env /usr/src/app/
 
 EXPOSE 80

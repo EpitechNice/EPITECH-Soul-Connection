@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# The followin will define the status of run, as well as PORT used
+STATUS="prod" # "dev" / "prod"
+
 DC_COMMAND="docker-compose"
 SUDO_ACCESS=""
 
@@ -19,8 +22,16 @@ $SUDO_ACCESS docker network rm soul-connection
 $SUDO_ACCESS docker network create --gateway 172.20.0.1 --subnet 172.20.0.0/24 soul-connection
 $SUDO_ACCESS docker rmi epitech-soul-connection-backend epitech-soul-connection-frontend
 
-./scripts/read_env.py > ./frontend/.env
+./scripts/read_env.py > ./frontend/.env || exit 1
 
-sudo bash -c "export $(cat ./frontend/.env | xargs) && $SUDO_ACCESS $DC_COMMAND up"
+export $(cat ./frontend/.env | xargs)
+
+if [ "$STATUS" = "prod" ]; then
+    export PORT=$FRONT_PROD_PORT
+else
+    export PORT=$FRONT_DEV_PORT
+fi
+
+$SUDO_ACCESS bash -c "export $(cat ./frontend/.env | xargs) STATUS=$STATUS PORT=$PORT && $DC_COMMAND up"
 
 rm ./frontend/.env

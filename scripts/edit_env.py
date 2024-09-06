@@ -38,7 +38,11 @@ def decrypt(data: bytes, key: bytes) -> bytes:
         data = data[:-1]
     return data
 
-password = getpass("Password: ").encode()
+password = os.getenv("ENV_PASSWORD")
+if not password:
+    password = getpass("Password: ")
+
+password = password.encode()
 
 with open(FILE_PATH, 'r') as f:
     data = b64decode(f.read())
@@ -48,7 +52,8 @@ data = decrypt(data, password)
 try:
     data = ploads(data)
 except:
-    print("Could not deserialize. Wrong password ?")
+    sys.stderr.write("Could not deserialize. Wrong password ?\n")
+    sys.stderr.flush()
     sys.exit(1)
 
 tf = NamedTemporaryFile(delete=False)

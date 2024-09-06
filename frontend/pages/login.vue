@@ -17,22 +17,17 @@
 
 <script>
 export default {
-  data() {
-    return {
-      username: '',
-      password: ''
-    };
-  },
-  methods: {
-    login() {
-      // Remplacez cette condition par votre logique de vérification
-      if (this.username === 'Arthur' && this.password === 'Guyetand') {
-        this.$router.push('/');
-      } else {
-        alert('Nom d\'utilisateur ou mot de passe incorrect');
-      }
+    data() {
+        return {
+            username: '',
+            password: ''
+        };
+    },
+    methods: {
+        login() {
+            alert("Fuckin hell");
+        }
     }
-  }
 };
 </script>
 
