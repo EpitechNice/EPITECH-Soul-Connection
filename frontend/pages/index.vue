@@ -7,7 +7,7 @@
             <div class="rowmain">
                 <div class="card" id="cardclient">
                     <img src="../assets/User.svg"/>
-                    <p>2500</p>
+                    <p v-for="employee in modules" :key="employee.id">{{ employee.name }}</p>
                     <p>Total Users</p>
                 </div>
                 <div class="card" id="cardcoach">
@@ -25,4 +25,13 @@
         </div>
     </div>
 </template>
+
+<script setup>
+const { $api } = useNuxtApp()
+const { data } = await useAsyncData('modules', () => $api('/employees'))
+
+// Attendez que les données soient disponibles avant de les afficher
+console.log(data);
+</script>
+
 <style src="assets/css/homepage.css"></style>

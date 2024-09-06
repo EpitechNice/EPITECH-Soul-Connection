@@ -22,14 +22,14 @@ async function setupDB()
 }
 
 async function tryCreateDB() {
+    const db_connection = new Sequelize({
+        dialect: "mysql",
+        username: process.env.DB_USER,
+        password: process.env.DB_PASS,
+        host: process.env.DB_HOST,
+        port: 3306,
+    });
     try {
-        const db_connection = new Sequelize({
-            dialect: "mysql",
-            username: process.env.DB_USER,
-            password: process.env.DB_PASS,
-            host: process.env.DB_HOST,
-            port: 3306,
-        });
 
         await db_connection.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME};`)
         console.log("\x1b[34m%s\x1b[0m", "[INFO] DB Connection successfull !");
