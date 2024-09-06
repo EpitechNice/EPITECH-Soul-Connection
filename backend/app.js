@@ -20,14 +20,15 @@ app.use(express.json({ limit: "10mb" }));
 
 //Import all routes
 import employeeRoutes from "./routes/employeeRoutes.js";
-import customerRoutes from "./routes/customerRoutes.js"
+import customerRoutes from "./routes/customerRoutes.js";
+import clothesRoutes from "./routes/clothesRoutes.js";
 
 app.use("/api/", employeeRoutes);
 app.use("/api", customerRoutes);
+app.use("/api", clothesRoutes);
 
 createDB();
 
-//TODO : add port in env
 const server = app.listen(process.env.BACK_PORT, () => {
     console.log('\x1b[34m%s\x1b[0m', `[INFO] Server started on the PORT: ${process.env.BACK_PORT}`);
 });

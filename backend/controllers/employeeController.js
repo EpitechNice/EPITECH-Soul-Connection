@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
 import { compareSync } from "bcrypt";
-import User from "../models/userModel.js"
-import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
+import { randint } from "../utils/random.js";
 import ErrorHandler from "../utils/errorHandler.js"
 import { isEmail } from "../utils/typeValidator.js";
-import { randint } from "../utils/random.js";
+import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
+import User from "../models/userModel.js"
 
 // Display all employees: /api/employees
 export const getEmployees = catchAsyncErrors(async (req, res, next) => {

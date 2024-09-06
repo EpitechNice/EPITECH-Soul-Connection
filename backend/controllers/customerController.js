@@ -26,7 +26,6 @@ async function getCoachClients(req, res, next) {
         const allclient = await User.findAll({
             where: {type: "Client"}
         });
-        console.log(allclient);
 
         const coach = await User.findOne({
             where: { id: userId, type: "Coach" },
@@ -39,7 +38,6 @@ async function getCoachClients(req, res, next) {
         });
         if (!coach)
             return next(new ErrorHandler(`Coach with ID ${userId} not found`, 404));
-        console.log(coach);
         res.status(200).json({
             clients: coach.client_list,
         });
