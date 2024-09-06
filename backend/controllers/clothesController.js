@@ -45,6 +45,6 @@ export const getClothesImg = catchAsyncErrors(async(req, res, next) => {
     }
 
     res.status(200).json({
-        clothes,
+        image: clothes.image_path,
     });
 });
