@@ -22,10 +22,12 @@ app.use(express.json({ limit: "10mb" }));
 import employeeRoutes from "./routes/employeeRoutes.js";
 import customerRoutes from "./routes/customerRoutes.js";
 import clothesRoutes from "./routes/clothesRoutes.js";
+import loveCompatibility from "./routes/loveCompatibilityRoutes.js"
 
 app.use("/api/", employeeRoutes);
 app.use("/api", customerRoutes);
 app.use("/api", clothesRoutes);
+app.use("/api", loveCompatibility);
 
 createDB();
 

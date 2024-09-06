@@ -4,6 +4,7 @@ import { getCustomers } from "../controllers/customerController.js";
 
 const router = express.Router();
 
+//TODO : to remove
 router.route("/love-compatibility").get(isAuth, getCustomers);
 
 
