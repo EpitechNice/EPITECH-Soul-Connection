@@ -3,7 +3,7 @@ import sequelize from "./database.js";
 import Clothes from "../models/clothesModel.js";
 import Encounter from "../models/encounterModel.js";
 import Event from "../models/eventModel.js";
-// import Payment from "../models/paymentModel.js";
+import Payment from "../models/paymentModel.js";
 import Tip from "../models/tipModel.js";
 import User from "../models/userModel.js";
 
@@ -22,15 +22,15 @@ async function setupDB()
 }
 
 async function tryCreateDB() {
-    const db_connection = new Sequelize({
-        dialect: "mysql",
-        username: process.env.DB_USER,
-        password: process.env.DB_PASS,
-        host: process.env.DB_HOST,
-        port: 3306,
-    });
-
     try {
+        const db_connection = new Sequelize({
+            dialect: "mysql",
+            username: process.env.DB_USER,
+            password: process.env.DB_PASS,
+            host: process.env.DB_HOST,
+            port: 3306,
+        });
+
         await db_connection.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME};`)
         console.log("\x1b[34m%s\x1b[0m", "[INFO] DB Connection successfull !");
 
