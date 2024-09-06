@@ -12,7 +12,7 @@ router.route("/employees/:id/image").get(isAuth, authorizeRoles("Manager"), getE
 
 router.route("/employees").post(isAuth, authorizeRoles("Manager", createEmployee));
 router.route("/employees").put(isAuth, authorizeRoles("Manager", updateEmployee));
-router.route("/employees").delete(isAuth, authorizeRoles("Manager"));
+router.route("/employees").delete(isAuth, authorizeRoles("Manager", deleteEmployee));
 
 
 export default router;
