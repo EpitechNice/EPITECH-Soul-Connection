@@ -1,0 +1,30 @@
+.env
+.vscode/
+data/
+dev/
+node_modules/
+
+# Nuxt dev/build outputs
+frontend/.output
+frontend/.data
+frontend/.nuxt
+frontend/.nitro
+frontend/.cache
+frontend/dist
+
+# Node dependencies
+frontend/node_modules
+
+# Logs
+frontend/logs
+frontend/*.log
+
+# Misc
+frontend/.DS_Store
+frontend/.fleet
+frontend/.idea
+
+# Local env files
+frontend/.env
+frontend/.env.*
+frontend/!.env.example

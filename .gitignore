@@ -1,30 +1,37 @@
-.env
-.vscode/
-data/
-dev/
-node_modules/
+.vscode
+/node_modules
+/backend/config/config.env
+
+
+### v1 ###
+
+/v1/.env
+/v1/.vscode/
+/v1/data/
+/v1/dev/
+/v1/node_modules/
 
 # Nuxt dev/build outputs
-frontend/.output
-frontend/.data
-frontend/.nuxt
-frontend/.nitro
-frontend/.cache
-frontend/dist
+/v1/frontend/.output
+/v1/frontend/.data
+/v1/frontend/.nuxt
+/v1/frontend/.nitro
+/v1/frontend/.cache
+/v1/frontend/dist
 
 # Node dependencies
-frontend/node_modules
+/v1/frontend/node_modules
 
 # Logs
-frontend/logs
-frontend/*.log
+/v1/frontend/logs
+/v1/frontend/*.log
 
 # Misc
-frontend/.DS_Store
-frontend/.fleet
-frontend/.idea
+/v1/frontend/.DS_Store
+/v1/frontend/.fleet
+/v1/frontend/.idea
 
 # Local env files
-frontend/.env
-frontend/.env.*
-frontend/!.env.example
+/v1/frontend/.env
+/v1/frontend/.env.*
+/v1/frontend/!.env.example

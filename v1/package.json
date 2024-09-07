@@ -1,13 +1,12 @@
 {
-  "name": "epitech-soul-connection",
-  "type": "module",
+  "name": "soulconnection",
   "version": "1.0.0",
-  "description": "Soul Connection Backoffice App",
-  "main": "index.js",
+  "type": "module",
+  "description": "Soul Connection employees dashboard app",
+  "main": "app.js",
   "scripts": {
-    "start": "node backend/app.js",
-    "dev": "NODE_ENV=DEV nodemon backend/app.js",
-    "prod": "NODE_ENV=PROD nodemon backend/app.js"
+    "start": "export $(cat .env | xargs) && node backend/app.js",
+    "seeder": "export $(cat .env | xargs) && node backend/seeder/employeeSeeder.js"
   },
   "repository": {
     "type": "git",
@@ -20,16 +19,15 @@
   },
   "homepage": "https://github.com/EpitechNice/EPITECH-Soul-Connection#readme",
   "dependencies": {
+    "axios": "^1.7.7",
+    "axios-cookiejar-support": "^5.0.2",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
-    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.0",
     "sequelize": "^6.37.3",
-    "sqlite3": "^5.1.7"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.4"
+    "sqlite3": "^5.1.7",
+    "tough-cookie": "^4.1.4"
   }
 }

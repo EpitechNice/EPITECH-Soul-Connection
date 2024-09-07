@@ -1,5 +1,5 @@
-import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import ErrorHandler from "../utils/errorHandler.js"
+import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import Clothes from "../models/clothesModel.js"
 
 

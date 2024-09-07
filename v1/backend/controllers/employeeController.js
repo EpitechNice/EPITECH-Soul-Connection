@@ -119,8 +119,6 @@ export const getEmployeeImg = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-
-//
 // Create new employee: /api/employees
 export const createEmployee = catchAsyncErrors(async (req, res) => {
     try {
@@ -205,3 +203,4 @@ export const createEmployee = catchAsyncErrors(async (req, res) => {
 //         next(new ErrorHandler("An error occurred while deleting the employee", 500));
 //     }
 // });
+

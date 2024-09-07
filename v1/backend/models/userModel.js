@@ -1,4 +1,4 @@
-import sequelize from "../config/dbConfig.js";
+import sequelize from "../config/database.js";
 import { Model, DataTypes } from "sequelize";
 import Encounter from "./encounterModel.js";
 import Clothes from "./clothesModel.js";

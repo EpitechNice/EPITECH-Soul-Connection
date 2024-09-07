@@ -1,6 +1,13 @@
 import { Sequelize } from "sequelize";
-import sequelize from "./dbConfig.js";
+import sequelize from "./database.js";
+import Clothes from "../models/clothesModel.js";
+import Encounter from "../models/encounterModel.js";
+import Event from "../models/eventModel.js";
+import Payment from "../models/paymentModel.js";
+import Tip from "../models/tipModel.js";
+import User from "../models/userModel.js";
 
+import { genSaltSync, hashSync } from "bcrypt";
 
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));

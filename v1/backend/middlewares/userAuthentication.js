@@ -9,7 +9,7 @@ export const isAuth = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler("Login required to access this resource", 401));
 
     var cookie = req.cookies.token;
-    const decoded = jwt.verify(cookie, process.env.JWT_SECRET);
+    const decoded = jwt.verify(cookie, process.env.SECRET_KEY);
 
     if (!decoded)
         return next(new ErrorHandler("Node weird refuse", 401));
