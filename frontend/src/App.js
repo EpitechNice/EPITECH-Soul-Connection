@@ -6,6 +6,7 @@ import Footer from "./components/layout/Footer";
 import Home from "./components/Home"
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/auth/PrivateRoute";
+import Employees from "./components/employees/Employee";
 
 function App() {
   return (
@@ -17,13 +18,18 @@ function App() {
           <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
+          {/* TODO: En réalité pour toutes les routes "protected" (besoin de s'authentifier)
+          il faudra faire comme ça : */}
           {/* <Route path="/" element={
               <PrivateRoute>
                 <Home />
               </PrivateRoute>
               }
             /> */}
-          {/*<Route path="/employees" element={ } />
+
+            {/* TODO : du coup pour toutes les routes en dessous faut aussi les mettre en protected */}
+          <Route path="/employees" element={<Employees />} />
+          {/*
           <Route path="/employees/login" element={ } />
           <Route path="/employees/me" element={ } />
           <Route path="/employees/:id" element={ } />

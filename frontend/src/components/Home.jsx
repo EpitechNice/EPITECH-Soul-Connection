@@ -1,5 +1,6 @@
 import React from 'react';
 import SideMenu from "./layout/SideMenu";
+
 const Home = () => {
     return (
         <div>
