@@ -1,4 +1,7 @@
+.env
+data/
 .vscode
+dev/
 /node_modules
 /backend/config/config.env
 

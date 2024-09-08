@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import sequelize from "./dbConfig.js";
 
 
-function delay(time) {
+export function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
 

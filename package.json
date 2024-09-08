@@ -7,7 +7,9 @@
   "scripts": {
     "start": "node backend/app.js",
     "dev": "NODE_ENV=DEV nodemon backend/app.js",
-    "prod": "NODE_ENV=PROD nodemon backend/app.js"
+    "prod": "NODE_ENV=PROD nodemon backend/app.js",
+    "seeder": "export $(cat .env | xargs) && node backend/seeder/employeeSeeder.js",
+    "fetch": "export $(cat .env | xargs) && node backend/utils/fetch.js"
   },
   "repository": {
     "type": "git",
