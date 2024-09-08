@@ -10,7 +10,6 @@ body {
 
 h1, h2 {
   font-family: 'Arial', sans-serif;
-  text-align: center;
 }
 
 .h1-color {
@@ -521,6 +520,21 @@ footer {
   color: #1c1c1e;
 }
 
+.pages {
+  padding: 15px;
+  font-family: Arial, sans-serif;
+}
+
+/* .pages.margin-zero {
+  margin-left: 50px;
+  margin-right: 50px;
+} */
+
+.separator {
+  border-top: 2px solid #353535;
+  margin: 20px 0;
+}
+
 /* Products List Admin */
 #products_table .btn {
   padding: 0.2rem 0.5rem;
@@ -661,3 +675,84 @@ footer {
 .button-toggle:active {
   transform: scale(0.95);
 }
+
+/* Table Container */
+.user-table {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* Six colonnes pour les données */
+  margin: 0 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* Ajoute un défilement horizontal si nécessaire */
+}
+
+/* Table Headers and Rows */
+.user-table-header,
+.user-table-row {
+  display: contents; /* Permet à chaque cellule d'être positionnée correctement */
+}
+
+/* Header Cells */
+.user-table-header-cell {
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+  padding: 15px;
+  text-align: center;
+  border-left: 1px solid #ddd; /* Séparation des colonnes */
+}
+
+/* Data Cells */
+.user-table-cell {
+  padding: 10px 15px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #ddd; /* Séparation des colonnes */
+}
+
+/* Special Style for Picture Cells */
+.user-table-cell.user-picture {
+  text-align: center;
+}
+
+.user-table-cell img {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+/* Table Body */
+.user-table-body {
+  display: contents;
+}
+
+/* Rows Styling */
+.user-table-row {
+  border-bottom: 1px solid #ddd; /* Séparation des lignes */
+}
+
+.user-table-row:nth-child(even) .user-table-cell {
+  background-color: #f9f9f9; /* Couleur alternée pour les lignes */
+}
+
+/* Rounded Corners for First and Last Cells */
+.user-table-header-cell:first-child {
+  border-top-left-radius: 10px;
+}
+
+.user-table-header-cell:last-child {
+  border-top-right-radius: 10px;
+}
+
+.user-table-row:last-child .user-table-cell:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+.user-table-row:last-child .user-table-cell:last-child {
+  border-bottom-right-radius: 10px;
+}
+

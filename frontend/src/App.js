@@ -7,6 +7,7 @@ import Home from "./components/Home"
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import Employees from "./components/employees/Employee";
+import Compatibility from "./components/compatibility/Compatibility";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
 
             {/* TODO : du coup pour toutes les routes en dessous faut aussi les mettre en protected */}
           <Route path="/employees" element={<Employees />} />
+          <Route path="/compatibility" element={<Compatibility />} />
           {/*
           <Route path="/employees/login" element={ } />
           <Route path="/employees/me" element={ } />
@@ -45,7 +47,6 @@ function App() {
           <Route path="/tips" element={ } />
           <Route path="/events" element={ } />
           <Route path="/events/:id" element={ } />
-          <Route path="/compatibility" element={ } />
           <Route path="/clothes" element={ } />
           <Route path="/clothes/:id/image" element={ } /> */}
           </Routes>
