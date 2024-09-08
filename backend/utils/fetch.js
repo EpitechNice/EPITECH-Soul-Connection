@@ -11,7 +11,7 @@ import Payment from "../models/paymentModel.js";
 import Tip from "../models/tipModel.js";
 import User from "../models/userModel.js";
 
-import { createDB, delay } from "./config/dbCreate.js";
+import { createDB, delay } from "../config/dbCreate.js";
 
 import * as fs from "fs";
 
