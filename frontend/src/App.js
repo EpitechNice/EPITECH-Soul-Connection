@@ -8,6 +8,10 @@ import Login from "./components/auth/Login";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import Employees from "./components/employees/Employee";
 import Compatibility from "./components/compatibility/Compatibility";
+import Statistics from "./components/statistics/Statistic";
+import Tips from "./components/tips/Tips";
+import Events from "./components/event/Event";
+import Clothes from "./components/clothes/Clothes";
 
 function App() {
   return (
@@ -19,6 +23,10 @@ function App() {
           <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
+          <Route path="/statistics" element={<Statistics />} />
+          <Route path="/tips" element={<Tips />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/clothes" element={<Clothes />} />
           {/* TODO: En réalité pour toutes les routes "protected" (besoin de s'authentifier)
           il faudra faire comme ça : */}
           {/* <Route path="/" element={

@@ -87,54 +87,277 @@ nav {
 }
 
 /* Home page */
-#products_heading {
-  margin-top: 1.8rem;
+.pages {
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.rowmain {
+  display: flex;
+  gap: 80px;
 }
 
 .card {
-  height: 100%;
+  width: 200px;
+  height: 150px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: background-color 0.3s ease;
+  align-items: flex-start;
+}
+
+#cardclient {
+  background-color: #ffe7e7;
+}
+
+#cardcoach {
+  background-color: #fff3d9;
+}
+
+#cardrdv {
+  background-color: #e6fae6;
+}
+
+.card img {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 15px;
+}
+
+.card p {
+  margin: 5px 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+}
+
+.card p:last-child {
+  font-size: 16px;
+  font-weight: normal;
+  color: #666;
+}
+
+/* Statistics page */
+.pages {
+  font-family: Arial, sans-serif;
+}
+
+.container-statistics {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  gap: 80px;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 70px;
+}
+
+.card {
+  width: 200px;
+  height: 150px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: background-color 0.3s ease;
+  align-items: flex-start;
+}
+
+#cardclient {
+  background-color: #ffe7e7;
+}
+
+#cardcoach {
+  background-color: #fff3d9;
+}
+
+#cardrdv {
+  background-color: #e6fae6;
+}
+
+.card img {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 15px;
+}
+
+.card p {
+  margin: 5px 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+}
+
+.card p:last-child {
+  font-size: 16px;
+  font-weight: normal;
+  color: #666;
+}
+
+/* Tips page */
+.tips-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+hr {
+  margin-bottom: 20px;
+}
+
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.tip-card {
+  border: 1px solid #000;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
-.card-title a {
-  color: #1c1c1e;
-  text-decoration: none;
-}
-
-.card-title a:hover {
-  color: #67cb57;
-  text-decoration: none;
-}
-
-.card-body {
-  padding-left: 0;
-}
-
-.card-text {
+.tip-card p {
+  margin: 0;
   font-size: 1rem;
-  text-align: right;
 }
 
-.card-img-top {
-  width: 200px;
-  height: 200px;
+/* Events page */
+.events-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
-.ratings {
-  font-size: 1.2rem;
-  color: #e2cfb2;
+h1 {
+  font-size: 2rem;
 }
 
-#no_of_reviews {
-  font-size: 0.9rem;
-  color: grey;
+hr {
+  margin-bottom: 20px;
 }
 
-.App {
-  min-height: 100vh;
+.events-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.map-section {
+  width: 50%;
+}
+
+.map-section img {
+  width: 100%;
+  height: auto;
+}
+
+.events-list {
+  width: 45%;
   display: flex;
   flex-direction: column;
-  background-color: #f0efeb;
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.event-card {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #000;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.event-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.event-date {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+/* Clothes page */
+.garde-robe-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.client-menu {
+  margin-bottom: 20px;
+}
+
+.carousels {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.carousel {
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.carousel-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+}
+
+.carousel-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 150px;
+}
+
+.color-box {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 5px;
+  border: 1px solid #000;
+}
+
+button {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ddd;
 }
 
 /* Footer */
