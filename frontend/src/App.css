@@ -748,10 +748,10 @@ footer {
   font-family: Arial, sans-serif;
 }
 
-/* .pages.margin-zero {
+.pages.margin-zero {
   margin-left: 50px;
   margin-right: 50px;
-} */
+}
 
 .separator {
   border-top: 2px solid #353535;
@@ -871,7 +871,7 @@ footer {
   color: #fff;
 }
 
-/* Button toggle style */
+/* Button-toggle */
 
 .button-toggle {
   position: fixed;
@@ -899,44 +899,39 @@ footer {
   transform: scale(0.95);
 }
 
-/* Table Container */
 .user-table {
   display: grid;
-  grid-template-columns: repeat(6, 1fr); /* Six colonnes pour les données */
+  grid-template-columns: repeat(6, 1fr);
   margin: 0 10px;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow-x: auto; /* Ajoute un défilement horizontal si nécessaire */
+  overflow-x: auto;
 }
 
-/* Table Headers and Rows */
 .user-table-header,
 .user-table-row {
-  display: contents; /* Permet à chaque cellule d'être positionnée correctement */
+  display: contents;
 }
 
-/* Header Cells */
 .user-table-header-cell {
   background-color: #333;
   color: #fff;
   font-weight: bold;
   padding: 15px;
   text-align: center;
-  border-left: 1px solid #ddd; /* Séparation des colonnes */
+  border-left: 1px solid #ddd;
 }
 
-/* Data Cells */
 .user-table-cell {
   padding: 10px 15px;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-left: 1px solid #ddd; /* Séparation des colonnes */
+  border-left: 1px solid #ddd;
 }
 
-/* Special Style for Picture Cells */
 .user-table-cell.user-picture {
   text-align: center;
 }
@@ -979,3 +974,181 @@ footer {
   border-bottom-right-radius: 10px;
 }
 
+/* Customers Page Style */
+
+.customers {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.customers h1 {
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.customers .separator {
+  border-top: 2px solid #ddd;
+  margin: 20px 0;
+}
+
+.customers .selector-container {
+  margin: 20px 0;
+}
+
+.customers select {
+  width: 250px;
+  height: 30px;
+  border: 2px solid #000000;
+  background-color: rgb(255, 255, 255);
+  color: #000000;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.customers .user-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.customers .user-info {
+  margin-bottom: 20px;
+}
+
+.customers .info-item {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+.customers .info-item img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.customers .user-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 10%;
+  object-fit: cover;
+  margin-left: 20px;
+}
+
+.customers .tables-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.customers .ta, .customers .tb {
+  flex: 1;
+  margin: 0 10px;
+}
+
+.customers .user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.customers .user-table-header {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.customers .user-table-header-cell {
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.customers .user-table-body {
+  background-color: #fff;
+}
+
+.customers .user-table-row {
+  border-bottom: 1px solid #ddd;
+}
+
+.customers .user-table-cell {
+  padding: 10px 15px;
+  text-align: center;
+}
+
+.customers .user-table-cell:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.customers h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.ta .user-table {
+  grid-template-columns: repeat(3, minmax(0, auto));
+}
+
+.tb .user-table {
+  grid-template-columns: repeat(4, minmax(0, auto));
+}
+
+/* Compatibility Style */
+
+.compatibility label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.compatibility select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #fff;
+  color: #333;
+  transition: border-color 0.3s;
+}
+
+.compatibility select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.compatibility .button_comp {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.compatibility .button_comp:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+
+.compatibility h2 {
+  margin-top: 30px;
+  font-size: 40px;
+  color: #007bff;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

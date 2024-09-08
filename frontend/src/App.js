@@ -12,6 +12,7 @@ import Statistics from "./components/statistics/Statistic";
 import Tips from "./components/tips/Tips";
 import Events from "./components/event/Event";
 import Clothes from "./components/clothes/Clothes";
+import Customers from "./components/customers/Customers";
 
 function App() {
   return (
@@ -39,12 +40,12 @@ function App() {
             {/* TODO : du coup pour toutes les routes en dessous faut aussi les mettre en protected */}
           <Route path="/employees" element={<Employees />} />
           <Route path="/compatibility" element={<Compatibility />} />
+          <Route path="/customers" element={<Customers /> } />
           {/*
           <Route path="/employees/login" element={ } />
           <Route path="/employees/me" element={ } />
           <Route path="/employees/:id" element={ } />
           <Route path="/employees/:id/image" element={ } />
-          <Route path="/customers" element={ } />
           <Route path="/customers/:id" element={ } />
           <Route path="/customers/:id/image" element={ } />
           <Route path="/customers/:id/payments_history" element={ } />
