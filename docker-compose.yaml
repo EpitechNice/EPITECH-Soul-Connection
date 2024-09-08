@@ -4,7 +4,6 @@ services:
     container_name: soul-connection-db
     restart: always
     environment:
-      STATUS: ${STATUS}
       MYSQL_ROOT_PASSWORD: ${DB_PASS}
       MYSQL_DATABASE: ${DB_NAME}
     networks:
@@ -33,26 +32,26 @@ services:
     depends_on:
       - db
 
-  frontend:
-    build:
-      context: ./frontend/
-      dockerfile: ./Dockerfile-Frontend
-    container_name: soul-connection-frontend
-    restart: always
-    environment:
-      STATUS: ${STATUS}
-      API_BASE_URL: ${LOCAL_API_BASE_URL}
-      FRONT_PROD_PORT: ${FRONT_PROD_PORT}
-      FRONT_DEV_PORT: ${FRONT_DEV_PORT}
-      PORT: ${PORT}
-    networks:
-      soul-connection:
-        ipv4_address: ${FRONT_HOST}
-    ports:
-      - "${PORT}:${PORT}"
-    depends_on:
-      - db
-      - backend
+  # frontend:
+  #   build:
+  #     context: ./frontend/
+  #     dockerfile: ./Dockerfile-Frontend
+  #   container_name: soul-connection-frontend
+  #   restart: always
+  #   environment:
+  #     STATUS: ${STATUS}
+  #     API_BASE_URL: ${LOCAL_API_BASE_URL}
+  #     FRONT_PROD_PORT: ${FRONT_PROD_PORT}
+  #     FRONT_DEV_PORT: ${FRONT_DEV_PORT}
+  #     PORT: ${PORT}
+  #   networks:
+  #     soul-connection:
+  #       ipv4_address: ${FRONT_HOST}
+  #   ports:
+  #     - "${PORT}:${PORT}"
+  #   depends_on:
+  #     - db
+  #     - backend
 
 networks:
   soul-connection:

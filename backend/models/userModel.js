@@ -1,5 +1,6 @@
 import sequelize from "../config/database.js";
 import { Model, DataTypes } from "sequelize";
+import Event from "./eventModel.js";
 import Encounter from "./encounterModel.js";
 import Clothe from "./clothesModel.js";
 import Payment from "./paymentModel.js";
@@ -91,6 +92,15 @@ User.init({
         }                                               //
     },                                                  //
 
+    event_id: {                                         //
+        type: DataTypes.INTEGER,                        //
+        allowNull: true,                                // Only for
+        references: {                                   // Clients
+            model: "events",                            //
+            key: "id",                                  //
+        }                                               //
+    },                                                  //
+
     payment_id: {                                       //
         type: DataTypes.INTEGER,                        //
         allowNull: true,                                // Only for
@@ -156,6 +166,18 @@ User.hasMany(Encounter, {
 Encounter.belongsTo(User, {
     as: "user",
     foreignKey: "customer_id",
+})
+
+// Interaction between client and encounter
+
+User.hasMany(Event, {
+    as: "event_list",
+    foreignKey: "event_id"
+})
+
+Event.belongsTo(User, {
+    as: "employee",
+    foreignKey: "employee_id",
 })
 
 // Interaction between client and payments

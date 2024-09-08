@@ -6,7 +6,8 @@
   "main": "app.js",
   "scripts": {
     "start": "export $(cat .env | xargs) && node backend/app.js",
-    "seeder": "export $(cat .env | xargs) && node backend/seeder/employeeSeeder.js"
+    "seeder": "export $(cat .env | xargs) && node backend/seeder/employeeSeeder.js",
+    "fetch": "export $(cat .env | xargs) && node backend/fetch.js"
   },
   "repository": {
     "type": "git",

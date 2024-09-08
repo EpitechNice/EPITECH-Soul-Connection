@@ -9,7 +9,7 @@ import User from "../models/userModel.js";
 
 import { genSaltSync, hashSync } from "bcrypt";
 
-function delay(time) {
+export function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
