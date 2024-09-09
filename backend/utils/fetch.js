@@ -102,64 +102,64 @@ async function fetchDB() {
 
     // ===== Actual downloads =====
 
-    // console.log("\x1b[92m%s\x1b[0m", "[INFO] === Retreiving tips ===");
+    console.log("\x1b[92m%s\x1b[0m", "[INFO] === Retreiving tips ===");
 
-    // try {
-    //     let alltips = await retreiveData(session, "/api/tips", 0);
+    try {
+        let alltips = await retreiveData(session, "/api/tips", 0);
 
-    //     for (var index in alltips.data)
-    //         Tip.upsert(alltips.data[index]);
-    // } catch (err) {
-    //     console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retrieve tips: ${err}`);
-    // }
+        for (var index in alltips.data)
+            Tip.upsert(alltips.data[index]);
+    } catch (err) {
+        console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retrieve tips: ${err}`);
+    }
 
-    // console.log("\x1b[92m%s\x1b[0m", "[INFO] === Retreiving events ===");
+    console.log("\x1b[92m%s\x1b[0m", "[INFO] === Retreiving events ===");
 
-    // let events = await retreiveData(session, "/api/events", 0);
+    let events = await retreiveData(session, "/api/events", 0);
 
-    // events = events.data;
+    events = events.data;
 
-    // console.log("\x1b[92m%s\x1b[0m", "[INFO] === Retreiving employees ===");
+    console.log("\x1b[92m%s\x1b[0m", "[INFO] === Retreiving employees ===");
 
-    // const allemployees = await retreiveData(session, "/api/employees", 0);
+    const allemployees = await retreiveData(session, "/api/employees", 0);
 
-    // await Promise.all(allemployees.data.map(async (employee, i) => {
-    //     try {
-    //         const response = await retreiveData(session, `/api/employees/${employee.id}`, "id");
+    await Promise.all(allemployees.data.map(async (employee, i) => {
+        try {
+            const response = await retreiveData(session, `/api/employees/${employee.id}`, "id");
 
-    //         let imageResponse;
+            let imageResponse;
 
-    //         while (1) {
-    //             try {
-    //                 imageResponse = await session.get(`/api/employees/${employee.id}/image`, {
-    //                     responseType: "arraybuffer"
-    //                 });
-    //                 break;
-    //             } catch (err) {
-    //                 console.error("\x1b[31m%s\x1b[0m", `[ERROR] Fetching image: ${err}`);
-    //             }
-    //         }
-    //         fs.writeFileSync(UPLOAD_PATH + `employees/${employee.id}.png`, imageResponse.data);
+            while (1) {
+                try {
+                    imageResponse = await session.get(`/api/employees/${employee.id}/image`, {
+                        responseType: "arraybuffer"
+                    });
+                    break;
+                } catch (err) {
+                    console.error("\x1b[31m%s\x1b[0m", `[ERROR] Fetching image: ${err}`);
+                }
+            }
+            fs.writeFileSync(UPLOAD_PATH + `employees/${employee.id}.png`, imageResponse.data);
 
-    //         const employeeObject = await Employee.upsert({
-    //             id: response.data.id,
-    //             email: response.data.email,
-    //             password: (response.data.email === process.env.REMOTE_API_EMAIL ? hashSync(process.env.REMOTE_API_PASSW, genSaltSync(10)) : null),
-    //             type: (response.data.email === process.env.REMOTE_API_EMAIL ? (areWeManager ? employeeType.MANAGER : employeeType.COACH) : employeeType.COACH),
-    //             name: response.data.name,
-    //             surname: response.data.surname,
-    //             birth_date: Date(response.data.birth_date),
-    //             gender: response.data.gender,
-    //             image_path: UPLOAD_PATH + `employees/${response.data.id}.png`,
-    //             work: response.data.work,
-    //         });
+            const employeeObject = await Employee.upsert({
+                id: response.data.id,
+                email: response.data.email,
+                password: (response.data.email === process.env.REMOTE_API_EMAIL ? hashSync(process.env.REMOTE_API_PASSW, genSaltSync(10)) : null),
+                type: (response.data.email === process.env.REMOTE_API_EMAIL ? (areWeManager ? employeeType.MANAGER : employeeType.COACH) : employeeType.COACH),
+                name: response.data.name,
+                surname: response.data.surname,
+                birth_date: Date(response.data.birth_date),
+                gender: response.data.gender,
+                image_path: UPLOAD_PATH + `employees/${response.data.id}.png`,
+                work: response.data.work,
+            });
 
-    //         const hisEvents = events.filter(event => event.employee_id == employee.id);
-    //         await employeeObject[0].addEvents(hisEvents);
-    //     } catch (err) {
-    //         console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retrieve data or image for employee ${employee.id}: ${err}`);
-    //     }
-    // }));
+            const hisEvents = events.filter(event => event.employee_id == employee.id);
+            await employeeObject[0].addEvents(hisEvents);
+        } catch (err) {
+            console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retrieve data or image for employee ${employee.id}: ${err}`);
+        }
+    }));
 
     console.log("\x1b[92m%s\x1b[0m", "[INFO] === Retreiving customers ===");
 
@@ -174,9 +174,8 @@ async function fetchDB() {
 
             let clothes_array = [];
 
-            for (let clothe in clothes) {
+            for (let clothe in clothes)
                 clothes_array.push(await addClothe(session, clothes[clothe].type, clothes[clothe].id));
-            }
 
             let encounters_array = [];
 

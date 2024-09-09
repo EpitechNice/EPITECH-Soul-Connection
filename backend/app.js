@@ -4,6 +4,10 @@ import cookieParser from "cookie-parser";
 import { createDB } from "./config/dbCreate.js";
 import errorMiddleware from "./middlewares/errors.js";
 
+dotenv.configDotenv({
+    path: "./frontend/.env"
+})
+
 const app = express();
 
 //Handle Uncaught exceptions
