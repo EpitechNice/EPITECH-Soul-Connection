@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SideMenu from "../layout/SideMenu";
-import { useGetTipsQuery } from "../redux/api/tipApi.js";
+import { useGetTipsQuery } from "../../redux/api/tipApi.js"; // Assurez-vous que ce chemin est correct
 
 const Tips = () => {
   const [tips, setTips] = useState([]);
