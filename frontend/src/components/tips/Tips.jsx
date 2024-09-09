@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SideMenu from "../layout/SideMenu";
-import { useGetTipsQuery } from "../../redux/api/tipApi.js"; // Assurez-vous que ce chemin est correct
+import Loader from "../layout/Loader"; // Assurez-vous que ce chemin est correct
 
 const Tips = () => {
   const [tips, setTips] = useState([]);
@@ -11,13 +11,16 @@ const Tips = () => {
     const fetchTips = async () => {
       try {
         const response = await fetch("/api/tips");
+        console.log("Response status:", response.status); // Ajoutez ce log
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
+        console.log("Fetched data:", data); // Ajoutez ce log
         setTips(data);
         setIsLoading(false);
       } catch (err) {
+        console.error("Fetch error:", err); // Ajoutez ce log
         setError(err);
         setIsLoading(false);
       }
@@ -26,8 +29,8 @@ const Tips = () => {
     fetchTips();
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading tips</div>;
+  if (isLoading) return <Loader />;
+  if (error) return <div>Error loading tips: {error.message}</div>;
 
   return (
     <div className="tips-page pages">
