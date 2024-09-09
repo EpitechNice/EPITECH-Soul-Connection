@@ -6,7 +6,10 @@ const TipsPage = () => {
   const { data: tips, error, isLoading } = useGetTipsQuery();
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading tips</div>;
+  if (error) {
+    console.error("Error loading tips:", error);
+    return <div>Error loading tips</div>;
+  }
 
   return (
     <div className="tips-page pages">
