@@ -1,0 +1,36 @@
+#!/bin/bash
+
+STATUS="dev" # "dev" / "prod"
+
+DC_COMMAND="docker-compose"
+SUDO_ACCESS=""
+
+if [ $(test -r /var/run/docker.sock; echo "$?") -ne 0 ]; then
+    SUDO_ACCESS="sudo"
+fi
+
+if ! command -v $DOCKER_COMMAND$DC_COMMAND &> /dev/null
+then
+    DC_COMMAND="docker compose"
+fi
+
+$SUDO_ACCESS docker stop soul-connection-db soul-connection-backend soul-connection-frontend
+$SUDO_ACCESS docker rm soul-connection-db soul-connection-backend soul-connection-frontend
+
+$SUDO_ACCESS docker network rm soul-connection
+$SUDO_ACCESS docker network create --gateway 172.20.0.1 --subnet 172.20.0.0/24 soul-connection
+$SUDO_ACCESS docker rmi -f epitech-soul-connection-backend epitech-soul-connection-frontend
+
+./scripts/read_env.py > ./frontend/.env || exit 1
+
+export $(cat ./frontend/.env | xargs)
+
+if [ "$STATUS" = "prod" ]; then
+    export LOCAL_PORT=$BACK_PROD_PORT
+else
+    export LOCAL_PORT=$BACK_DEV_PORT
+fi
+
+$SUDO_ACCESS bash -c "export $(cat ./frontend/.env | xargs) && export NODE_ENV=$STATUS && export LOCAL_PORT=$LOCAL_PORT && $DC_COMMAND up"
+
+rm ./frontend/.env
