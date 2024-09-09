@@ -15,7 +15,7 @@ const seedEmployees = async () => {
     console.log("\x1b[32m%s\x1b[0m", "New employees are added");
 
     // Close the connection
-    await sequelize.close();
+    // await sequelize.close();
     console.log("\x1b[32m%s\x1b[0m", "Database connection closed");
 
     process.exit();
