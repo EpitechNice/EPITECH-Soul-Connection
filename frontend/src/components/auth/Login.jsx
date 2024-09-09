@@ -7,38 +7,38 @@ import { useLoginMutation } from "../../redux/api/authApi";
 
 
 const Login = () => {
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    // const [login, { isLoading, error }] = useLoginMutation();
-    // const { isAuthenticated } = useSelector((state) => state.auth);
+    const [login, { isLoading, error }] = useLoginMutation();
+    const { isAuthenticated } = useSelector((state) => state.auth);
 
-    // useEffect(() => {
-    //   if (isAuthenticated) {
-    //     navigate("/");
-    //   }
-    //   if (error) {
-    //     toast.error(error?.data?.message);
-    //   }
-    // }, [error, isAuthenticated, navigate]);
+    useEffect(() => {
+      if (isAuthenticated) {
+        navigate("/");
+      }
+      if (error) {
+        toast.error(error?.data?.message);
+      }
+    }, [error, isAuthenticated, navigate]);
 
-    // const submitHandler = (e) => {
-    //   e.preventDefault();
+    const submitHandler = (e) => {
+      e.preventDefault();
 
-    //   const loginData = {
-    //     email,
-    //     password,
-    //   };
+      const loginData = {
+        email,
+        password,
+      };
 
-    //   login(loginData);
-    // };
+      login(loginData);
+    };
 
     return (
       <div className="page-container">
           <form className="login_card"
-        //   onSubmit={submitHandler}
+          onSubmit={submitHandler}
           >
             <h2 className="mb-4">Login</h2>
             <div className="mb-3">
@@ -50,8 +50,8 @@ const Login = () => {
               id="email_field"
               className="form-control"
               name="email"
-              // value={email}
-              // onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             </div>
 
@@ -64,18 +64,18 @@ const Login = () => {
                 id="password_field"
                 className="form-control"
                 name="password"
-                // value={password}
-                // onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
             <button
               className="login_button"
               type="submit"
-            //   disabled={isLoading}
+              disabled={isLoading}
             >
             Login
-            {/* //   {isLoading ? "Authenticating..." : "LOGIN"} */}
+            {isLoading ? "Authenticating..." : "LOGIN"}
             </button>
 
           </form>
