@@ -13,4 +13,4 @@ COPY ./frontend/.env /usr/src/app/
 
 EXPOSE 80
 
-CMD ["npm", "run", "fetch"]
+CMD ["npm", "run", "dev"]
