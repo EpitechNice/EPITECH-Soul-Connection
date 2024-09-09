@@ -1,9 +1,10 @@
 import express from "express";
-import { createDB } from "./config/dbCreate.js";
-
+import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import { createDB } from "./config/dbCreate.js";
+import errorMiddleware from "./middlewares/errors.js";
 
-const app = express()
+const app = express();
 
 //Handle Uncaught exceptions
 process.on("uncaughtException", (err) => {
@@ -12,22 +13,30 @@ process.on("uncaughtException", (err) => {
     process.exit(1);
 });
 
-// Configure app to use cookieParser
-app.use(cookieParser());
-
-//Configure Express middleware to handle JSON req for routes
-app.use(express.json({ limit: "10mb" }));
-
-//Import all routes
-import employeeRoutes from "./routes/employeeRoutes.js";
-
-app.use("/api/", employeeRoutes);
+dotenv.config({path: 'backend/config/config.env'});
 
 createDB();
 
-//TODO : add port in env
-const server = app.listen(process.env.BACK_PORT, () => {
-    console.log('\x1b[34m%s\x1b[0m', `[INFO] Server started on the PORT: ${process.env.BACK_PORT}`);
+//Json middleware
+app.use(express.json({ limit: "10mb" }));
+
+//Auth middleware
+app.use(cookieParser());
+
+//Import all routes
+import employeeRoutes from "./routes/employeeRoutes.js";
+import customerRoutes from "./routes/customerRoutes.js";
+import clothesRoutes from "./routes/clothesRoutes.js";
+
+app.use("/api", employeeRoutes);
+app.use("/api", customerRoutes);
+app.use("/api", clothesRoutes);
+
+//Using error middleware
+app.use(errorMiddleware);
+
+app.listen(process.env.LOCAL_PORT, () => {
+    console.log('\x1b[34m%s\x1b[0m', `[INFO] Server started on the PORT: ${process.env.LOCAL_PORT} in ${process.env.NODE_ENV} mode`);
 });
 
 //Handle unheandled promise rejections
