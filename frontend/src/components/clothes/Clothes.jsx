@@ -56,7 +56,7 @@ const Clothes = () => {
 
   return (
     <div className="garde-robe-page pages">
-      <div className="col-12 col-lg-3">
+      <div>
         <SideMenu />
       </div>
       <h1>Garde Robe Virtuelle</h1>
@@ -77,56 +77,56 @@ const Clothes = () => {
         <div className="carousel">
           <h2>Chapeaux</h2>
           <div className="carousel-container">
-            <button onClick={() => prevItem('hats')}>⬅️</button>
+            <button className="button-clothes" onClick={() => prevItem('hats')}>⬅️</button>
             <div className="carousel-item">
               {visibleHats.map((item, index) => (
                 <div key={index} className="color-box" style={{ backgroundColor: item.color }}></div>
               ))}
               <p>{visibleHats[0].name}</p>
             </div>
-            <button onClick={() => nextItem('hats')}>➡️</button>
+            <button className="button-clothes" onClick={() => nextItem('hats')}>➡️</button>
           </div>
         </div>
 
         <div className="carousel">
           <h2>Hauts</h2>
           <div className="carousel-container">
-            <button onClick={() => prevItem('tops')}>⬅️</button>
+            <button className="button-clothes" onClick={() => prevItem('tops')}>⬅️</button>
             <div className="carousel-item">
               {visibleTops.map((item, index) => (
                 <div key={index} className="color-box" style={{ backgroundColor: item.color }}></div>
               ))}
               <p>{visibleTops[0].name}</p>
             </div>
-            <button onClick={() => nextItem('tops')}>➡️</button>
+            <button className="button-clothes" onClick={() => nextItem('tops')}>➡️</button>
           </div>
         </div>
 
         <div className="carousel">
           <h2>Bas</h2>
           <div className="carousel-container">
-            <button onClick={() => prevItem('bottoms')}>⬅️</button>
+            <button className="button-clothes" onClick={() => prevItem('bottoms')}>⬅️</button>
             <div className="carousel-item">
               {visibleBottoms.map((item, index) => (
                 <div key={index} className="color-box" style={{ backgroundColor: item.color }}></div>
               ))}
               <p>{visibleBottoms[0].name}</p>
             </div>
-            <button onClick={() => nextItem('bottoms')}>➡️</button>
+            <button className="button-clothes" onClick={() => nextItem('bottoms')}>➡️</button>
           </div>
         </div>
 
         <div className="carousel">
           <h2>Chaussures</h2>
           <div className="carousel-container">
-            <button onClick={() => prevItem('shoes')}>⬅️</button>
+            <button className="button-clothes" onClick={() => prevItem('shoes')}>⬅️</button>
             <div className="carousel-item">
               {visibleShoes.map((item, index) => (
                 <div key={index} className="color-box" style={{ backgroundColor: item.color }}></div>
               ))}
               <p>{visibleShoes[0].name}</p>
             </div>
-            <button onClick={() => nextItem('shoes')}>➡️</button>
+            <button className="button-clothes" onClick={() => nextItem('shoes')}>➡️</button>
           </div>
         </div>
       </div>
