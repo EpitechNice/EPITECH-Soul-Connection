@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SideMenu from "../layout/SideMenu";
 import { useGetTipsQuery } from "../redux/api/tipApi.js";
 
 const Tips = () => {
   const { data: tips, error, isLoading } = useGetTipsQuery();
+
+  useEffect(() => {
+    data.getTips();
+  }
+  , []);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading tips</div>;
