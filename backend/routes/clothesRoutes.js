@@ -1,5 +1,5 @@
 import express from "express"
-import { getClothes, getClothesImg } from "../controllers/clothesController.js"
+import { getClothing, getClothingImg } from "../controllers/clothesController.js"
 import { isAuth } from "../middlewares/userAuthentication.js";
 
 

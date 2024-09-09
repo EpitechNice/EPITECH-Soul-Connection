@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import ErrorHandler from "../utils/errorHandler.js";
 import catchAsyncErrors from "./catchAsyncErrors.js";
-import User from "../models/userModel.js";
+import Customer from "../models/customerModel.js";
 
 //Check if user is auth
 export const isAuth = catchAsyncErrors(async (req, res, next) => {
@@ -14,7 +14,7 @@ export const isAuth = catchAsyncErrors(async (req, res, next) => {
     if (!decoded)
         return next(new ErrorHandler("Node weird refuse", 401));
 
-    req.user = await User.findByPk(decoded.id);
+    req.user = await Customer.findByPk(decoded.id);
     next();
 });
 

@@ -1,24 +1,24 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import ErrorHandler from "../utils/errorHandler.js"
-import Clothes from "../models/clothesModel.js"
+import clothing from "../models/clothingModel.js"
 
 
 //Wardrobe : /api/wardrobe
-export const getClothes = catchAsyncErrors(async(req, res, next) => {
+export const getClothing = catchAsyncErrors(async(req, res, next) => {
     try {
-        const hat = await Clothes.findAll({
-            where: {type: "hat"}
+        const hat = await Clothing.findAll({
+            where: {type: "hat/cap"}
         });
 
-        const bottom = await Clothes.findAll({
+        const bottom = await Clothing.findAll({
             where: {type: "bottom"}
         });
 
-        const top = await Clothes.findAll({
+        const top = await Clothing.findAll({
             where: {type: "top"}
         });
 
-        const shoes = await Clothes.findAll({
+        const shoes = await Clothing.findAll({
             where: {type: "shoes"}
         });
 
@@ -37,11 +37,11 @@ export const getClothes = catchAsyncErrors(async(req, res, next) => {
 
 //TODO: 422 Validation error
 //Get an item of clothing image
-export const getClothesImg = catchAsyncErrors(async(req, res, next) => {
-    const clothes = await Clothes.findByPk(req?.params?.id);
+export const getClothingImg = catchAsyncErrors(async(req, res, next) => {
+    const clothes = await Clothing.findByPk(req?.params?.id);
 
     if (!clothes) {
-        return next(new ErrorHandler("Clothes not found", 404));
+        return next(new ErrorHandler("Clothing not found", 404));
     }
 
     res.status(200).json({
