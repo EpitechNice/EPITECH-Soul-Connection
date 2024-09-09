@@ -90,7 +90,11 @@ const Home = () => {
             <SideMenu />
             </div>
       <div className="separator"></div>
-      <div className="container">
+      <div className="row-stats">
+          <BarChart data={eventData} options={chartOptions} />
+          <BarChart data={coachClients} options={chartOptions} />
+        </div>
+      <div className="employees pages">
       <section id="employees" className="user-table">
                     <div className="user-table-header">
                         <div className="user-table-header-cell">Number</div>
@@ -103,10 +107,10 @@ const Home = () => {
 
                     <div className="user-table-body">
                             <div className="user-table-row">
-                                <div className="user-table-cell"></div>
-                                <div className="user-table-cell"></div>
-                                <div className="user-table-cell"></div>
-                                <div className="user-table-cell"></div>
+                                <div className="user-table-cell">a</div>
+                                <div className="user-table-cell">a</div>
+                                <div className="user-table-cell">a</div>
+                                <div className="user-table-cell">a</div>
                                 <div className="user-table-cell">
                                     <button className="coach_button">
                                         Edit List ...
