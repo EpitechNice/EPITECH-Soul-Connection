@@ -1,29 +1,35 @@
 import sequelize from "../config/database.js";
 import { Model, DataTypes } from "sequelize";
 
-class Tip extends Model {}
+class Clothe extends Model {}
 
-Tip.init({
+Clothe.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
 
-    title: {
+    type: {
         type: DataTypes.STRING,
         allowNull: false,
     },
 
-    tip: {
+    image_path: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
+        unique: true,
+    }
 }, {
     sequelize,
-    modelName: "Tip",
-    tableName: "tips",
+    modelName: "Clothe",
+    tableName: "clothes",
     timestamps: true,
 });
 
-export default Tip;
+export default Clothe;
+
+/*
+ * Implicit attributes:
+ * - users
+*/

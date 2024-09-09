@@ -1,5 +1,5 @@
+import sequelize from "../config/database.js";
 import { Model, DataTypes } from "sequelize";
-import sequelize from "../config/dbConfig.js";
 
 class Event extends Model {}
 
@@ -17,11 +17,6 @@ Event.init({
 
     date: {
         type: DataTypes.DATE,
-        allowNull: false,
-    },
-
-    duration: {
-        type: DataTypes.INTEGER,
         allowNull: false,
     },
 
@@ -69,5 +64,5 @@ export default Event;
 
 /*
  * Implicit attributes:
- * - employee
+ * - client_list
 */

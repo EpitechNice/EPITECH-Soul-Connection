@@ -1,9 +1,7 @@
-import sequelize from "../config/dbConfig.js";
+import sequelize from "../config/database.js";
 import { Model, DataTypes } from "sequelize";
-import Event from "./eventModel.js";
 import Encounter from "./encounterModel.js";
-import Clothe from "./clothesModel.js";
-import Payment from "./paymentModel.js";
+import Clothe from "./clotheModel.js";
 
 class User extends Model {}
 
@@ -68,17 +66,8 @@ User.init({
     coach_id: {                                         //
         type: DataTypes.INTEGER,                        //
         allowNull: true,                                // Only for
-        references: {                                   // Clients && Coach
-            model: "users",                             //
-            key: "id",                                  //
-        }                                               //
-    },                                                  //
-
-    cloth_id: {                                         //
-        type: DataTypes.INTEGER,                        //
-        allowNull: true,                                // Only for
         references: {                                   // Clients
-            model: "clothes",                           //
+            model: "users",                             //
             key: "id",                                  //
         }                                               //
     },                                                  //
@@ -91,25 +80,6 @@ User.init({
             key: "id",                                  //
         }                                               //
     },                                                  //
-
-    event_id: {                                         //
-        type: DataTypes.INTEGER,                        //
-        allowNull: true,                                // Only for
-        references: {                                   // Clients
-            model: "events",                            //
-            key: "id",                                  //
-        }                                               //
-    },                                                  //
-
-    payment_id: {                                       //
-        type: DataTypes.INTEGER,                        //
-        allowNull: true,                                // Only for
-        references: {                                   // Clients
-            model: "payments",                          //
-            key: "id",                                  //
-        }                                               //
-    },                                                  //
-
 
     work: {                                             //
         type: DataTypes.STRING,                         // Only for
@@ -164,30 +134,6 @@ User.hasMany(Encounter, {
 })
 
 Encounter.belongsTo(User, {
-    as: "user",
-    foreignKey: "customer_id",
-})
-
-// Interaction between client and encounter
-
-User.hasMany(Event, {
-    as: "event_list",
-    foreignKey: "event_id"
-})
-
-Event.belongsTo(User, {
-    as: "employee",
-    foreignKey: "employee_id",
-})
-
-// Interaction between client and payments
-
-User.hasMany(Payment, {
-    as: "payment_list",
-    foreignKey: "payment_id"
-})
-
-Payment.belongsTo(User, {
     as: "user",
     foreignKey: "customer_id",
 })
