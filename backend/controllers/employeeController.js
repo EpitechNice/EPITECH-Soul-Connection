@@ -5,16 +5,17 @@ import { randint } from "../utils/randInt.js";
 import ErrorHandler from "../utils/errorHandler.js"
 import { isEmail } from "../utils/typeValidator.js";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
-import User from "../models/userModel.js"
+import Customer from "../models/customerModel.js"
+import Employee from "../models/employeeModel.js";
 
 // Display all employees: /api/employees
 export const getEmployees = catchAsyncErrors(async (req, res, next) => {
     try {
-        const manager = await User.findAll({
+        const manager = await Employee.findAll({
             where: { type: "Manager" }
         });
 
-        const coach = await User.findAll({
+        const coach = await Employee.findAll({
             where: { type: "Coach" }
         });
 
@@ -39,7 +40,7 @@ export const loginEmployee = catchAsyncErrors(async (req, res, next) => {
     if (!isEmail(email))
         return next(new ErrorHandler("Validation error", (randint(0, 100) == 0 ? 418 : 422)));
 
-    const result = await User.findAll({
+    const result = await Employee.findAll({
         where: {
             email: email,
         }
@@ -74,7 +75,7 @@ export const loginEmployee = catchAsyncErrors(async (req, res, next) => {
 // Display employee profile: /api/employees/me
 export const getEmployeeProfile = catchAsyncErrors(async (req, res, next) => {
     try {
-        const employee = await User.findByPk(req?.user?.id);
+        const employee = await Employee.findByPk(req?.user?.id);
 
         if (!employee) {
             return next(new ErrorHandler(`Employee not found`, 404));
@@ -92,7 +93,7 @@ export const getEmployeeProfile = catchAsyncErrors(async (req, res, next) => {
 //TODO: 422 Validation Error
 // Get specific employee: /api/employees/:id
 export const getEmployeeDetails = catchAsyncErrors(async (req, res, next) => {
-    const employee = await User.findByPk(req.params.id);
+    const employee = await Employee.findByPk(req.params.id);
 
     if (!employee || employee.type === "Client") {
         return next(new ErrorHandler("Employee requested doesn't exist", 404));
@@ -106,7 +107,7 @@ export const getEmployeeDetails = catchAsyncErrors(async (req, res, next) => {
 //TODO: 422 Validation Error, image by default if no image (frontend)
 // Get specific employee: /api/employees/:id/image
 export const getEmployeeImg = catchAsyncErrors(async (req, res, next) => {
-    const employee = await User.findByPk(req.params.id);
+    const employee = await Employee.findByPk(req.params.id);
 
     if (!employee || employee.type === "Client") {
         return next(new ErrorHandler("Employee requested doesn't exist", 404));
@@ -132,7 +133,7 @@ export const createEmployee = catchAsyncErrors(async (req, res) => {
             birth_date: new Date(req.body.birth_date),
         };
 
-        const employee = await User.create(modifiedBody);
+        const employee = await Employee.create(modifiedBody);
 
         res.status(201).json({
             message: "New employee created successfully",
@@ -164,7 +165,7 @@ export const createEmployee = catchAsyncErrors(async (req, res) => {
 //             role: req.body.role
 //         };
 
-//         const user = await User.findByPk(req.params.id, {
+//         const user = await Employee.findByPk(req.params.id, {
 //             new: true
 //         });
 
@@ -187,7 +188,7 @@ export const createEmployee = catchAsyncErrors(async (req, res) => {
 //     }
 
 //     try {
-//         const result = await User.destroy({
+//         const result = await Employee.destroy({
 //             where: { id: parseInt(id) },
 //             returning: true
 //         });

@@ -19,11 +19,20 @@ Clothing.init({
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-    }
+    },
+
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: "payments",
+            key: "id",
+        }
+    },
 }, {
     sequelize,
     modelName: "Clothing",
-    tableName: "Clothings",
+    tableName: "clothings",
     timestamps: true,
 });
 

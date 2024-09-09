@@ -31,6 +31,6 @@ else
     export LOCAL_PORT=$BACK_DEV_PORT
 fi
 
-$SUDO_ACCESS bash -c "export $(cat ./frontend/.env | xargs) && export NODE_ENV=$STATUS && export LOCAL_PORT=$LOCAL_PORT && $DC_COMMAND up"
+$SUDO_ACCESS bash -c "export $(cat ./frontend/.env | xargs) && export NODE_ENV=$STATUS && export LOCAL_PORT=$LOCAL_PORT && $SUDO_ACCESS $DC_COMMAND up"
 
 rm ./frontend/.env

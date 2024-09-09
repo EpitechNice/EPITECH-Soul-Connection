@@ -1,6 +1,14 @@
 import { Sequelize } from "sequelize";
 import sequelize from "./dbConfig.js";
 
+import Clothing from "../models/clothingModel.js";
+import Customer from "../models/customerModel.js";
+import Employee from "../models/employeeModel.js";
+import Encounter from "../models/encounterModel.js";
+import Event from "../models/eventModel.js";
+import Payment from "../models/paymentModel.js";
+import Tip from "../models/tipModel.js";
+
 
 export function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
