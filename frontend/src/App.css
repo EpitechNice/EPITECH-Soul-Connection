@@ -458,6 +458,12 @@ hr {
   text-decoration: underline;
 }
 
+#map {
+  width: 400px;
+  height: 400px;
+  background: #d6d6d6;
+}
+
 /* Sidebar styles */
 
 .list-group {
