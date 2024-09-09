@@ -1,5 +1,6 @@
 import React from "react";
 import SideMenu from "../layout/SideMenu";
+import { useGetTipsQuery } from "../redux/api/tipApi.js";
 
 const Tips = () => {
   const { data: tips, error, isLoading } = useGetTipsQuery();
