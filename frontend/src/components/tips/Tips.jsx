@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SideMenu from "../layout/SideMenu";
 import { useGetTipsQuery } from '../../redux/api/tipApi';
+import Loader from '../layout/Loader';
+import toast from "react-hot-toast";
 
 const Tips = () => {
-    const { data } = useGetTipsQuery();
-    console.log(data);
+    const { data, isLoading, error, isError } = useGetTipsQuery();
+
+    //Toast error alert
+    useEffect(() => {
+        if (isError) {
+            toast.error(error?.data?.message);
+        }
+    }, [isError]);
+
+    if (isLoading) return <Loader />;
 
     return (
         <div>
