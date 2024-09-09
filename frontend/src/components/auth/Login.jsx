@@ -36,8 +36,7 @@ const Login = () => {
     // };
 
     return (
-      <div className="row wrapper">
-        <div className="col-10 col-lg-5">
+      <div className="page-container">
           <form className="login_card"
         //   onSubmit={submitHandler}
           >
@@ -80,7 +79,6 @@ const Login = () => {
             </button>
 
           </form>
-        </div>
       </div>
     );
 };
