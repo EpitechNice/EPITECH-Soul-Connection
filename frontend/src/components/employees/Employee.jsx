@@ -6,13 +6,6 @@ const Employees = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
-    const [clients, setClients] = useState([
-        { id: 1, name: "Test Client A" },
-        { id: 2, name: "Test Client B" },
-        { id: 3, name: "Test Client C" },
-        { id: 4, name: "Test Client D" }
-    ]);
-
     const [userClients, setUserClients] = useState({});
 
     const formatDate = (dateString) => {
@@ -29,9 +22,12 @@ const Employees = () => {
             .then((data) => {
                 setUsers(data.results);
                 setIsLoading(false);
+                setUserClients(data.results.reduce((acc, user) => {
+                    return acc;
+                }, {}));
             })
             .catch((error) => {
-                console.error('Erreur lors de la récupération des données:', error);
+                console.error('Error retrieving data:', error);
                 setIsLoading(false);
             });
     }, []);
@@ -87,8 +83,8 @@ const Employees = () => {
                                 <div className="user-table-cell">{user.email}</div>
                                 <div className="user-table-cell">{formatDate(user.dob.date)}</div>
                                 <div className="user-table-cell">
-                                    <button className="blue_button" onClick={() => handleOpenModal(user)}>
-                                        Edit List
+                                    <button className="coach_button" onClick={() => handleOpenModal(user)}>
+                                        Edit List ...
                                     </button>
                                 </div>
                                 <div className="user-table-cell">...</div>
@@ -103,19 +99,19 @@ const Employees = () => {
                     <div className="modal-content">
                         <h3>Select Clients for {selectedUser?.name.first} {selectedUser?.name.last}</h3>
                         <div className="client-list">
-                            {clients.map(client => (
-                                <div key={client.id}>
+                            {users.map(user => (
+                                <div key={user.login.uuid}>
                                     <input
                                         type="checkbox"
-                                        id={`client-${client.id}`}
-                                        checked={(userClients[selectedUser.login.uuid] || []).includes(client.id)}
-                                        onChange={() => handleClientSelection(client.id)}
+                                        id={`client-${user.login.uuid}`}
+                                        checked={(userClients[selectedUser.login.uuid] || []).includes(user.login.uuid)}
+                                        onChange={() => handleClientSelection(user.login.uuid)}
                                     />
-                                    <label htmlFor={`client-${client.id}`}>{client.name}</label>
+                                    <label htmlFor={`client-${user.login.uuid}`}>{user.name.first} {user.name.last}</label>
                                 </div>
                             ))}
                         </div>
-                        <button className="blue_button" onClick={handleCloseModal}>
+                        <button className="coach_button" onClick={handleCloseModal}>
                             Save
                         </button>
                     </div>

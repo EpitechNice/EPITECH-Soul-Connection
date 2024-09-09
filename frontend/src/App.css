@@ -408,6 +408,44 @@ hr {
   margin: 20px 0;
 }
 
+/* Modal */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  text-align: center;
+}
+
+.client-list {
+  margin-bottom: 20px;
+}
+
+.coach_button {
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.coach_button:hover {
+  text-decoration: underline;
+}
+
 /* Sidebar styles */
 
 .list-group {
