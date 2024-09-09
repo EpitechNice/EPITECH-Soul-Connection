@@ -5,7 +5,9 @@ import Employee from "../models/employeeModel.js";
 
 async function getAllClients(req, res, next) {
     try {
-        const customers = await Customer.findAll();
+        const customers = await Customer.findAll({
+            attributes: { exclude: ['password'] }
+        });
 
         res.status(200).json({
             customers,
@@ -20,7 +22,9 @@ async function getCoachClients(req, res, next) {
     try {
         const userId = req.user?.id;
 
-        const allclient = await Customer.findAll();
+        const allclient = await Customer.findAll({
+            attributes: { exclude: ['password'] }
+        });
 
         const coach = await Employee.findOne({
             where: { id: userId },
@@ -45,7 +49,10 @@ async function getCoachClients(req, res, next) {
 // Display all customers: /api/customers
 export const getCustomers = catchAsyncErrors(async (req, res, next) => {
     try {
-        const user = await Customer.findByPk(req.user?.id);
+        var cookie = req.cookies.token;
+        const decoded = jwt.verify(cookie, process.env.JWT_SECRET);
+        const userId = decoded.id;
+        const user = await Customer.findByPk(userId);
 
         if (!user)
             return next(new ErrorHandler(`Customer not found`, 404));
