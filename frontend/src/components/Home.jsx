@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import SideMenu from "./layout/SideMenu"; // Import your side menu
+import IconUser from '../assets/User.svg';
+import IconBriefcase from '../assets/Briefcase.svg';
 
 const Home = () => {
   const [modules, setModules] = useState([]); // State to store API data
@@ -32,19 +34,19 @@ const Home = () => {
       <div className="container">
         <div className="rowmain">
           <div className="card" id="cardclient">
-            <img src="../assets/User.svg" alt="User Icon" />
+            <img src={IconUser} alt="User Icon" />
             {modules.map((employee) => (
               <p key={employee.id}>{employee.name}</p>
             ))}
             <p>Total Users</p>
           </div>
           <div className="card" id="cardcoach">
-            <img src="../assets/User.svg" alt="Coach Icon" />
+            <img src={IconUser} alt="Coach Icon" />
             <p>2500</p>
             <p>Total coaches</p>
           </div>
           <div className="card" id="cardrdv">
-            <img src="../assets/Briefcase.svg" alt="Rendez-vous Icon" />
+            <img src={IconBriefcase} alt="Rendez-vous Icon" />
             <p>2500</p>
             <p>Total Rendez-vous</p>
           </div>

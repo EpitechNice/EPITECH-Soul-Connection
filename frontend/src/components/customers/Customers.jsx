@@ -83,7 +83,7 @@
             <div className="tables-container">
                 <div className="ta">
                 <h4>Payments</h4>
-                <div className="user-table">
+                <section className="user-table">
                     <div className="user-table-header">
                     <div className="user-table-header-cell">Date</div>
                     <div className="user-table-header-cell">Amount</div>
@@ -102,12 +102,12 @@
                         </div>
                     </div>
                     </div>
-                </div>
+                </section>
                 </div>
 
                 <div className="tb">
                 <h4>Meetings</h4>
-                <div className="user-table">
+                <section className="user-table">
                     <div className="user-table-header">
                     <div className="user-table-header-cell">Date</div>
                     <div className="user-table-header-cell">Rating</div>
@@ -130,7 +130,7 @@
                         </div>
                     </div>
                     </div>
-                </div>
+                </section>
                 </div>
             </div>
             </>

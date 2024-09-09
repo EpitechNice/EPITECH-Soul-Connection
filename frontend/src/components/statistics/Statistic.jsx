@@ -2,6 +2,9 @@ import React from 'react';
 import SideMenu from "../layout/SideMenu";
 import BarChart from "./Bar";
 import PieChart from "./Pie";
+import IconUser from '../../assets/User.svg';
+import IconBriefcase from '../../assets/Briefcase.svg';
+import IconInfo from '../../assets/Info.svg';
 
 const Statistics = () => {
   const eventData = {
@@ -78,22 +81,22 @@ const Statistics = () => {
       <div className="container-statistic">
         <div className="row">
           <div className="card" id="cardclient">
-            <img src="../assets/User.svg" alt="User" />
+            <img src={IconUser} alt="User" />
             <p>2500</p>
             <p>Total Users</p>
           </div>
           <div className="card" id="cardcoach">
-            <img src="../assets/User.svg" alt="Coach" />
+            <img src={IconUser} alt="Coach" />
             <p>2500</p>
             <p>Total Coaches</p>
           </div>
           <div className="card" id="cardrdv">
-            <img src="../assets/Briefcase.svg" alt="Events" />
+            <img src={IconBriefcase} alt="Events" />
             <p>2500</p>
             <p>Total Events</p>
           </div>
           <div className="card" id="cardtips">
-            <img src="../assets/Info.svg" alt="Tips" />
+            <img src={IconInfo} alt="Tips" />
             <p>2500</p>
             <p>Total Tips</p>
           </div>
