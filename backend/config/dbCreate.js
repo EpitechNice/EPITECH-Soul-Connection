@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import sequelize from "./dbConfig.js";
-import Clothe from "../models/clotheModel.js";
+import Clothe from "../models/clothesModel.js";
 import Encounter from "../models/encounterModel.js";
 import Event from "../models/eventModel.js";
 import Payment from "../models/paymentModel.js";
