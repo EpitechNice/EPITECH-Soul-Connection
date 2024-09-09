@@ -1,5 +1,8 @@
     import React, { useState, useEffect } from 'react';
     import SideMenu from '../layout/SideMenu';
+    import IconUser from '../../assets/User.svg';
+    import IconCalendar from '../../assets/Calendar.svg';
+    import IconLocalisation from '../../assets/Localisation.svg';
 
     const Customers = () => {
     const [users, setUsers] = useState([]);
@@ -58,15 +61,15 @@
             <div className="user-card">
             <div className="user-info">
                 <div className="info-item">
-                <img src="../../assets/User.svg" alt="User Icon" />
+                <img src={IconUser} alt="User Icon" />
                 <h3>{selectedUser.name.first} {selectedUser.name.last}</h3>
                 </div>
                 <div className="info-item">
-                <img src="../../assets/Calendar.svg" alt="Calendar Icon" />
+                <img src={IconCalendar} alt="Calendar Icon" />
                 <h3>{formatDate(selectedUser.dob.date)}</h3>
                 </div>
                 <div className="info-item">
-                <img src="../../assets/Localisation.svg" alt="Location Icon" />
+                <img src={IconLocalisation} alt="Location Icon" />
                 <h3>{formatLocalisation(selectedUser.location)}</h3>
                 </div>
             </div>
