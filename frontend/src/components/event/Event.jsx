@@ -24,9 +24,9 @@ const center = {
 const Events = () => {
   const events = [
     { name: 'Speed dating', location: 'Café Michel', lat: 48.8566, lng: 2.3522, date: '22/04/2024', maxParticipants: 20 },
-    { name: 'Speed networking', location: 'Café des Amis', lat: 48.864716, lng: 2.349014, date: '23/04/2024', maxParticipants: 15 },
-    { name: 'Business meetup', location: 'Café de Flore', lat: 48.8588443, lng: 2.2943506, date: '24/04/2024', maxParticipants: 30 },
-    { name: 'Startup Pitch', location: 'Café des Arts', lat: 48.853, lng: 2.3499, date: '25/04/2024', maxParticipants: 25 },
+    { name: 'Speed dating', location: 'Café des Amis', lat: 48.864716, lng: 2.349014, date: '23/04/2024', maxParticipants: 15 },
+    { name: 'Speed dating', location: 'Café de Flore', lat: 48.8588443, lng: 2.2943506, date: '24/04/2024', maxParticipants: 30 },
+    { name: 'Speed dating', location: 'Café des Arts', lat: 48.853, lng: 2.3499, date: '25/04/2024', maxParticipants: 25 },
   ];
 
   return (

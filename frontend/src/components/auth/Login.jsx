@@ -38,7 +38,7 @@ const Login = () => {
     return (
       <div className="row wrapper">
         <div className="col-10 col-lg-5">
-          <form className="shadow rounded bg-body"
+          <form className="login_card"
         //   onSubmit={submitHandler}
           >
             <h2 className="mb-4">Login</h2>
@@ -46,14 +46,14 @@ const Login = () => {
               <label htmlFor="email_field" className="form-label">
                 Email
               </label>
-              {/* <input
+              <input
               type="email"
               id="email_field"
               className="form-control"
               name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            /> */}
+              // value={email}
+              // onChange={(e) => setEmail(e.target.value)}
+            />
             </div>
 
             <div className="mb-3">
@@ -71,9 +71,8 @@ const Login = () => {
             </div>
 
             <button
-              id="login_button"
+              className="login_button"
               type="submit"
-              className="btn w-100 py-2"
             //   disabled={isLoading}
             >
             Login

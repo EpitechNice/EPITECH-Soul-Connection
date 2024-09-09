@@ -64,6 +64,32 @@ nav {
 
 }
 
+/* Login page */
+
+.login_card{
+  padding: 30px;
+  border-radius: 0.2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login_button {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px; 
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.login_button:hover {
+  background-color: #5a6268;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
 #login_btn,
 #view_btn,
 #new_review_btn {
