@@ -1,15 +1,12 @@
 import React from "react";
-import { useGetTipsQuery } from "../../redux/api/tipApi";
 import SideMenu from "../layout/SideMenu";
+import { useGetTipsQuery } from "../redux/api/tipApi";
 
-const TipsPage = () => {
+const Tips = () => {
   const { data: tips, error, isLoading } = useGetTipsQuery();
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) {
-    console.error("Error loading tips:", error);
-    return <div>Error loading tips</div>;
-  }
+  if (error) return <div>Error loading tips</div>;
 
   return (
     <div className="tips-page pages">
@@ -21,7 +18,6 @@ const TipsPage = () => {
       <div className="tips-grid">
         {tips.map((tip, index) => (
           <div className="tip-card" key={index}>
-            <p>{tip.title}</p>
             <p>{tip.tip}</p>
           </div>
         ))}
@@ -30,4 +26,4 @@ const TipsPage = () => {
   );
 };
 
-export default TipsPage;
+export default Tips;
