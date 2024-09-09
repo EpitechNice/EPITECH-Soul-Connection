@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import { authApi } from "./api/authApi";
 import { employeeApi } from "./api/employeeApi.js";
-import { tipApi } from "./api/tipApi";
+import { tipApi } from "./api/tipApi.js";
 
 export const store = configureStore({
   reducer: {
