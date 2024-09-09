@@ -79,29 +79,7 @@ const Statistics = () => {
       <h1>Statistics</h1>
       <div className="separator"></div>
       <div className="container-statistic">
-        <div className="row">
-          <div className="card" id="cardclient">
-            <img src={IconUser} alt="User" />
-            <p>2500</p>
-            <p>Total Users</p>
-          </div>
-          <div className="card" id="cardcoach">
-            <img src={IconUser} alt="Coach" />
-            <p>2500</p>
-            <p>Total Coaches</p>
-          </div>
-          <div className="card" id="cardrdv">
-            <img src={IconBriefcase} alt="Events" />
-            <p>2500</p>
-            <p>Total Events</p>
-          </div>
-          <div className="card" id="cardtips">
-            <img src={IconInfo} alt="Tips" />
-            <p>2500</p>
-            <p>Total Tips</p>
-          </div>
-        </div>
-        <div className="row">
+        <div className="row-stats">
           <BarChart data={eventData} options={chartOptions} />
           <BarChart data={coachClients} options={chartOptions} />
           <PieChart data={genderData} options={pieChartOptions} />

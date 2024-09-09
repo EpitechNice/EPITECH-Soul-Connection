@@ -165,7 +165,7 @@ nav {
   flex-direction: column;
 }
 
-.row {
+.row-stats {
   display: flex;
   gap: 80px;
   justify-content: space-around;
