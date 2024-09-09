@@ -26,13 +26,13 @@ app.use(cookieParser());
 //Import all routes
 import employeeRoutes from "./routes/employeeRoutes.js";
 import customerRoutes from "./routes/customerRoutes.js";
-import clothesRoutes from "./routes/clothesRoutes.js";
+import clothingRoutes from "./routes/clothingRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import tipRoutes from "./routes/tipRoutes.js";
 
 app.use("/api", employeeRoutes);
 app.use("/api", customerRoutes);
-app.use("/api", clothesRoutes);
+app.use("/api", clothingRoutes);
 app.use("/api", eventRoutes);
 app.use("/api", tipRoutes);
 

@@ -4,10 +4,10 @@ import clothing from "../models/clothingModel.js"
 
 
 //Wardrobe : /api/wardrobe
-export const getClothing = catchAsyncErrors(async(req, res, next) => {
+export const getClothes = catchAsyncErrors(async(req, res, next) => {
     try {
         const hat = await Clothing.findAll({
-            where: {type: "hat/cap"}
+            where: {type: "hat"}
         });
 
         const bottom = await Clothing.findAll({

@@ -10,17 +10,13 @@ import Employee from "../models/employeeModel.js";
 // Display all employees: /api/employees
 export const getEmployees = catchAsyncErrors(async (req, res, next) => {
     try {
-        const manager = await Employee.findAll({
-            where: { type: "Manager" }
-        });
-
         const coach = await Employee.findAll({
-            where: { type: "Coach" }
+            where: { type: "Coach" },
+            attributes: { exclude: ['password'] }
         });
 
         res.status(200).json({
-            manager: manager,
-            coach: coach,
+            coach,
         });
     } catch (err) {
         console.error(err);
@@ -74,7 +70,13 @@ export const loginEmployee = catchAsyncErrors(async (req, res, next) => {
 // Display employee profile: /api/employees/me
 export const getEmployeeProfile = catchAsyncErrors(async (req, res, next) => {
     try {
-        const employee = await Employee.findByPk(req?.user?.id);
+        var cookie = req.cookies.token;
+        const decoded = jwt.verify(cookie, process.env.JWT_SECRET);
+        const userId = decoded.id;
+        const employee = await Employee.findOne({
+            where: { id: userId },
+            attributes: { exclude: ['password'] }
+        });
 
         if (!employee) {
             return next(new ErrorHandler(`Employee not found`, 404));
@@ -92,7 +94,11 @@ export const getEmployeeProfile = catchAsyncErrors(async (req, res, next) => {
 //TODO: 422 Validation Error
 // Get specific employee: /api/employees/:id
 export const getEmployeeDetails = catchAsyncErrors(async (req, res, next) => {
-    const employee = await Employee.findByPk(req.params.id);
+    const userId = req.params.id;
+    const employee = await Employee.findOne({
+        where: { id: userId },
+        attributes: { exclude: ['password'] }
+    });
 
     if (!employee || employee.type === "Client") {
         return next(new ErrorHandler("Employee requested doesn't exist", 404));
@@ -103,6 +109,7 @@ export const getEmployeeDetails = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
+//TODO: To fix
 //TODO: 422 Validation Error, image by default if no image (frontend)
 // Get specific employee: /api/employees/:id/image
 export const getEmployeeImg = catchAsyncErrors(async (req, res, next) => {
@@ -120,6 +127,7 @@ export const getEmployeeImg = catchAsyncErrors(async (req, res, next) => {
 });
 
 
+//TODO: errorHandle 422 Validation error
 // Create new employee: /api/employees
 export const createEmployee = catchAsyncErrors(async (req, res) => {
     try {
