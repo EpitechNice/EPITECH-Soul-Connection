@@ -76,7 +76,7 @@ const Statistics = () => {
       <div className="col-12 col-lg-3">
         <SideMenu />
       </div>
-      <h1 className="text-center mt-1">Statistics</h1>
+      <h1>Statistics</h1>
       <div className="separator"></div>
       <div className="container-statistic">
         <div className="row">

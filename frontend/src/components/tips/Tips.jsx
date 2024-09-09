@@ -20,7 +20,7 @@ const TipsPage = () => {
             <SideMenu />
         </div>
       <h1>Tips</h1>
-      <hr />
+      <div className="separator"></div>
       <div className="tips-grid">
         {tips.map((tip, index) => (
           <div className="tip-card" key={index}>

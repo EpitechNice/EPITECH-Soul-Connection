@@ -15,7 +15,7 @@ const Events = () => {
             <SideMenu />
         </div>
       <h1>Events</h1>
-      <hr />
+      <div className="separator"></div>
       <div className="events-container">
         {/* Map section */}
         <div className="map-section">

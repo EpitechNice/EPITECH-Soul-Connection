@@ -24,9 +24,9 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="pages">
+    <div className="title pages">
       <h1>Soul Connection</h1>
-      <h2>Home</h2>
+      <h2>Dashboard</h2>
         <div className="col-12 col-lg-3">
             <SideMenu />
             </div>
