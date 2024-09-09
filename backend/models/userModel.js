@@ -2,8 +2,9 @@ import sequelize from "../config/dbConfig.js";
 import { Model, DataTypes } from "sequelize";
 import Event from "./eventModel.js";
 import Encounter from "./encounterModel.js";
-import Clothe from "./clothesModel.js";
+import Clothing from "./clothingModel.js";
 import Payment from "./paymentModel.js";
+import Clothing from "./clothingModel.js";
 
 class User extends Model {}
 
@@ -144,14 +145,14 @@ User.belongsTo(User, {
 
 // Interaction between client and clothe
 
-User.belongsToMany(Clothe, {
-    through: "UserClothes",
-    as: "clothes",
+User.belongsToMany(Clothing, {
+    through: "UserClothings",
+    as: "clothings",
     foreignKey: "user_id",
 })
 
-Clothe.belongsToMany(User, {
-    through: "UserClothes",
+Clothing.belongsToMany(User, {
+    through: "UserClothings",
     as: "users",
     foreignKey: "cloth_id",
 })

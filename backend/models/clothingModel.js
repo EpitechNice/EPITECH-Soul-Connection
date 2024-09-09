@@ -1,9 +1,9 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/dbConfig.js";
 
-class Clothes extends Model {}
+class Clothing extends Model {}
 
-Clothes.init({
+Clothing.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -22,12 +22,12 @@ Clothes.init({
     }
 }, {
     sequelize,
-    modelName: "Clothes",
-    tableName: "clothes",
+    modelName: "Clothing",
+    tableName: "Clothings",
     timestamps: true,
 });
 
-export default Clothes;
+export default Clothing;
 
 /*
  * Implicit attributes:

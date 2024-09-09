@@ -4,7 +4,7 @@ import { CookieJar } from "tough-cookie";
 
 import { hashSync, genSaltSync } from "bcrypt";
 
-import Clothes from "../models/clothesModel.js";
+import Clothes from "../models/clothingModel.js";
 import Encounter from "../models/encounterModel.js";
 import Event from "../models/eventModel.js";
 import Payment from "../models/paymentModel.js";
@@ -170,11 +170,14 @@ async function fetchDB() {
                 image_path: UPLOAD_PATH + `customers/${response.data.id}.png`,
                 astrological_sign: response.data.astrological_sign,
                 description: response.data.description,
+                clothes: clothes_array,
+                payments: payments_array,
+                encounters: encounters_array,
             });
 
-            user.clothes = clothes_array;
-            user.payments = payments_array;
-            user.encounters = encounters_array;
+            // user.clothes =  clothes_array;
+            // user.payments = payments_array;
+            // user.encounters = encounters_array;
 
             const imageResponse = await session.get(`/api/customers/${customer.id}/image`, {
                 responseType: "arraybuffer"
