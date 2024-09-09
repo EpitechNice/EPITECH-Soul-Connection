@@ -20,7 +20,7 @@ function App() {
       <div className="App">
         <Header />
 
-        <div className="container">
+        <div className="pages">
           <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />

@@ -1,5 +1,4 @@
     import React, { useState, useEffect } from 'react';
-    import axios from 'axios';
     import SideMenu from '../layout/SideMenu';
 
     const Customers = () => {
@@ -8,15 +7,14 @@
     const [selectedFirstName, setSelectedFirstName] = useState('');
 
     useEffect(() => {
-        const fetchUsers = async () => {
-        try {
-            const response = await axios.get('https://randomuser.me/api/?results=100');
-            setUsers(response.data.results);
-        } catch (error) {
-            console.error('Failed to fetch data:', error);
-        }
-        };
-        fetchUsers();
+        fetch('https://randomuser.me/api/?results=10')
+            .then((response) => response.json())
+            .then((data) => {
+                setUsers(data.results);
+            })
+            .catch((error) => {
+                console.error('Erreur lors de la récupération des données:', error);
+            });
     }, []);
 
     const handleSelectChange = (e) => {
@@ -60,15 +58,15 @@
             <div className="user-card">
             <div className="user-info">
                 <div className="info-item">
-                <img src="../../../assets/User.svg" alt="User Icon" />
+                <img src="../../assets/User.svg" alt="User Icon" />
                 <h3>{selectedUser.name.first} {selectedUser.name.last}</h3>
                 </div>
                 <div className="info-item">
-                <img src="../../../assets/Calendar.svg" alt="Calendar Icon" />
+                <img src="../../assets/Calendar.svg" alt="Calendar Icon" />
                 <h3>{formatDate(selectedUser.dob.date)}</h3>
                 </div>
                 <div className="info-item">
-                <img src="../../../assets/Localisation.svg" alt="Location Icon" />
+                <img src="../../assets/Localisation.svg" alt="Location Icon" />
                 <h3>{formatLocalisation(selectedUser.location)}</h3>
                 </div>
             </div>
