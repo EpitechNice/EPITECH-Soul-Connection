@@ -6,7 +6,7 @@ import { isAuth } from "../middlewares/userAuthentication.js";
 const router = express.Router();
 
 router.route("/clothes/:id/image").get(isAuth, getClothesImg);
-router.route("/wardrobe").get(isAuth, getClothes);
+router.route("/clothes").get(isAuth, getClothes);
 
 
 export default router;

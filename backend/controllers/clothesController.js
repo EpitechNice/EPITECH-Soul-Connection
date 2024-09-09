@@ -7,7 +7,7 @@ import Clothes from "../models/clothesModel.js"
 export const getClothes = catchAsyncErrors(async(req, res, next) => {
     try {
         const hat = await Clothes.findAll({
-            where: {type: "hat/cap"}
+            where: {type: "hat"}
         });
 
         const bottom = await Clothes.findAll({

@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
-import { hashSync, genSaltSync } from "bcrypt";
-import { compareSync } from "bcrypt";
+import { hashSync, genSaltSync, compareSync } from "bcrypt";
 import { randint } from "../utils/randInt.js";
 import ErrorHandler from "../utils/errorHandler.js"
 import { isEmail } from "../utils/typeValidator.js";
