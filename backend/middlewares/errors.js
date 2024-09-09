@@ -6,11 +6,11 @@ export default (err, req, res, next) => {
         message: err?.message || "Internal Server Error",
     };
 
-    // Handle Invalid Sequelize ID Error
-    if (err instanceof Sequelize.ValidationError) {
-        const message = `Resource not found. Invalid ${err.path}`;
-        error = new ErrorHandler(message, 404);
-    }
+    // // Handle Invalid Sequelize ID Error
+    // if (err instanceof Sequelize.ValidationError) {
+    //     const message = `Resource not found. Invalid ${err.path}`;
+    //     error = new ErrorHandler(message, 404);
+    // }
 
     //Handle Validation Error
     if (err.name === "ValidationError") {

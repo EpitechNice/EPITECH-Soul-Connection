@@ -27,10 +27,12 @@ app.use(cookieParser());
 import employeeRoutes from "./routes/employeeRoutes.js";
 import customerRoutes from "./routes/customerRoutes.js";
 import clothesRoutes from "./routes/clothesRoutes.js";
+import eventRoutes from "./routes/eventRoutes.js";
 
 app.use("/api", employeeRoutes);
 app.use("/api", customerRoutes);
 app.use("/api", clothesRoutes);
+app.use("/api", eventRoutes);
 
 //Using error middleware
 app.use(errorMiddleware);

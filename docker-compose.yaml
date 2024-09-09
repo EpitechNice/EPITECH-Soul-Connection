@@ -12,25 +12,25 @@ services:
     volumes:
       - "./data/db/:/var/lib/mysql"
 
-  # backend:
-  #   build:
-  #     context: ./
-  #     dockerfile: Dockerfile
-  #   container_name: soul-connection-backend
-  #   restart: always
-  #   environment:
-  #     STATUS: ${STATUS}
-  #     DB_HOST: ${DB_HOST}
-  #     DB_USER: ${DB_USER}
-  #     DB_PASS: ${DB_PASS}
-  #     DB_NAME: ${DB_NAME}
-  #   networks:
-  #     soul-connection:
-  #       ipv4_address: ${BACK_HOST}
-  #   volumes:
-  #     - "./data/images/:/usr/src/app/images/"
-  #   depends_on:
-  #     - db
+  backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: soul-connection-backend
+    restart: always
+    environment:
+      STATUS: ${STATUS}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+    networks:
+      soul-connection:
+        ipv4_address: ${BACK_HOST}
+    volumes:
+      - "./data/images/:/usr/src/app/images/"
+    depends_on:
+      - db
 
 networks:
   soul-connection:
