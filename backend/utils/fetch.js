@@ -4,7 +4,7 @@ import { CookieJar } from "tough-cookie";
 
 import { hashSync, genSaltSync } from "bcrypt";
 
-import Clothes from "../models/clothingModel.js";
+import Clothing from "../models/clothingModel.js";
 import Encounter from "../models/encounterModel.js";
 import Event from "../models/eventModel.js";
 import Payment from "../models/paymentModel.js";
@@ -36,14 +36,14 @@ async function retreiveData(session, url, requiredField) {
 }
 
 async function addClothe(session, type, id) {
-    let clothe = await Clothes.findByPk(id);
+    let clothe = await Clothing.findByPk(id);
     if (clothe !== undefined)
         return clothe;
     const imageResponse = await session.get(`/api/clothes/${id}/image`, {
         responseType: "arraybuffer"
     });
     fs.writeFileSync(UPLOAD_PATH + `clothes/${clothe.id}.png`, imageResponse.data);
-    return await Clothes.create({
+    return await Clothing.create({
         id: id,
         type: type,
         image_path: UPLOAD_PATH + `clothes/${clothe.id}.png`
@@ -185,7 +185,7 @@ async function fetchDB() {
                 description: response.data.description,
             });
 
-            await userObject[0].addClothes(clothes_array);
+            await userObject[0].addClothings(clothes_array);
             await userObject[0].addPayments(payments_array);
             await userObject[0].addEncounters(encounters_array);
         } catch (err) {

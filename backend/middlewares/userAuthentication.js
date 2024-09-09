@@ -18,7 +18,7 @@ export const isAuth = catchAsyncErrors(async (req, res, next) => {
     next();
 });
 
-export const authorizeRoles = (...types) => {
+export const  authorizeRoles = (...types) => {
     return (req, res, next) => {
         if (!types.includes(req.user.type)) {
             return next(new ErrorHandler(`Role '${req.user.type}' is not allowed to access this ressource`, 403));

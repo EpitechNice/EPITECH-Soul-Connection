@@ -62,7 +62,7 @@ export const loginEmployee = catchAsyncErrors(async (req, res, next) => {
         name: luser.name,
         surname: luser.surname,
     },
-    process.env.SECRET_KEY,
+    process.env.JWT_SECRET,
     {
         expiresIn: 3 * 7 * 24 * 60 * 60,
     });
@@ -121,7 +121,6 @@ export const getEmployeeImg = catchAsyncErrors(async (req, res, next) => {
 });
 
 
-//
 // Create new employee: /api/employees
 export const createEmployee = catchAsyncErrors(async (req, res) => {
     try {

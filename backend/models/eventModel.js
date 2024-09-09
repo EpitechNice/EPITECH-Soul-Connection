@@ -20,11 +20,6 @@ Event.init({
         allowNull: false,
     },
 
-    duration: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-
     max_participants: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -69,5 +64,5 @@ export default Event;
 
 /*
  * Implicit attributes:
- * - employee
+ * - client_list
 */

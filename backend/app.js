@@ -15,9 +15,7 @@ process.on("uncaughtException", (err) => {
 
 dotenv.config({path: 'backend/config/config.env'});
 
-//TODO : Add DB connect
-//[ERROR] Could not connect to DB at the time: connect ECONNREFUSED 127.0.0.1:3306
-// createDB();
+createDB();
 
 //Json middleware
 app.use(express.json({ limit: "10mb" }));
@@ -29,10 +27,14 @@ app.use(cookieParser());
 import employeeRoutes from "./routes/employeeRoutes.js";
 import customerRoutes from "./routes/customerRoutes.js";
 import clothesRoutes from "./routes/clothesRoutes.js";
+import eventRoutes from "./routes/eventRoutes.js";
+import tipRoutes from "./routes/tipRoutes.js";
 
 app.use("/api", employeeRoutes);
 app.use("/api", customerRoutes);
 app.use("/api", clothesRoutes);
+app.use("/api", eventRoutes);
+app.use("/api", tipRoutes);
 
 //Using error middleware
 app.use(errorMiddleware);
