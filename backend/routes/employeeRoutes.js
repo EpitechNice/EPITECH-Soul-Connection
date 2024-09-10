@@ -5,7 +5,7 @@ import { isAuth, authorizeRoles } from "../middlewares/userAuthentication.js";
 
 const router = express.Router();
 
-router.route("/employees").get(isAuth, getEmployees);
+router.route("/employees").get(getEmployees);
 router.route("/employees/login").post(loginEmployee);
 router.route("/employees/me").get(isAuth, getEmployeeProfile);
 router.route("/employees/:id").get(isAuth, getEmployeeDetails);

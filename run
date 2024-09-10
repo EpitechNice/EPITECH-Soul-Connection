@@ -19,7 +19,7 @@ $SUDO_ACCESS docker rm soul-connection-db soul-connection-backend soul-connectio
 
 $SUDO_ACCESS docker network rm soul-connection
 $SUDO_ACCESS docker network create --gateway 172.20.0.1 --subnet 172.20.0.0/24 soul-connection
-$SUDO_ACCESS docker rmi -f epitech-soul-connection-backend epitech-soul-connection-frontend
+$SUDO_ACCESS docker rmi -f epitech-soul-connection-backend epitech-soul-connection-frontend epitech-soul-connection-backend:lastest epitech-soul-connection-frontend:lastest
 
 ./scripts/read_env.py > ./frontend/.env || exit 1
 

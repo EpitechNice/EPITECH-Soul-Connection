@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 const Tips = () => {
     const { data, isLoading, error, isError } = useGetTipsQuery();
 
-    //Toast error alert
     useEffect(() => {
         if (isError) {
             toast.error(error?.data?.message);
@@ -17,15 +16,20 @@ const Tips = () => {
     if (isLoading) return <Loader />;
 
     return (
-        <div>
+        <div className="tips-page pages">
             <div className="col-12 col-lg-3">
                 <SideMenu />
             </div>
-            <p className="text-center mt-1">
-                Tips
-            </p>
+          <h1>Tips</h1>
+          <div className="separator"></div>
+          <div className="tips-grid">
+            {/* ici */}
+              <div className="tip-card" key={index}>
+                <p>{tip}</p>
+              </div>
+            ))}
+          </div>
         </div>
-    );
-};
-
+      );
+    };
 export default Tips;
