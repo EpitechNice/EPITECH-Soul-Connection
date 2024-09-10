@@ -584,6 +584,10 @@ hr {
   grid-template-columns: repeat(6, minmax(0, auto));
 }
 
+.event-home {
+  grid-template-columns: repeat(5, minimax(0, auto));
+}
+
 .user-table-header,
 .user-table-row {
   display: contents;
