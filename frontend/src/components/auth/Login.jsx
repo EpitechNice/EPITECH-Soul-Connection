@@ -12,18 +12,17 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    const [login, { isLoading, error, data }] = useLoginMutation();
-    // const { isAuthenticated } = useSelector((state) => state.auth);
+    const [login, { isLoading, error }] = useLoginMutation();
+    const { isAuthenticated } = useSelector((state) => state.auth);
 
     useEffect(() => {
-      // if (isAuthenticated) {
-      //   navigate("/");
-      // }
+      if (isAuthenticated) {
+        navigate("/home");
+      }
       if (error) {
         toast.error(error?.data?.message);
       }
-    }, [error]);
-    // }, [error, isAuthenticated, navigate]);
+    }, [error, isAuthenticated, navigate]);
 
     const submitHandler = (e) => {
       e.preventDefault();
@@ -72,7 +71,7 @@ const Login = () => {
             </div>
 
             <button
-              className="login_button"
+              id="login_button"
               type="submit"
               className="btn w-100 py-2"
               disabled={isLoading}
