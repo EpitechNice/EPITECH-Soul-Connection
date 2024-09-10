@@ -37,17 +37,22 @@ async function retreiveData(session, url, requiredField) {
 
 async function addClothe(session, type, id) {
     let clothe = await Clothes.findByPk(id);
-    if (clothe !== undefined)
+    if (clothe !== null)
         return clothe;
     const imageResponse = await session.get(`/api/clothes/${id}/image`, {
         responseType: "arraybuffer"
     });
-    fs.writeFileSync(UPLOAD_PATH + `clothes/${clothe.id}.png`, imageResponse.data);
+    fs.writeFileSync(UPLOAD_PATH + `clothes/${id}.png`, imageResponse.data);
     return await Clothes.create({
         id: id,
         type: type,
-        image_path: UPLOAD_PATH + `clothes/${clothe.id}.png`
+        image_path: UPLOAD_PATH + `clothes/${id}.png`
     });
+}
+
+async function addEncounter(session, id) {
+    let response = await retreiveData(session, `/api/encounters/${id}`, "comment");
+    return await Encounter.upsert(response.data);
 }
 
 async function fetchDB() {
@@ -90,6 +95,8 @@ async function fetchDB() {
     const me = await retreiveData(session, "/api/employees/me", "id");
 
     console.log("\x1b[32m%s\x1b[0m", `[INFO] Hello ${me.data.name} ${me.data.surname}`);
+
+    // Actual downloads
 
     console.log("\x1b[92m%s\x1b[0m", "[INFO] === Retreiving tips ===");
 
@@ -147,9 +154,9 @@ async function fetchDB() {
 
     await Promise.all(allcustomers.data.map(async (customer, i) => {
         try {
-            let clothes = await retreiveData(session, `/api/customers/${customer.id}/clothes`, 0).data;
-            let payments = await retreiveData(session, `/api/customers/${customer.id}/payments_history`, 0).data;
-            let encounters = await retreiveData(session, `/api/encounters/customer/${customer.id}`, 0).data;
+            let clothes = (await retreiveData(session, `/api/customers/${customer.id}/clothes`, 0)).data;
+            let payments = (await retreiveData(session, `/api/customers/${customer.id}/payments_history`, 0)).data;
+            let encounters = (await retreiveData(session, `/api/encounters/customer/${customer.id}`, 0)).data;
             const response = await retreiveData(session, `/api/customers/${customer.id}`, "id");
 
             let clothes_array = [];
@@ -160,7 +167,7 @@ async function fetchDB() {
             let encounters_array = [];
 
             for (let encounter in encounters)
-                encounters_array.push((await Encounter.upsert(encounters[encounter]))[0]);
+                encounters_array.push(await addEncounter(session, encounters[encounter].id));
 
             let payments_array = [];
 
@@ -172,7 +179,7 @@ async function fetchDB() {
             });
             fs.writeFileSync(UPLOAD_PATH + `customers/${customer.id}.png`, imageResponse.data);
 
-            let userObject = await Customer.upsert({
+            let userObject = (await Customer.upsert({
                 id: response.data.id,
                 email: response.data.email,
                 type: "Client",
@@ -183,14 +190,13 @@ async function fetchDB() {
                 image_path: UPLOAD_PATH + `customers/${response.data.id}.png`,
                 astrological_sign: response.data.astrological_sign,
                 description: response.data.description,
-                clothes: clothes_array,
-                payments: payments_array,
-                encounters: encounters_array,
-            });
+            }))[0];
 
-            await userObject[0].addClothings(clothes_array);
-            await userObject[0].addPayments(payments_array);
-            await userObject[0].addEncounters(encounters_array);
+            if (userObject[0] !== undefined) {
+                await userObject[0].addClothings(clothes_array);
+                await userObject[0].addPayments(payments_array);
+                await userObject[0].addEncounters(encounters_array);
+            }
         } catch (err) {
             console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retrieve data or image for customer ${customer.id}: ${err}`);
         }
