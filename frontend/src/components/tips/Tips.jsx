@@ -6,13 +6,14 @@ import toast from "react-hot-toast";
 
 const Tips = () => {
     const { data, isLoading, error, isError } = useGetTipsQuery();
+    console.log(data);
 
     //Toast error alert
     useEffect(() => {
         if (isError) {
             toast.error(error?.data?.message);
         }
-    }, [isError]);
+    }, [isError, error?.data?.message]);
 
     if (isLoading) return <Loader />;
 

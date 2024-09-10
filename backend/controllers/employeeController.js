@@ -39,8 +39,6 @@ export const getEmployees = catchAsyncErrors(async (req, res, next) => {
     }
 });
 
-//TODO: Validation Error
-//DONE: Could not reproduce with valid logins
 //Login employee: /api/employees/login
 export const loginEmployee = catchAsyncErrors(async (req, res, next) => {
     const { email, password } = req.body;
@@ -91,7 +89,7 @@ export const getEmployeeProfile = catchAsyncErrors(async (req, res, next) => {
         const userId = decoded.id;
         const employee = await Employee.findOne({
             where: { id: userId },
-            attributes: { exclude: ['password'] } // Nice
+            attributes: { exclude: ['password'] }
         });
 
         if (!employee) {
