@@ -7,7 +7,7 @@ import { employeeType } from "../models/employeeModel.js";
 const router = express.Router();
 
 router.route("/employees").get(isAuth, getEmployees);
-router.route("/employees/login").post(isAuth, loginEmployee);
+router.route("/employees/login").post(loginEmployee);
 router.route("/employees/me").get(isAuth, getEmployeeProfile);
 router.route("/employees/:id").get(isAuth, getEmployeeDetails);
 router.route("/employees/:id/image").get(isAuth, getEmployeeImg);
