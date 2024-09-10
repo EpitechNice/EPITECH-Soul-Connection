@@ -7,6 +7,13 @@ const sequelize = new Sequelize({
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     port: 3306,
+    define: {
+        charset: "utf8mb4",
+        collate: "utf8mb4_unicode_ci"
+    },
+    dialectOptions: {
+        charset: 'utf8mb4',
+    },
 });
 
 export default sequelize;

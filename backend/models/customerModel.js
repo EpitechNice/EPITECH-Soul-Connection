@@ -55,43 +55,6 @@ Customer.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
-
-    // coach_id: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: false,
-    //     defaultValue: -1,
-    //     references: {
-    //         model: "employees",
-    //         key: "id",
-    //     }
-    // },
-
-    // cloth_id: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: false,
-    //     references: {
-    //         model: "clothings",
-    //         key: "id",
-    //     }
-    // },
-
-    // encounter_id: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: true,
-    //     references: {
-    //         model: "encounters",
-    //         key: "id",
-    //     }
-    // },
-
-    // payment_id: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: false,
-    //     references: {
-    //         model: "payments",
-    //         key: "id",
-    //     }
-    // },
 }, {
     sequelize,
     modelName: "Customer",
