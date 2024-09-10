@@ -36,9 +36,9 @@ const Login = () => {
   };
 
     return (
-      <div className="row wrapper">
+      <div className="page-container">
         <div className="col-10 col-lg-5">
-          <form className="shadow rounded bg-body"
+          <form className="login_card"
           onSubmit={submitHandler}
           >
             <h2 className="mb-4">Login</h2>
@@ -73,7 +73,6 @@ const Login = () => {
             <button
               id="login_button"
               type="submit"
-              className="btn w-100 py-2"
               disabled={isLoading}
             >
             {isLoading ? "Authenticating..." : "Login"}

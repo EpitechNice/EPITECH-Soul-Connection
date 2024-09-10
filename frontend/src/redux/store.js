@@ -7,6 +7,7 @@ import { employeeApi } from "./api/employeeApi.js";
 import { tipApi } from "./api/tipApi.js";
 import { customerApi } from "./api/customerApi.js";
 import { userApi } from "./api/userApi.js";
+import { eventApi } from "./api/eventApi.js";
 
 
 export const store = configureStore({
@@ -17,6 +18,7 @@ export const store = configureStore({
     [tipApi.reducerPath]: tipApi.reducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
     [customerApi.reducerPath]: customerApi.reducer,
+    [eventApi.reducerPath]: eventApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
@@ -25,6 +27,7 @@ export const store = configureStore({
       userApi.middleware,
       authApi.middleware,
       customerApi.middleware,
+      eventApi.middleware,
       employeeApi.middleware,
     ]),
 });

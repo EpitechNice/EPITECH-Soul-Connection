@@ -1,8 +1,11 @@
-import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import React, { useRef, useState, useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import SideMenu from "../layout/SideMenu";
 import L from 'leaflet';
+import { useGetEventsQuery } from '../../redux/api/eventApi';
+import toast from 'react-hot-toast';
+import Loader from '../layout/Loader';
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -21,13 +24,38 @@ const center = {
   lng: 2.2769956,
 };
 
+const formatDateTime = (dateTimeString) => {
+  const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+  return new Date(dateTimeString).toLocaleDateString('fr-FR', options);
+};
+
 const Events = () => {
-  const events = [
-    { name: 'Speed dating', location: 'Café Michel', lat: 48.8566, lng: 2.3522, date: '22/04/2024', maxParticipants: 20 },
-    { name: 'Speed dating', location: 'Café des Amis', lat: 48.864716, lng: 2.349014, date: '23/04/2024', maxParticipants: 15 },
-    { name: 'Speed dating', location: 'Café de Flore', lat: 48.8588443, lng: 2.2943506, date: '24/04/2024', maxParticipants: 30 },
-    { name: 'Speed dating', location: 'Café des Arts', lat: 48.853, lng: 2.3499, date: '25/04/2024', maxParticipants: 25 },
-  ];
+  const { data, isLoading, error, isError } = useGetEventsQuery();
+  const [selectedLocation, setSelectedLocation] = useState(center);
+  const mapRef = useRef(null);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(error?.data?.message);
+    }
+  }, [isError, error]);
+
+  if (isLoading) return <Loader />;
+
+  const eventArray = Array.isArray(data) ? data : data?.events || [];
+
+  const handleCardClick = (location) => {
+    setSelectedLocation(location);
+  };
+
+  const MapUpdater = () => {
+    const map = useMap();
+    useEffect(() => {
+      map.setView(selectedLocation, map.getZoom());
+    }, [selectedLocation, map]);
+
+    return null;
+  };
 
   return (
     <div className="events-page pages">
@@ -43,33 +71,42 @@ const Events = () => {
             center={center} 
             zoom={12} 
             scrollWheelZoom={false}
+            whenCreated={mapInstance => { mapRef.current = mapInstance; }}
           >
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-            {events.map((event, index) => (
-              <Marker key={index} position={[event.lat, event.lng]}>
-                <Popup>
-                  <b>{event.name}</b><br />
-                  {event.location}<br />
-                  Max participants: {event.maxParticipants}
-                </Popup>
-              </Marker>
+            {eventArray.map((event, index) => (
+              event.location_y && event.location_x && (
+                <Marker key={index} position={[event.location_y, event.location_x]}>
+                  <Popup>
+                    <b>{event.name}</b><br />
+                    {event.location}<br />
+                    Max participants: {event.max_participants}
+                  </Popup>
+                </Marker>
+              )
             ))}
+            <MapUpdater />
           </MapContainer>
         </div>
 
         <div className="events-list">
-          {events.map((event, index) => (
-            <div className="event-card" key={index}>
+          {eventArray.map((event, index) => (
+            <div 
+              className="event-card" 
+              key={index}
+              onClick={() => handleCardClick({ lat: event.location_y, lng: event.location_x })}
+              style={{ cursor: 'pointer' }}
+            >
               <div className="event-details">
                 <h3>{event.name}</h3>
-                <p>📍 {event.location}</p>
-                <p>Max participants: {event.maxParticipants}</p>
+                <p>📍 {event.location_name}</p>
+                <p>Max participants: {event.max_participants}</p>
               </div>
               <div className="event-date">
-                <p>{event.date}</p>
+                <p>{formatDateTime(event.date)}</p>
               </div>
             </div>
           ))}
