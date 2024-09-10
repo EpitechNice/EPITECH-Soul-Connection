@@ -15,17 +15,20 @@ const Customers = () => {
 
     useEffect(() => {
         if (data) {
-            setUsers(data);
+            setUsers(data.customers || []);
         }
         if (isError) {
             toast.error(error?.data?.message || "An error occurred.");
         }
-    }, [data, isError, error]);
+    }, [data, isError, error, isLoading]);
+
+    const CustomersArray = Array.isArray(users) ? users : [];
 
     const handleSelectChange = (e) => {
-        setSelectedFirstName(e.target.value);
-        const user = users.find(user => user.name.first === e.target.value);
-        setSelectedUser(user || null);
+        const selectedFirstName = e.target.value;
+        setSelectedFirstName(selectedFirstName);
+        const selectedUser = CustomersArray.find(user => user.name.first === selectedFirstName);
+        setSelectedUser(selectedUser);
     };
 
     const formatDate = (dateString) => {
@@ -53,9 +56,9 @@ const Customers = () => {
             <div className="selector-container">
                 <select value={selectedFirstName} onChange={handleSelectChange}>
                     <option value="" disabled>Select Customer</option>
-                    {users.map(user => (
-                        <option key={user.login.uuid} value={user.name.first}>
-                            {user.name.first} {user.name.last}
+                    {CustomersArray.map(user => (
+                        <option value={user.name}>
+                            {user.name} {user.surname}
                         </option>
                     ))}
                 </select>
@@ -66,7 +69,7 @@ const Customers = () => {
                     <div className="user-info">
                         <div className="info-item">
                             <img src={IconUser} alt="User Icon" />
-                            <h3>{selectedUser.name.first} {selectedUser.name.last}</h3>
+                            <h3>{selectedUser.name} {selectedUser.surname}</h3>
                         </div>
                         <div className="info-item">
                             <img src={IconCalendar} alt="Calendar Icon" />

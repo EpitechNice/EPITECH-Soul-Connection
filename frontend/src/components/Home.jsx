@@ -13,7 +13,7 @@ const Home = () => {
     labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
     datasets: [
       {
-        label: 'Nombre d\'événements',
+        label: 'Nombre d\'evenements',
         data: [12, 19, 3, 5, 2, 3, 7],
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         borderColor: 'rgba(75, 192, 192, 1)',
@@ -43,6 +43,11 @@ const Home = () => {
       }
     }
   };
+
+  const formatDateTime = (dateTimeString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    return new Date(dateTimeString).toLocaleDateString('fr-FR', options);
+  };  
 
   useEffect(() => {
     if (isError) {
@@ -74,7 +79,7 @@ const Home = () => {
                         <div className="user-table-header-cell">Event</div>
                         <div className="user-table-header-cell">Localisation</div>
                         <div className="user-table-header-cell">Period</div>
-                        <div className="user-table-header-cell">Participants</div>
+                        <div className="user-table-header-cell">Places</div>
                         <div className="user-table-header-cell">Type</div>
                     </div>
                     <div className="user-table-body">
@@ -83,8 +88,8 @@ const Home = () => {
                                 <div className="user-table-cell">{index + 1}</div>
                                 <div className="user-table-cell">{event.name}</div>
                                 <div className="user-table-cell">{event.location_name}</div>
-                                <div className="user-table-cell">{event.period}</div>
-                                <div className="user-table-cell">{event.participants}</div>
+                                <div className="user-table-cell">{formatDateTime(event.date)}</div>
+                                <div className="user-table-cell">{event.max_participants}</div>
                                 <div className="user-table-cell">{event.type}</div>
                             </div>
                         ))}

@@ -20,11 +20,6 @@ const Employees = () => {
     };
 
     useEffect(() => {
-        console.log("Data:", data);
-        console.log("Is Loading:", isLoading);
-        console.log("Is Error:", isError);
-        console.log("Error:", error);
-
         if (data) {
             setUsers(data.coach || []);
         }
