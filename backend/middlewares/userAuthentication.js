@@ -9,7 +9,7 @@ export const isAuth = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler("Login required to access this resource", 401));
 
     var cookie = req.cookies.token;
-    const decoded = jwt.verify(cookie, process.env.JWT_SECRET);
+    const decoded = jwt.verify(cookie, process.env.SECRET_KEY);
 
     req.user = await Employee.findByPk(decoded.id);
     next();

@@ -3,6 +3,8 @@ import ErrorHandler from "../utils/errorHandler.js"
 import Customer from "../models/customerModel.js"
 import Employee from "../models/employeeModel.js";
 
+import * as jwt from "jsonwebtoken";
+
 async function getAllClients(req, res, next) {
     try {
         const customers = await Customer.findAll({
@@ -50,7 +52,7 @@ async function getCoachClients(req, res, next) {
 export const getCustomers = catchAsyncErrors(async (req, res, next) => {
     try {
         var cookie = req.cookies.token;
-        const decoded = jwt.verify(cookie, process.env.JWT_SECRET);
+        const decoded = jwt.verify(cookie, process.env.SECRET_KEY);
         const userId = decoded.id;
         const user = await Customer.findByPk(userId);
 

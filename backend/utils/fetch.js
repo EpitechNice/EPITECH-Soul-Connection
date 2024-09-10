@@ -188,7 +188,7 @@ async function fetchDB() {
                 encounters: encounters_array,
             });
 
-            await userObject[0].addClothes(clothes_array);
+            await userObject[0].addClothings(clothes_array);
             await userObject[0].addPayments(payments_array);
             await userObject[0].addEncounters(encounters_array);
         } catch (err) {

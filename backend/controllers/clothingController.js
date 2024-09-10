@@ -1,6 +1,6 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import ErrorHandler from "../utils/errorHandler.js"
-import clothing from "../models/clothingModel.js"
+import Clothing from "../models/clothingModel.js"
 
 
 //Wardrobe : /api/wardrobe

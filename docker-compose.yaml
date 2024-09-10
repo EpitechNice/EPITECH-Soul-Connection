@@ -8,7 +8,7 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
     networks:
       soul-connection:
-        ipv4_address: ${DB_HOST}
+        ipv4_address: 172.20.0.2 #${DB_HOST}
     volumes:
       - "./data/db/:/var/lib/mysql"
 
@@ -19,11 +19,14 @@ services:
     container_name: soul-connection-backend
     restart: always
     environment:
+      LOCAL_PORT: ${LOCAL_PORT}
+      NODE_ENV: ${NODE_ENV}
       STATUS: ${STATUS}
       DB_HOST: ${DB_HOST}
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
       DB_NAME: ${DB_NAME}
+      SECRET_KEY: ${SECRET_KEY}
     networks:
       soul-connection:
         ipv4_address: ${BACK_HOST}
