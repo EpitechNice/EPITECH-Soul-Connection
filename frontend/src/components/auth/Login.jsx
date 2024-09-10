@@ -37,9 +37,9 @@ const Login = () => {
   };
 
     return (
-      <div className="row wrapper">
+      <div className="page-container">
         <div className="col-10 col-lg-5">
-          <form className="shadow rounded bg-body"
+          <form className="login_card"
           onSubmit={submitHandler}
           >
             <h2 className="mb-4">Login</h2>
