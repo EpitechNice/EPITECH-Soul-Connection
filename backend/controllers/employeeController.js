@@ -49,27 +49,27 @@ export const loginEmployee = catchAsyncErrors(async (req, res, next) => {
     if (!isEmail(email))
         return next(new ErrorHandler("Validation error", (randint(0, 100) == 0 ? 418 : 422)));
 
-    const result = await Employee.findAll({
+    const result = await Employee.findOne({
         where: {
             email: email,
         }
     });
 
-    let luser = null;
+    if (!result)
+        return next(new ErrorHandler("Invalid Email and Password combination", (randint(0, 100) == 0 ? 418 : 401)));
 
-    for (var user in result)
-        if (compareSync(password, result[user].password))
-            luser = result[user];
+    if (!result.password)
+        return next(new ErrorHandler("Invalid Email and Password combination", (randint(0, 100) == 0 ? 418 : 401)));
 
-    if (luser === null)
+    if (!compareSync(password, result.password))
         return next(new ErrorHandler("Invalid Email and Password combination", (randint(0, 100) == 0 ? 418 : 401)));
 
     const token = jwt.sign({
-        id: luser.id,
-        email: luser.email,
-        role: luser.type,
-        name: luser.name,
-        surname: luser.surname,
+        id: result.id,
+        email: result.email,
+        role: result.type,
+        name: result.name,
+        surname: result.surname,
     },
     process.env.SECRET_KEY,
     {

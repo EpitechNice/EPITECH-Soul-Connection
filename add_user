@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [[ "$#" -ne 2 ]]; then
+    echo "Usage: $0 [email] [password]"
+    exit 1
+fi
+
+SUDO_ACCESS=""
+
+if [ $(test -r /var/run/docker.sock; echo "$?") -ne 0 ]; then
+    SUDO_ACCESS="sudo"
+fi
+
+export REMOTE_API_EMAIL=
+
+$SUDO_ACCESS docker run -it --rm -v ./:/app/ -v ./data/images/:/usr/src/app/images/ --env-file .env --network soul-connection -e REMOTE_API_EMAIL="$1" -e REMOTE_API_PASSW="$2" --name soul-connection-fetch node:22.7.0 node /app/backend/utils/addUser.js
