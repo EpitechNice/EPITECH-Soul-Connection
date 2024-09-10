@@ -9,10 +9,12 @@ export const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,
     [tipApi.reducerPath]: tipApi.reducer,
+    [employeeApi.reducerPath]: employeeApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
       tipApi.middleware,
+      employeeApi.middleware,
       authApi.middleware,
     ]),
 });
