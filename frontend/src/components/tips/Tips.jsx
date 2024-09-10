@@ -7,23 +7,31 @@ import toast from "react-hot-toast";
 const Tips = () => {
     const { data, isLoading, error, isError } = useGetTipsQuery();
 
-    //Toast error alert
     useEffect(() => {
         if (isError) {
             toast.error(error?.data?.message);
         }
-    }, [isError]);
+    }, [isError, error]);
 
     if (isLoading) return <Loader />;
 
+    const tipsArray = Array.isArray(data) ? data : data?.tips;
+
     return (
-        <div>
+        <div className="tips-page pages">
             <div className="col-12 col-lg-3">
                 <SideMenu />
             </div>
-            <p className="text-center mt-1">
-                Tips
-            </p>
+            <h1>Tips</h1>
+            <div className="separator"></div>
+            <div className="tips-grid">
+                {tipsArray?.map((tip, index) => (
+                    <div className="tip-card" key={index}>
+                        <h3>{tip.title}</h3>
+                        <p>{tip.tip}</p>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

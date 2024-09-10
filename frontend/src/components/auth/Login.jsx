@@ -10,7 +10,7 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const [login, { isLoading, error, data }] = useLoginMutation();
     // const { isAuthenticated } = useSelector((state) => state.auth);
@@ -72,7 +72,7 @@ const Login = () => {
             </div>
 
             <button
-              id="login_button"
+              className="login_button"
               type="submit"
               className="btn w-100 py-2"
               disabled={isLoading}
@@ -81,8 +81,8 @@ const Login = () => {
             </button>
 
           </form>
-        </div>
       </div>
+    </div>
     );
 };
 
