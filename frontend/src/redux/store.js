@@ -7,11 +7,13 @@ import { tipApi } from "./api/tipApi.js";
 
 export const store = configureStore({
   reducer: {
+    [authApi.reducerPath]: authApi.reducer,
     [tipApi.reducerPath]: tipApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
       tipApi.middleware,
+      authApi.middleware,
     ]),
 });
 
