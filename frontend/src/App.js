@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast"
 
 import './App.css'
 import Header from "./components/layout/Header";
@@ -7,17 +8,13 @@ import Home from "./components/Home"
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import Employees from "./components/employees/Employee";
-import Compatibility from "./components/compatibility/Compatibility";
-import Statistics from "./components/statistics/Statistic";
 import Tips from "./components/tips/Tips";
-import Events from "./components/event/Event";
-import Clothes from "./components/clothes/Clothes";
-import Customers from "./components/customers/Customers";
 
 function App() {
   return (
     <Router>
       <div className="App">
+        <Toaster position="top-right" />
         <Header />
 
         <div className="pages">
@@ -53,11 +50,11 @@ function App() {
           <Route path="/encounters" element={ } />
           <Route path="/encounters/:id" element={ } />
           <Route path="/encounters/customers/:id" element={ } />
-          <Route path="/tips" element={ } />
           <Route path="/events" element={ } />
           <Route path="/events/:id" element={ } />
           <Route path="/clothes" element={ } />
           <Route path="/clothes/:id/image" element={ } /> */}
+          <Route path="/tips" element={ <Tips /> } />
           </Routes>
         </div>
 

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import ErrorHandler from "../utils/errorHandler.js";
 import catchAsyncErrors from "./catchAsyncErrors.js";
-import User from "../models/userModel.js";
+import Employee from "../models/employeeModel.js";
 
 //Check if user is auth
 export const isAuth = catchAsyncErrors(async (req, res, next) => {
@@ -11,10 +11,7 @@ export const isAuth = catchAsyncErrors(async (req, res, next) => {
     var cookie = req.cookies.token;
     const decoded = jwt.verify(cookie, process.env.JWT_SECRET);
 
-    if (!decoded)
-        return next(new ErrorHandler("Node weird refuse", 401));
-
-    req.user = await User.findByPk(decoded.id);
+    req.user = await Employee.findByPk(decoded.id);
     next();
 });
 

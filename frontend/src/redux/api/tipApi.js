@@ -1,18 +1,15 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const tipApi = createApi({
     reducerPath: "tipApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
+    baseQuery: fetchBaseQuery({ baseUrl: "/api"}),
+    keepUnusedDataFor: 30,
     endpoints: (builder) => ({
-      getTips: builder.query({
-        query: (params) => ({
-          url: "/tips",
-        }),
-      }),
-      getTipDetails: builder.query({
-        query: (id) => `/tips/${id}`,
-      }),
-    }),
-  });
+        getTips: builder.query({
+            query: () => "/tips",
+        })
+    })
+})
 
-export const { useGetTipsQuery, useGetTipDetailsQuery } = tipApi;
+//Hook
+export const { useGetTipsQuery } = tipApi;

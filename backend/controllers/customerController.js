@@ -1,13 +1,12 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import ErrorHandler from "../utils/errorHandler.js"
-import User from "../models/userModel.js"
+import Customer from "../models/customerModel.js"
+import Employee from "../models/employeeModel.js";
 
 async function getAllClients(req, res, next) {
     try {
-        const customers = await User.findAll({
-            where: {
-                type: "Client"
-            }
+        const customers = await Customer.findAll({
+            attributes: { exclude: ['password'] }
         });
 
         res.status(200).json({
@@ -23,16 +22,15 @@ async function getCoachClients(req, res, next) {
     try {
         const userId = req.user?.id;
 
-        const allclient = await User.findAll({
-            where: {type: "Client"}
+        const allclient = await Customer.findAll({
+            attributes: { exclude: ['password'] }
         });
 
-        const coach = await User.findOne({
-            where: { id: userId, type: "Coach" },
+        const coach = await Employee.findOne({
+            where: { id: userId },
             include: {
-                model: User,
+                model: Customer,
                 as: "client_list",
-                where: { type: "Client" },
                 required: false,
             },
         });
@@ -51,10 +49,13 @@ async function getCoachClients(req, res, next) {
 // Display all customers: /api/customers
 export const getCustomers = catchAsyncErrors(async (req, res, next) => {
     try {
-        const user = await User.findByPk(req.user?.id);
+        var cookie = req.cookies.token;
+        const decoded = jwt.verify(cookie, process.env.JWT_SECRET);
+        const userId = decoded.id;
+        const user = await Customer.findByPk(userId);
 
         if (!user)
-            return next(new ErrorHandler(`User not found`, 404));
+            return next(new ErrorHandler(`Customer not found`, 404));
 
         const userType = user.type;
 

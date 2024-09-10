@@ -14,7 +14,7 @@ Encounter.init({
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: "users",
+            model: "customers",
             key: "id",
         }
     },

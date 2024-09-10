@@ -1,53 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from 'react';
 import SideMenu from "../layout/SideMenu";
-import Loader from "../layout/Loader"; // Assurez-vous que ce chemin est correct
+import { useGetTipsQuery } from '../../redux/api/tipApi';
+import Loader from '../layout/Loader';
+import toast from "react-hot-toast";
 
 const Tips = () => {
-  const [tips, setTips] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const { data, isLoading, error, isError } = useGetTipsQuery();
 
-  useEffect(() => {
-    const fetchTips = async () => {
-      try {
-        const response = await fetch("/api/tips");
-        console.log("Response status:", response.status); // Ajoutez ce log
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+    //Toast error alert
+    useEffect(() => {
+        if (isError) {
+            toast.error(error?.data?.message);
         }
-        const data = await response.json();
-        console.log("Fetched data:", data); // Ajoutez ce log
-        setTips(data);
-        setIsLoading(false);
-      } catch (err) {
-        console.error("Fetch error:", err); // Ajoutez ce log
-        setError(err);
-        setIsLoading(false);
-      }
-    };
+    }, [isError]);
 
-    fetchTips();
-  }, []);
+    if (isLoading) return <Loader />;
 
-  if (isLoading) return <Loader />;
-  if (error) return <div>Error loading tips: {error.message}</div>;
-
-  return (
-    <div className="tips-page pages">
-      <div className="col-12 col-lg-3">
-        <SideMenu />
-      </div>
-      <h1>Tips</h1>
-      <div className="separator"></div>
-      <div className="tips-grid">
-        {tips.map((tip, index) => (
-          <div className="tip-card" key={index}>
-            <p>{tip.tip}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+    return (
+        <div>
+            <div className="col-12 col-lg-3">
+                <SideMenu />
+            </div>
+            <p className="text-center mt-1">
+                Tips
+            </p>
+        </div>
+    );
 };
 
 export default Tips;
