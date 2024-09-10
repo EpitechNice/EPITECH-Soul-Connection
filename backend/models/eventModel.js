@@ -40,15 +40,6 @@ Event.init({
         allowNull: false,
     },
 
-    employee_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: "employees",
-            key: "id",
-        }
-    },
-
     location_name: {
         type: DataTypes.STRING,
         allowNull: false,

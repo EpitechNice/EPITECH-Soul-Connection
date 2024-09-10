@@ -57,24 +57,6 @@ Employee.init({
         allowNull: false,
     },
 
-    clients_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-            model: "customers",
-            key: "id",
-        }
-    },
-
-    event_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-            model: "events",
-            key: "id",
-        }
-    },
-
     work: {
         type: DataTypes.STRING,
         allowNull: true,

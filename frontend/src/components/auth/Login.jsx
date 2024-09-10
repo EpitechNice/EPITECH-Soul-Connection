@@ -72,7 +72,7 @@ const Login = () => {
             </div>
 
             <button
-              className="login_button"
+              id="login_button"
               type="submit"
               disabled={isLoading}
             >

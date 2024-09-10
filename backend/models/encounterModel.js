@@ -10,15 +10,6 @@ Encounter.init({
         autoIncrement: true,
     },
 
-    customer_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: "customers",
-            key: "id",
-        }
-    },
-
     date: {
         type: DataTypes.DATE,
         allowNull: false,
