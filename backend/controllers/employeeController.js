@@ -9,7 +9,7 @@ import Employee, { employeeType } from "../models/employeeModel.js";
 import * as fs from "fs";
 import path from "path";
 
-const DEFAULT_PROFILE_PATH = "/usr/src/app/images/profile.png"
+const DEFAULT_IMAGE_PATH = "/usr/src/app/images/default.png"
 
 const mime = {
     html: 'text/html',
@@ -78,9 +78,10 @@ export const loginEmployee = catchAsyncErrors(async (req, res, next) => {
         expiresIn: 3 * 7 * 24 * 60 * 60,
     });
 
-    res.status(200).cookie("token", token).json({
-        token,
-    });
+    res.cookie("token", token).status(301).redirect("/");
+    // res.status(200).cookie("token", token).json({
+        // token,
+    // });
 })
 
 // Display employee profile: /api/employees/me
@@ -133,7 +134,7 @@ export const getEmployeeDetails = catchAsyncErrors(async (req, res, next) => {
 export const getEmployeeImg = catchAsyncErrors(async (req, res, next) => {
     const employee = await Employee.findByPk(req.params.id);
 
-    let imagePath = DEFAULT_PROFILE_PATH;
+    let imagePath = DEFAULT_IMAGE_PATH;
 
     if (employee) { // || employee.type === "Client") { // Not relevent: Employee.type = ENUM(employeeType.COACH, employeeType.MANAGER)
         // return next(new ErrorHandler("Employee requested doesn't exist", 404));
@@ -172,7 +173,7 @@ export const createEmployee = catchAsyncErrors(async (req, res) => {
             ...req.body,
             password: req.body.password ? hashSync(req.body.password, salt) : null,
             birth_date: new Date(req.body.birth_date),
-            image_path: DEFAULT_PROFILE_PATH,
+            image_path: DEFAULT_IMAGE_PATH,
         };
 
         const employee = await Employee.create(modifiedBody);
