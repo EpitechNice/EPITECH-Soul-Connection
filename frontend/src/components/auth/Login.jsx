@@ -74,7 +74,6 @@ const Login = () => {
             <button
               className="login_button"
               type="submit"
-              className="btn w-100 py-2"
               disabled={isLoading}
             >
             {isLoading ? "Authenticating..." : "Login"}
