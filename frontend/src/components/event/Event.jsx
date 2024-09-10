@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import SideMenu from "../layout/SideMenu";
 import L from 'leaflet';
+import { useGetEventsQuery } from '../../redux/api/eventApi';
+import toast from 'react-hot-toast';
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -22,12 +24,18 @@ const center = {
 };
 
 const Events = () => {
-  const events = [
-    { name: 'Speed dating', location: 'Café Michel', lat: 48.8566, lng: 2.3522, date: '22/04/2024', maxParticipants: 20 },
-    { name: 'Speed dating', location: 'Café des Amis', lat: 48.864716, lng: 2.349014, date: '23/04/2024', maxParticipants: 15 },
-    { name: 'Speed dating', location: 'Café de Flore', lat: 48.8588443, lng: 2.2943506, date: '24/04/2024', maxParticipants: 30 },
-    { name: 'Speed dating', location: 'Café des Arts', lat: 48.853, lng: 2.3499, date: '25/04/2024', maxParticipants: 25 },
-  ];
+    const { data, isLoading, error, isError } = useGetEventsQuery();
+
+    useEffect(() => {
+      if (isError) {
+          toast.error(error?.data?.message);
+      }
+  }, [isError, error]);
+
+  
+  if (isLoading) return <Loader />;
+
+  const eventArray = Array.isArray(data) ? data : data?.events;
 
   return (
     <div className="events-page pages">
@@ -61,11 +69,11 @@ const Events = () => {
         </div>
 
         <div className="events-list">
-          {events.map((event, index) => (
+          {eventArray?.map((event, index) => (
             <div className="event-card" key={index}>
               <div className="event-details">
                 <h3>{event.name}</h3>
-                <p>📍 {event.location}</p>
+                <p>{event.location_name}</p>
                 <p>Max participants: {event.maxParticipants}</p>
               </div>
               <div className="event-date">
