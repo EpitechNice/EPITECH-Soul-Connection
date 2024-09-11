@@ -8,6 +8,7 @@ import { tipApi } from "./api/tipApi.js";
 import { customerApi } from "./api/customerApi.js";
 import { userApi } from "./api/userApi.js";
 import { eventApi } from "./api/eventApi.js";
+import { clothingApi } from "./api/clothingApi.js";
 
 
 export const store = configureStore({
@@ -15,29 +16,20 @@ export const store = configureStore({
     auth: userReducer,
     [authApi.reducerPath]: authApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
-    [tipApi.reducerPath]: tipApi.reducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
     [customerApi.reducerPath]: customerApi.reducer,
+    [tipApi.reducerPath]: tipApi.reducer,
+    [clothingApi.reducerPath]: clothingApi.reducer,
     [eventApi.reducerPath]: eventApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
       authApi.middleware,
       userApi.middleware,
-      tipApi.middleware,
       employeeApi.middleware,
       customerApi.middleware,
+      tipApi.middleware,
+      clothingApi.middleware,
       eventApi.middleware,
     ]),
 });
-
-// export const store = configureStore({
-//   reducer: {
-    // auth: userReducer,
-    // [employeeApi.reducerPath]: employeeApi.reducer,
-  // },
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware().concat([
-  //     employeeApi.middleware,
-  //   ]),
-// });
