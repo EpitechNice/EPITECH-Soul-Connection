@@ -893,3 +893,57 @@ hr {
   background-color: #1a4f9b;
 }
 
+/* Popup */
+.form-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.form-content h2 {
+  margin: 0 0 20px;
+}
+
+.form-content label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form-content input, .form-content select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+
+.form-content button {
+  padding: 10px;
+  margin: 5px;
+}
+
+.form-content button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.form-content button[type="button"] {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  cursor: pointer;
+}

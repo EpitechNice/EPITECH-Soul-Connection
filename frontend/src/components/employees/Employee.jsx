@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import SideMenu from "../layout/SideMenu";
-import { useGetEmployeesQuery, useGetEmployeeImgQuery } from '../../redux/api/employeeApi';
+import { useGetEmployeesQuery, useGetEmployeeImgQuery, useCreateEmployeeMutation, useDeleteEmployeeMutation, useUpdateEmployeeMutation } from '../../redux/api/employeeApi';
 import toast from "react-hot-toast";
 import Loader from '../layout/Loader';
 import IconDownload from '../../assets/Download.svg';
 import SortIcon from '../../assets/Sort.svg';
 import SettingsIcon from '../../assets/Settings.svg';
+import { useSelector } from 'react-redux';
+import FormPopup from './FormPopup';
 
 const Employees = () => {
     const { data, isLoading, error, isError } = useGetEmployeesQuery();
@@ -13,7 +15,12 @@ const Employees = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [sortOrder, setSortOrder] = useState('default');
-    const { data: employeeImgData } = "../../assets/images/employees";
+    const [showPopup, setShowPopup] = useState(false);
+    const { employeeImgData } = "../../assets/images/employees";
+    const { mutate: createEmployee } = useCreateEmployeeMutation();
+    const { mutate: deleteEmployee } = useDeleteEmployeeMutation();
+    const { mutate: updateEmployee } = useUpdateEmployeeMutation();
+    const usertype = useSelector((state) => state.auth);
 
     useEffect(() => {
         if (data) {
@@ -63,7 +70,7 @@ const Employees = () => {
     const handleBulkAction = () => {
         const selectedAction = document.querySelector('.bulk-action-select').value;
         if (selectedAction === 'delete') {
-            // Delete selected users
+            deleteEmployee();
         } else if (selectedAction === 'email') {
             // Send email to selected users
         }
@@ -93,7 +100,11 @@ const Employees = () => {
                             <img src={IconDownload} alt="Download Icon" />
                             Export
                         </button>
-                        <button className="add-button">+</button>
+                        {usertype.user.type === "Manager" ? (
+                            <button className="add-button" onClick={() => setShowPopup(true)}>
+                                +
+                            </button>
+                        ) : null}
                     </div>
                 </div>
                 <div className="all-content-table">
@@ -107,38 +118,38 @@ const Employees = () => {
                             <button className="bulk-action-button" onClick={handleBulkAction}>
                                 Apply
                             </button>
-                        <div className="group-button-table">
-                            <div className="search-bar">
-                                <div className="search-wrapper">
-                                    <input
-                                        type="text"
-                                        placeholder="Search coaches..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="search-input"
+                            <div className="group-button-table">
+                                <div className="search-bar">
+                                    <div className="search-wrapper">
+                                        <input
+                                            type="text"
+                                            placeholder="Search coaches..."
+                                            value={searchTerm}
+                                            onChange={(e) => setSearchTerm(e.target.value)}
+                                            className="search-input"
+                                        />
+                                        <i className="search-icon fas fa-search"></i>
+                                    </div>
+                                </div>
+                                <div className="sort-dropdown">
+                                    <img
+                                        src={SortIcon}
+                                        alt="Sort Icon"
+                                        className="sort-icon"
+                                        onClick={() => setDropdownOpen(!dropdownOpen)}
                                     />
-                                    <i className="search-icon fas fa-search"></i>
+                                    {dropdownOpen && (
+                                        <ul className="sort-options">
+                                            <li onClick={() => handleSortChange('default')}>Default</li>
+                                            <li onClick={() => handleSortChange('asc')}>A - Z</li>
+                                            <li onClick={() => handleSortChange('desc')}>Z - A</li>
+                                        </ul>
+                                    )}
+                                </div>
+                                <div className="sort-dropdown">
+                                    <img src={SettingsIcon} alt="Settings Icon" className="sort-icon" />
                                 </div>
                             </div>
-                            <div className="sort-dropdown">
-                                <img
-                                    src={SortIcon}
-                                    alt="Sort Icon"
-                                    className="sort-icon"
-                                    onClick={() => setDropdownOpen(!dropdownOpen)}
-                                />
-                                {dropdownOpen && (
-                                    <ul className="sort-options">
-                                        <li onClick={() => handleSortChange('default')}>Default</li>
-                                        <li onClick={() => handleSortChange('asc')}>A - Z</li>
-                                        <li onClick={() => handleSortChange('desc')}>Z - A</li>
-                                    </ul>
-                                )}
-                            </div>
-                            <div className="sort-dropdown">
-                                <img src={SettingsIcon} alt="Settings Icon" className="sort-icon" />
-                            </div>
-                        </div>
                         </div>
                     </div>
                     <div className="user-table">
@@ -183,6 +194,7 @@ const Employees = () => {
                         </div>
                     </div>
                 </div>
+                {showPopup && <FormPopup onClose={() => setShowPopup(false)} />}
             </div>
         </div>
     );
