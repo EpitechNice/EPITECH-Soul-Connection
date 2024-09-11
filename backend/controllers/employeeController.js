@@ -9,7 +9,7 @@ import Employee, { employeeType } from "../models/employeeModel.js";
 import * as fs from "fs";
 import path from "path";
 
-const DEFAULT_PROFILE_PATH = "/usr/src/app/images/profile.png"
+const DEFAULT_IMAGE_PATH = "/usr/src/app/images/default.png"
 
 const mime = {
     html: 'text/html',
@@ -39,8 +39,6 @@ export const getEmployees = catchAsyncErrors(async (req, res, next) => {
     }
 });
 
-//TODO: Validation Error
-//DONE: Could not reproduce with valid logins
 //Login employee: /api/employees/login
 export const loginEmployee = catchAsyncErrors(async (req, res, next) => {
     const { email, password } = req.body;
@@ -78,37 +76,33 @@ export const loginEmployee = catchAsyncErrors(async (req, res, next) => {
         expiresIn: 3 * 7 * 24 * 60 * 60,
     });
 
-    res.status(200).cookie("token", token).json({
-        token,
-    });
+    res.cookie("token", token).status(301).redirect("/");
+    // res.status(200).cookie("token", token).json({
+        // token,
+    // });
 })
 
-// Display employee profile: /api/employees/me
-export const getEmployeeProfile = catchAsyncErrors(async (req, res, next) => {
-    try {
-        var cookie = req.cookies.token;
-        const decoded = jwt.verify(cookie, process.env.SECRET_KEY);
-        const userId = decoded.id;
-        const employee = await Employee.findOne({
-            where: { id: userId },
-            attributes: { exclude: ['password'] } // Nice
-        });
+// Logout employee : /api/logout
+export const logoutEmployee = catchAsyncErrors(async(req, res, next) => {
+    res.clearCookie("token");
 
-        if (!employee) {
-            return next(new ErrorHandler(`Employee not found`, 404));
-        }
-
-        res.status(200).json({
-            employee,
-        });
-    } catch (err) {
-        console.error(err);
-        next(new ErrorHandler("An error occurred while fetching the employee profile", 500));
-    }
+    returnres.status(200).json({
+        message: "Logged out successfully",
+    });
 });
 
-//TODO: 422 Validation Error
-//DONE: Could not reproduce
+// Display employee profile: /api/employees/me
+export const getEmployeeProfile = catchAsyncErrors(async(req, res, next) => {
+    const user = await Employee.findOne({
+        where: { id: req?.user?.id },
+        attributes: { exclude: ['password'] }
+    });
+
+    res.status(200).json({
+        user,
+    });
+});
+
 // Get specific employee: /api/employees/:id
 export const getEmployeeDetails = catchAsyncErrors(async (req, res, next) => {
     const userId = req.params.id;
@@ -126,14 +120,12 @@ export const getEmployeeDetails = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-//TODO: To fix
-//TODO: 422 Validation Error, image by default if no image (frontend)
-//DONE: Need review
+//TODO: Review
 // Get specific employee: /api/employees/:id/image
 export const getEmployeeImg = catchAsyncErrors(async (req, res, next) => {
     const employee = await Employee.findByPk(req.params.id);
 
-    let imagePath = DEFAULT_PROFILE_PATH;
+    let imagePath = DEFAULT_IMAGE_PATH;
 
     if (employee) { // || employee.type === "Client") { // Not relevent: Employee.type = ENUM(employeeType.COACH, employeeType.MANAGER)
         // return next(new ErrorHandler("Employee requested doesn't exist", 404));
@@ -172,7 +164,7 @@ export const createEmployee = catchAsyncErrors(async (req, res) => {
             ...req.body,
             password: req.body.password ? hashSync(req.body.password, salt) : null,
             birth_date: new Date(req.body.birth_date),
-            image_path: DEFAULT_PROFILE_PATH,
+            image_path: DEFAULT_IMAGE_PATH,
         };
 
         const employee = await Employee.create(modifiedBody);
@@ -191,8 +183,7 @@ export const createEmployee = catchAsyncErrors(async (req, res) => {
     }
 });
 
-//TODO: TO FIX
-//DONE: Need review
+//TODO: Need review
 // Update specific employee: /api/employees/:id
 export const updateEmployee = catchAsyncErrors(async (req, res, next) => {
     const id = req.params.id;
@@ -225,8 +216,6 @@ export const updateEmployee = catchAsyncErrors(async (req, res, next) => {
     }
 });
 
-//TODO: TO FIX
-//Nothing to do: Seems to be working, for me
 // Delete specific employee: /api/employees/:id
 export const deleteEmployee = catchAsyncErrors(async (req, res, next) => {
     const id = req.params.id

@@ -25,19 +25,20 @@ const Customers = () => {
     const CustomersArray = Array.isArray(users) ? users : [];
 
     const handleSelectChange = (e) => {
-        const selectedFirstName = e.target.value;
-        setSelectedFirstName(selectedFirstName);
-        const selectedUser = CustomersArray.find(user => user.name.first === selectedFirstName);
+        const selectedName = e.target.value;
+        setSelectedFirstName(selectedName);
+        const selectedUser = CustomersArray.find(user => user.name === selectedName);
         setSelectedUser(selectedUser);
     };
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
+    function convertDate(isoString) {
+        const date = new Date(isoString);
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const year = date.getFullYear();
+
         return `${day}/${month}/${year}`;
-    };
+    }
 
     const formatLocalisation = (location) => {
         return `${location.street.number} ${location.street.name} ${location.postcode} ${location.city}, ${location.country}`;
@@ -65,24 +66,24 @@ const Customers = () => {
             </div>
 
             {selectedUser && (
-                <div className="user-card">
-                    <div className="user-info">
-                        <div className="info-item">
-                            <img src={IconUser} alt="User Icon" />
-                            <h3>{selectedUser.name} {selectedUser.surname}</h3>
-                        </div>
-                        <div className="info-item">
-                            <img src={IconCalendar} alt="Calendar Icon" />
-                            <h3>{formatDate(selectedUser.dob.date)}</h3>
-                        </div>
-                        <div className="info-item">
-                            <img src={IconLocalisation} alt="Location Icon" />
-                            <h3>{formatLocalisation(selectedUser.location)}</h3>
-                        </div>
-                    </div>
-                    <img src={selectedUser.picture.large} alt="User Image" className="user-image" />
+            <div className="user-card">
+            <div className="user-info">
+                <div className="info-item">
+                <img src={IconUser} alt="User Icon" />
+                <h3>{selectedUser.name} {selectedUser.surname}</h3>
                 </div>
-            )}
+                <div className="info-item">
+                <img src={IconCalendar} alt="Calendar Icon" />
+                <h3>{convertDate(selectedUser.birth_date)}</h3>
+                </div>
+                <div className="info-item">
+                <img src={IconLocalisation} alt="Location Icon" />
+                <h3>{selectedUser.address}</h3>
+                </div>
+            </div>
+            <img src={selectedUser.image_path} alt="User" className="user-image" />
+            </div>
+        )}
 
             {selectedUser && (
                 <>

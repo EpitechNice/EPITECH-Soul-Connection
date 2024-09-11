@@ -8,7 +8,7 @@ import * as fs from "fs";
 
 import jwt from "jsonwebtoken";
 
-const DEFAULT_PROFILE_PATH = "/usr/src/app/images/profile.png"
+const DEFAULT_IMAGE_PATH = "/usr/src/app/images/default.png"
 
 const mime = {
     html: 'text/html',
@@ -133,11 +133,10 @@ export const getCustomer = catchAsyncErrors(async (req, res, next) => {
 export const getCustomerImg = catchAsyncErrors(async (req, res, next) => {
     const customer = await Customer.findByPk(req.params.id);
 
-    let imagePath = DEFAULT_PROFILE_PATH;
+    let imagePath = DEFAULT_IMAGE_PATH;
 
-    if (customer) {
+    if (customer)
         imagePath = customer.image_path;
-    }
 
     // https://stackoverflow.com/questions/5823722/how-to-serve-an-image-using-nodejs
     var type = mime[path.extname(imagePath).slice(1)] || 'text/plain';
