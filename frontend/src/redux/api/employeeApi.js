@@ -12,7 +12,30 @@ export const employeeApi = createApi({
       getEmployeeDetails: builder.query({
         query: (id) => `/employees/${id}`,
       }),
+      getEmployeeImg: builder.query({
+        query: (id) => `/employees/${id}/image`,
+      }),
+      createEmployee: builder.mutation({
+        query: (newEmployeeData) => ({
+          url: "/employees",
+          method: "POST",
+          body: newEmployeeData,
+        }),
+      }),
+      updateEmployee: builder.mutation({
+        query: ({ id, ...updatedFields }) => ({
+          url: `/employees/${id}`,
+          method: "PUT",
+          body: updatedFields,
+        }),
+      }),
+      deleteEmployee: builder.mutation({
+        query: (id) => ({
+          url: `/employees/${id}`,
+          method: "DELETE",
+        }),
+      }),
     }),
   });
 
-export const { useGetEmployeesQuery, useGetEmployeeDetailsQuery } = employeeApi;
+export const { useGetEmployeesQuery, useGetEmployeeDetailsQuery, useGetEmployeeImgQuery, useCreateEmployeeMutation, useUpdateEmployeeMutation, useDeleteEmployeeMutation } = employeeApi;
