@@ -96,7 +96,7 @@ export const getCustomers = catchAsyncErrors(async (req, res, next) => {
     }
 });
 
-export const getCustomer = catchAsyncErrors(async (req, res, next) => {
+export const getCustomerDetails = catchAsyncErrors(async (req, res, next) => {
     try {
         var cookie = req.cookies.token;
         const decoded = jwt.verify(cookie, process.env.SECRET_KEY);

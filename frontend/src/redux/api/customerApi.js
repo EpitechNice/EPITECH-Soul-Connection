@@ -7,7 +7,8 @@ export const customerApi = createApi({
     endpoints: (builder) => ({
         getCustomers: builder.query({
             query: () => "/customers",
-        })
+        }),
+        
     })
 })
 
