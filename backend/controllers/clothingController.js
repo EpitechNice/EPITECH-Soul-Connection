@@ -49,9 +49,7 @@ export const getClothes = catchAsyncErrors(async(req, res, next) => {
     }
 });
 
-// // TODO: 422 Validation error
-//DONE: Gives back the actual image data instead of it's path on the docker (not relevent)
-//Get an item of clothing image
+//Get an item of clothing image: /api/clothes/:id/image
 export const getClothingImg = catchAsyncErrors(async(req, res, next) => {
     const clothes = await Clothing.findByPk(req?.params?.id);
 
@@ -72,6 +70,7 @@ export const getClothingImg = catchAsyncErrors(async(req, res, next) => {
     });
 });
 
+//Create a clothing item: /clothes
 export const createClothing = catchAsyncErrors(async (req, res) => {
     try {
         const modifiedBody = {
@@ -96,43 +95,47 @@ export const createClothing = catchAsyncErrors(async (req, res) => {
 });
 
 export const updateClothing = catchAsyncErrors(async (req, res, next) => {
-    const id = req.params.id;
+    let clothingId = req?.params?.id;
 
-    if (!id ) {
-        return next(new ErrorHandler("Invalid clothing ID", 400));
+    const clothing = await Clothing.findByPk(clothingId);
+
+    if (!clothing) {
+        return next(new ErrorHandler(`Clothing '${clothingId}' not found`, 404));
     }
 
     try {
-        const fieldUpdated = await Clothing.update(
-            { ...req.body },
-            { where: { id: id } }
+        const updatedClothing = await clothing.update(
+            req.body,
+            { returning: true }
         );
 
         res.status(200).json({
-            "fieldUpdated": fieldUpdated,
+            message: "Clothing updated successfully",
+            data: updatedClothing,
         });
     } catch (err) {
         console.error(err);
-        next(new ErrorHandler("An error occurred while updating the clothing", 500));
+        next(new ErrorHandler("An error occurred while updating the clothing", err.status));
     }
 });
 
+//Delete clothing item: /clothes
 export const deleteClothing = catchAsyncErrors(async (req, res, next) => {
-    const id = req.params.id
+    let id = req?.params?.id;
 
     if (!id || isNaN(id)) {
         return next(new ErrorHandler("Invalid clothing ID", 400));
     }
 
+    const clothing = await Clothing.findByPk(id);
+
+    if (!clothing)
+        return next(new ErrorHandler(`Clothing '${id}' not found`, 404));
+
     try {
-        const result = await Clothing.destroy({
-            where: { id: id },
+        const result = await clothing.destroy({
             returning: true
         });
-
-        if (result[0] === 0) {
-            return next(new ErrorHandler("Clothing not found", 404));
-        }
 
         res.status(200).json({
             message: "Clothing deleted successfully",
