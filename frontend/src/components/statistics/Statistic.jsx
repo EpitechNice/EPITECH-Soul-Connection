@@ -69,21 +69,21 @@ const Statistics = () => {
   const chartOptions = {
     responsive: true,
     scales: {
-      y: {
-        beginAtZero: true,
-        grid: {
-          display: false,
-        },
-      },
       x: {
-        grid: {
-          display: false,
+        title: {
+          display: true,
+          text: 'Date',
         },
       },
-    },
-    plugins: {
-      legend: {
-        display: false,
+      y: {
+        title: {
+          display: true,
+          text: 'Number of Events',
+        },
+        beginAtZero: true,
+        ticks: {
+          stepSize: 1, // Set the step size to 1
+        },
       },
     },
   };
