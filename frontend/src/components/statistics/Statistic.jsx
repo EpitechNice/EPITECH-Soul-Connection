@@ -9,6 +9,9 @@ import Loader from '../layout/Loader';
 
 const Statistics = () => {
   const { data, isLoading, error, isError } = useGetEventsQuery();
+  const [monthlyEvents, setMonthlyEvents] = useState(0);
+  const [weeklyEvents, setWeeklyEvents] = useState(0);
+  const [dailyAvgEvents, setDailyAvgEvents] = useState(0);
 
   useEffect(() => {
     if (isError) {
@@ -17,8 +20,21 @@ const Statistics = () => {
   }, [isError, error]);
 
   if (isLoading) return <Loader />;
+  const now = new Date();
+  const eventsThisMonth = Statistics.filter(eventArray => new Date(eventArray.date).getMonth() === now.getMonth());
+  const eventsThisWeek = Statistics.filter(eventArray => {
+    const eventDate = new Date(eventArray.date);
+    const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+    const endOfWeek = new Date(now.setDate(now.getDate() - now.getDay() + 6));
+    return eventDate >= startOfWeek && eventDate <= endOfWeek;
+  });
+  const eventsToday = eventArray.filter(eventArray => new Date(eventArray.date).toDateString() === new Date().toDateString());
 
-  const eventArray = Array.isArray(data) ? data : data?.events || [];
+  setMonthlyEvents(eventsThisMonth.length);
+  setWeeklyEvents(eventsThisWeek.length);
+  setDailyAvgEvents(eventsToday.length / 7); // Moyenne sur 7 jours
+
+  const eventArray = Array.isArray(data) ? data : data?.Statistics || [];
   // Count events per day
   const eventCountByDate = eventArray.reduce((acc, event) => {
     const date = event.date.split('T')[0]; // Assuming date is in ISO format
@@ -130,20 +146,24 @@ const Statistics = () => {
           </div>
           </div>
           <div className="overview-item">
-            <h3>Events</h3>
-            <span className="count">{eventArray.length}</span>
+          <h3>Events</h3>
+            <h4>Our events and their status.</h4>
+            <h5>Monthly</h5>
+            <span className="count">{monthlyEvents}</span>
+            <span className="percentage positive">+4.63%</span>
+            <h5>Weekly</h5>
+            <span className="count">{weeklyEvents}</span>
+            <span className="percentage positive">+4.63%</span>
+            <h5>Daily(Avg)</h5>
+            <span className="count">{dailyAvgEvents.toFixed(2)}</span>
             <span className="percentage positive">+4.63%</span>
             <div className="chart">
-            <h4>Event Stats</h4>
             <BarChart data={eventData} options={chartOptions} />
           </div>
           </div>
           <div className="overview-item">
-            <h3>Doing Meetings</h3>
-            <span className="count">28.49%</span>
-            <span className="percentage negative">-12.37%</span>
+            <h3>Meeting top sources</h3>
             <div className="chart">
-            <h4>Meeting Top Sources</h4>
             <PieChart data={pieData} options={pieChartOptions} />
           </div>
           </div>
