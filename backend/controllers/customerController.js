@@ -157,6 +157,7 @@ export const getCustomerImg = catchAsyncErrors(async (req, res, next) => {
     }
 });
 
+//Get customer payment: /customers/:id/payments_history
 export const getCustomerPayments = catchAsyncErrors(async (req, res, next) => {
     try {
         const customer = await Customer.findByPk(req.params.id);

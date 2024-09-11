@@ -14,8 +14,34 @@ export const customerApi = createApi({
         getCustomerImg: builder.query({
             query: (id) => `/customers/${id}/image`,
         }),
-    })
-})
+        getCustomerPayments: builder.query({
+            query: (id) => `/customers/${id}/payments_history`,
+        }),
+        getCustomerClothes: builder.query({
+            query: (id) => `/customers/${id}/clothes`,
+        }),
+        createCustomer: builder.mutation({
+            query: (newCustomerData) => ({
+                url: "/customers",
+                method: "POST",
+                body: newCustomerData,
+            }),
+        }),
+        updateCustomer: builder.mutation({
+            query: ({ id, ...updatedFields }) => ({
+                url: `/customers/${id}`,
+                method: "PUT",
+                body: updatedFields,
+            }),
+        }),
+        deleteCustomer: builder.mutation({
+            query: (id) => ({
+                url: `/customers/${id}`,
+                method: "DELETE",
+            }),
+        }),
+    }),
+});
 
 //Hook
-export const { useGetCustomersQuery, useGetCustomerDetailsQuery, useGetCustomerImgQuery } = customerApi;
+export const { useGetCustomersQuery, useGetCustomerDetailsQuery, useGetCustomerImgQuery, useGetCustomerPaymentsQuery, useGetCustomerClothesQuery, useCreateCustomerMutation, useUpdateCustomerMutation, useDeleteCustomerMutation } = customerApi;
