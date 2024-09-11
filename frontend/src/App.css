@@ -313,7 +313,24 @@ nav {
 .events-page {
   padding: 20px;
   font-family: Arial, sans-serif;
+}.events-page {
+  padding: 20px;
 }
+
+.separator {
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eee;
+}
+
+.calendar-section {
+  margin-bottom: 20px;
+}
+
+.map-section {
+  width: 100%;
+  height: 400px;
+}
+
 
 h1 {
   font-size: 2rem;
