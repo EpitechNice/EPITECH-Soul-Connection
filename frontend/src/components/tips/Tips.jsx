@@ -28,7 +28,6 @@ const Tips = () => {
                 <SideMenu />
             </div>
             <h1>Tips for Coaches</h1>
-            <div className="separator"></div>
             <div className="tips-list">
                 {tipsArray?.map((tip, index) => (
                     <div className="tip-item" key={index}>
@@ -37,7 +36,7 @@ const Tips = () => {
                             onClick={() => toggleTip(index)}
                         >
                             <h3>{tip.title}</h3>
-                            <span>{openIndex === index ? '-' : '+'}</span>
+                            <span>{openIndex === index ? '▲' : '▼'}</span>
                         </div>
                         {openIndex === index && (
                             <div className="tip-content">
