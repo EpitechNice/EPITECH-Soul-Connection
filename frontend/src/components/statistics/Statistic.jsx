@@ -59,7 +59,10 @@ const Statistics = () => {
     datasets: [
       {
         label: 'Meeting Sources',
-        data: [205, 192, 45],
+        data: Object.values(eventArray.reduce((acc, event) => {
+          acc[event.type] = (acc[event.type] || 0) + 1;
+          return acc;
+        }, {})),
         backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
         hoverOffset: 4,
       },
