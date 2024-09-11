@@ -14,7 +14,7 @@ if ! ping -c 1 $DB_HOST >/dev/null; then
     read -p "(Softlock protection) > "
 fi
 
-$SUDO_ACCESS docker run -it --rm -v ./:/app/ -v ./data/images/:/usr/src/app/images/ --env-file ./frontend/.env --network soul-connection --ip 172.20.0.6 --name soul-connection-fetch node:22.7.0 node /app/backend/utils/fetch.js
+$SUDO_ACCESS docker run -it --rm -v $(pwd)/:/app/ -v $(pwd)/data/images/:/usr/src/app/images/ --env-file ./frontend/.env --network soul-connection --ip 172.20.0.6 --name soul-connection-fetch node:22.7.0 node /app/backend/utils/fetch.js
 
 sudo chown $USER:$USER -R ./data/images/
 
