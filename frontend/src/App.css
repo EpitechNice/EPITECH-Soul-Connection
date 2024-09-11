@@ -6,6 +6,7 @@ body {
   margin: 0px;
   padding: 0px;
   overflow-x: hidden;
+  background-color: #f5f6fa;
 }
 
 h1, h2, h3, p {
@@ -97,6 +98,7 @@ nav {
   background-color: #5a6268;
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
+
 
 
 #login_btn,
@@ -288,8 +290,8 @@ nav {
   padding: 10px;
   font-weight: bold;
   font-size: 18px;
-  background-color: #f5f5f5;
   border-radius: 5px;
+  background-color: #ffffff;
   transition: background-color 0.3s ease;
 }
 
@@ -308,7 +310,7 @@ nav {
 
 .tip-content {
   padding: 10px 15px;
-  background-color: #fafafa;
+  background-color: #ffffff;
   border-radius: 0 0 5px 5px;
   transition: all 0.3s ease;
 }
@@ -831,7 +833,6 @@ hr {
   background-color: #cccccc;
   cursor: not-allowed;
 }
-
 
 .compatibility h2 {
   margin-top: 30px;
