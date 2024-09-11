@@ -9,6 +9,7 @@ import { customerApi } from "./api/customerApi.js";
 import { userApi } from "./api/userApi.js";
 import { eventApi } from "./api/eventApi.js";
 import { clothingApi } from "./api/clothingApi.js";
+import { encounterApi } from "./api/encounterApi.js";
 
 
 export const store = configureStore({

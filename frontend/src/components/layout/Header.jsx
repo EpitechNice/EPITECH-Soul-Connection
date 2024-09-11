@@ -16,7 +16,7 @@ const Header = () => {
   const logoutHandler = () => {
     logout();
     navigate('/', { replace: true });
-  
+
     setTimeout(() => {
       window.location.reload();
     }, 50);
