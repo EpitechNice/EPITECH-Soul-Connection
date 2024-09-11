@@ -1,17 +1,21 @@
-import React from "react";
-import { useGetEmployeeProfileQuery } from "../../redux/api/userApi";
-import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { useLazyLogoutQuery } from "../../redux/api/authApi";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaEnvelope, FaUserCircle } from 'react-icons/fa';
+import { useGetEmployeeProfileQuery } from '../../redux/api/userApi';
+import { useSelector } from 'react-redux';
+import { useLazyLogoutQuery } from '../../redux/api/authApi';
 
 const Header = () => {
+  const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
-
+  
   const { isLoading } = useGetEmployeeProfileQuery();
-
-  const [logout ] = useLazyLogoutQuery();
-
+  const [logout] = useLazyLogoutQuery();
   const { user } = useSelector((state) => state.auth);
+  
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
 
   const logoutHandler = () => {
     logout();
@@ -23,26 +27,109 @@ const Header = () => {
   };
 
   return (
-    <nav className="navbar row">
+    <header style={styles.header}>
+      {/* Nom de l'entreprise */}
+      <div style={styles.logo}>
+        <h2>Soul Connection</h2>
+      </div>
 
-      <div className="col-6 col-md-3 mt-2 mt-md-0">
+      {/* Menu de navigation */}
+      <nav style={styles.nav}>
+        <Link to="/dashboard" style={styles.link}>Dashboard</Link>
+        <Link to="/employees" style={styles.link}>Coaches</Link>
+        <Link to="/customers" style={styles.link}>Customers</Link>
+        <Link to="/tips" style={styles.link}>Tips</Link>
+        <Link to="/events" style={styles.link}>Events</Link>
+      </nav>
+
+      {/* Boutons à droite */}
+      <div style={styles.buttons}>
+        {/* Bouton de messagerie */}
+        <button style={styles.button}>
+          <FaEnvelope size={20} />
+        </button>
+
+        {/* Bouton avec image ronde */}
+        <button style={styles.button}>
+          <img src="path/to/image.png" alt="User" style={styles.roundImage} />
+        </button>
+
+        {/* Bouton de l'utilisateur avec menu déroulant */}
+        <div style={styles.userMenu}>
+          <button style={styles.button} onClick={toggleDropdown}>
+            <FaUserCircle size={20} />
+          </button>
+          {showDropdown && (
+            <div style={styles.dropdown}>
+              <Link to="/profile" style={styles.dropdownLink}>Profile</Link>
+              <Link className="btn ms-4" id="logout_btn" to="/" onClick={logoutHandler}>
+                Logout
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
-      <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-        {user ? (
-            <Link className="btn ms-4" id="logout_btn" to="/" onClick={logoutHandler}>
-                Logout{" "}
-                </Link>
-        ) : (
-            !isLoading && (
-            <Link to="/login" className="btn ms-4" id="login_btn">
-                {" "}
-                Login{" "}
-            </Link>
-          )
-        )}
-      </div>
-    </nav>
+    </header>
   );
+};
+
+const styles = {
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '10px 20px',
+    backgroundColor: '#fff',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+  },
+  logo: {
+    fontSize: '24px',
+    fontWeight: 'bold'
+  },
+  nav: {
+    display: 'flex',
+    gap: '20px'
+  },
+  link: {
+    textDecoration: 'none',
+    color: '#333',
+    fontSize: '16px'
+  },
+  buttons: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px'
+  },
+  button: {
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    outline: 'none'
+  },
+  roundImage: {
+    width: '30px',
+    height: '30px',
+    borderRadius: '50%'
+  },
+  userMenu: {
+    position: 'relative'
+  },
+  dropdown: {
+    position: 'absolute',
+    right: 0,
+    top: '100%',
+    backgroundColor: '#fff',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+    zIndex: 1000
+  },
+  dropdownLink: {
+    display: 'block',
+    padding: '10px',
+    textDecoration: 'none',
+    color: '#333'
+  }
 };
 
 export default Header;

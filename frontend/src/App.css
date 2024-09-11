@@ -670,7 +670,7 @@ hr {
 }
 
 .page-title {
-  font-size: 24px;
+  font-size: 36px;
   font-weight: bold;
   margin-bottom: 10px;
 }
@@ -684,20 +684,66 @@ hr {
 .actions {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  border-bottom: 2px solid #e3e5ee;
 }
 
-.bulk-action-button, .export-button {
-  padding: 10px 15px;
-  background-color: #007bff;
-  color: white;
+.export-button {
+  padding: 5px 20px;
+  background-color: #ffffff;
+  color: #344761 !important;
+  box-shadow: 0 0 1px #344761;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.bulk-action-button:hover, .export-button:hover {
-  background-color: #0056b3;
+.export-button img {
+  margin-right: 8px;
+  height: auto;
+  padding-right: 5px;
+}
+
+.export-button:hover {
+  background-color: #f0f0f0;
+}
+
+.add-button {
+  padding: 0px 12px;
+  background-color: #2263b3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.add-button:hover {
+  background-color: #1a4f9b;
+}
+
+.group-button {
+  display: flex;
+  gap: 10px;
+}
+
+.head-content-coaches-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.title-content-coaches {
+  display: flex;
+  flex-direction: column;
+}
+
+.all-content-table {
+  background-color: #ffffff;
+  border: 2px solid #e3e5ee;
+  border-radius: 5px;
+  margin: top 20px;
 }
 
 .user-table {
@@ -706,8 +752,7 @@ hr {
 }
 
 .user-table-header {
-  background-color: #f4f4f4;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid #e3e5ee;
   display: flex;
 }
 
@@ -715,24 +760,26 @@ hr {
   padding: 10px;
   font-weight: bold;
   width: 100%;
+  color: #344761;
 }
 
 .user-table-row {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 2px solid #e3e5ee;
 }
 
 .user-table-cell {
   padding: 10px;
   width: 100%;
   display: flex;
+  color: #344761;
 }
 
 .avatar-circle {
   width: 40px;
   height: 40px;
-  background-color: #007bff;
+  background-color: #2263b3;
   border-radius: 50%;
   color: white;
   display: flex;
@@ -748,6 +795,7 @@ hr {
 
 #action-button {
   justify-content: end;
+  font-weight: bold;
 }
 
 .user-info {
@@ -757,6 +805,8 @@ hr {
 
 .user-name {
   font-weight: bold;
+  justify-content: center;
+  align-items: center;
 }
 
 .edit-button {
@@ -801,3 +851,41 @@ hr {
 .save-button:hover {
   background-color: #218838;
 }
+
+.button-left-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.bulk-action-dropdown {
+  display: flex;
+  align-items: center;
+}
+
+.bulk-action-select {
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border: 2px solid #e3e5ee;
+  border-radius: 4px;
+  background-color: #ffffff;
+  margin-left: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: #344761;
+}
+
+.bulk-action-button {
+  padding: 10px 12px;
+  background-color: #2263b3;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.bulk-action-button:hover {
+  background-color: #1a4f9b;
+}
+

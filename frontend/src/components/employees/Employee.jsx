@@ -3,6 +3,7 @@ import SideMenu from "../layout/SideMenu";
 import { useGetEmployeesQuery } from '../../redux/api/employeeApi';
 import toast from "react-hot-toast";
 import Loader from '../layout/Loader';
+import IconDownload from '../../assets/Download.svg';
 
 const Employees = () => {
     const { data, isLoading, error, isError } = useGetEmployeesQuery();
@@ -10,14 +11,6 @@ const Employees = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
     const [userClients, setUserClients] = useState({});
-
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
-    };
 
     useEffect(() => {
         if (data) {
@@ -37,6 +30,11 @@ const Employees = () => {
         setShowModal(false);
     };
 
+    const handleBulkAction = () => {
+        const selectedClients = userClients[selectedUser.id] || [];
+        console.log("Selected clients: ", selectedClients);
+    };
+
     const handleClientSelection = (clientId) => {
         setUserClients(prevState => {
             const userId = selectedUser.id;
@@ -50,6 +48,29 @@ const Employees = () => {
         });
     };
 
+    const downloadCSV = () => {
+        const csvRows = [];
+        csvRows.push(['Name', 'Email', 'Phone', 'Number of Customers'].join(','));
+        users.forEach(user => {
+            const row = [
+                `${user.name} ${user.surname}`,
+                user.email,
+                user.phone || 'N/A',
+                user.customers?.length || 'N/A'
+            ];
+            csvRows.push(row.join(','));
+        });
+        const csvString = csvRows.join('\n');
+        const blob = new Blob([csvString], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'employees_list.csv';
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };
+    
+
     if (isLoading) return <Loader />;
     const EmployeeArray = Array.isArray(users) ? users : [];
 
@@ -59,11 +80,31 @@ const Employees = () => {
                 <SideMenu />
             </div>
             <div className="main-content">
-                <h1 className="page-title">Coaches List</h1>
-                <p className="page-subtitle">You have total {users.length} coaches.</p>
+                <div className="head-content-coaches-page">
+                    <div className="title-content-coaches">
+                        <h1 className="page-title">Coaches List</h1>
+                        <p className="page-subtitle">You have total {users.length} coaches.</p>
+                    </div>
+                    <div className='group-button'>
+                    <button className="export-button" onClick={downloadCSV}>
+                        <img src={IconDownload} alt="Download Icon" />
+                        Export
+                    </button>
+                    <button className="add-button">+</button>
+                    </div>
+                </div>
+                <div className="all-content-table">
                 <div className="actions">
-                    <button className="bulk-action-button">Bulk Action</button>
-                    <button className="export-button">Export</button>
+                <div className="user-table-header-cell bulk-action-dropdown button-left-group">
+                    <select className="bulk-action-select">
+                        <option value="">Bulk Action</option>
+                        <option value="delete">Delete</option>
+                        <option value="email">Send Email</option>
+                    </select>
+                    <button className="bulk-action-button" onClick={() => handleBulkAction()}>
+                        Apply
+                    </button>
+                </div>
                 </div>
                 <div className="user-table">
                     <div className="user-table-header">
@@ -101,6 +142,7 @@ const Employees = () => {
                             ))
                         )}
                     </div>
+                </div>
                 </div>
             </div>
 

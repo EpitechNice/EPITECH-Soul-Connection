@@ -51,7 +51,7 @@ const SideMenu = () => {
 
     return (
       <>
-      {isNavVisible && (
+      {/* {isNavVisible && (
         <div className="list-group mt-5 pl-4">
           {menuItems.map((menuItem, index) => (
             <Link
@@ -72,7 +72,7 @@ const SideMenu = () => {
       )}
       <button className="button-toggle" onClick={toggleNav}>
         {isNavVisible ? '<' : '>'}
-      </button>
+      </button> */}
     </>
     );
   };
