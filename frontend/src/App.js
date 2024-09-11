@@ -20,6 +20,7 @@ function App() {
     <Router>
       <div className="App">
         <Toaster position="top-right" />
+
         <Header />
 
         <div className="pages">
