@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo "=== Clearing local ==="
+
+SUDO_ACCESS=""
+
+if [ $(test -r /var/run/docker.sock; echo "$?") -ne 0 ]; then
+    SUDO_ACCESS="sudo"
+fi
+
+$SUDO_ACCESS docker stop soul-connection-db soul-connection-backend soul-connection-frontend soul-connection-fetch
+$SUDO_ACCESS docker rm soul-connection-db soul-connection-backend soul-connection-frontend soul-connection-fetch
+
+$SUDO_ACCESS docker network rm soul-connection
+
+$SUDO_ACCESS docker rmi -f epitech-soul-connection-backend epitech-soul-connection-frontend epitech-soul-connection_backend:latest epitech-soul-connection_frontend:latest
+
+sudo rm -rf ./data/
+sudo rm -rf ./node_modules/

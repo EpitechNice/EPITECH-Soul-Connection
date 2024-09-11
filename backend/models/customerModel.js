@@ -55,6 +55,11 @@ Customer.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
+
+    address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    }
 }, {
     sequelize,
     modelName: "Customer",
@@ -75,9 +80,6 @@ Employee.hasMany(Customer);
 
 Customer.belongsToMany(Clothing, { through: "CustomerClothing" });
 Clothing.belongsToMany(Customer, { through: "CustomerClothing" });
-
-Encounter.belongsTo(Customer);
-Customer.hasMany(Encounter);
 
 Payment.belongsTo(Customer);
 Customer.hasMany(Payment);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SideMenu from "../layout/SideMenu";
-import { useGetTipsQuery, useCreateTipMutation, useUpdateTipMutation, useDeleteTipMutatio } from '../../redux/api/tipApi';
+import { useGetTipsQuery } from '../../redux/api/tipApi';
 import Loader from '../layout/Loader';
 import toast from "react-hot-toast";
 

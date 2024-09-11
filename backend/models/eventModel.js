@@ -44,6 +44,11 @@ Event.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
+
+    employee_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    }
 }, {
     sequelize,
     modelName: "Event",
