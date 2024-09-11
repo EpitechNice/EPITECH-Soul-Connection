@@ -664,12 +664,8 @@ hr {
   flex-direction: row;
 }
 
-.side-menu {
-  width: 20%;
-}
-
 .main-content {
-  width: 80%;
+  width: 100%;
   padding: 20px;
 }
 
@@ -712,11 +708,13 @@ hr {
 .user-table-header {
   background-color: #f4f4f4;
   border-bottom: 2px solid #ddd;
+  display: flex;
 }
 
 .user-table-header-cell {
   padding: 10px;
   font-weight: bold;
+  width: 100%;
 }
 
 .user-table-row {
@@ -727,9 +725,8 @@ hr {
 
 .user-table-cell {
   padding: 10px;
-  width: 25%;
+  width: 100%;
   display: flex;
-  align-items: center;
 }
 
 .avatar-circle {
@@ -743,6 +740,14 @@ hr {
   align-items: center;
   font-size: 16px;
   margin-right: 10px;
+}
+
+#action-title {
+  text-align: end;
+}
+
+#action-button {
+  justify-content: end;
 }
 
 .user-info {

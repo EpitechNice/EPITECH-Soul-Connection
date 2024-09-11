@@ -71,6 +71,7 @@ const Employees = () => {
                         <div className="user-table-header-cell">Email</div>
                         <div className="user-table-header-cell">Phone</div>
                         <div className="user-table-header-cell">Number of customers</div>
+                        <div id="action-title" className="user-table-header-cell">Actions</div>
                     </div>
                     <div className="user-table-body">
                         {EmployeeArray.length === 0 ? (
@@ -89,9 +90,9 @@ const Employees = () => {
                                         </div>
                                     </div>
                                     <div className="user-table-cell">{user.email}</div>
-                                    <div className="user-table-cell">{user.phone}</div>
+                                    <div className="user-table-cell">{user.phone || "N/A"}</div>
                                     <div className="user-table-cell">{user.customers?.length || "N/A"}</div>
-                                    <div className="user-table-cell">
+                                    <div id="action-button" className="user-table-cell">
                                         <button className="edit-button" onClick={() => handleOpenModal(user)}>
                                             ...
                                         </button>
