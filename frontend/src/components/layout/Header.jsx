@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaEnvelope, FaUserCircle } from 'react-icons/fa';
 import { useGetEmployeeProfileQuery } from '../../redux/api/userApi';
 import { useSelector } from 'react-redux';
@@ -8,11 +8,12 @@ import { useLazyLogoutQuery } from '../../redux/api/authApi';
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation(); // Utilisé pour savoir quel lien est actif
   
   const { isLoading } = useGetEmployeeProfileQuery();
   const [logout] = useLazyLogoutQuery();
   const { user } = useSelector((state) => state.auth);
-  
+
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
@@ -20,11 +21,14 @@ const Header = () => {
   const logoutHandler = () => {
     logout();
     navigate('/', { replace: true });
-  
+
     setTimeout(() => {
       window.location.reload();
     }, 50);
   };
+
+  // Fonction pour vérifier si une route est active
+  const isActive = (path) => location.pathname === path;
 
   return (
     <header style={styles.header}>
@@ -35,11 +39,21 @@ const Header = () => {
 
       {/* Menu de navigation */}
       <nav style={styles.nav}>
-        <Link to="/dashboard" style={styles.link}>Dashboard</Link>
-        <Link to="/employees" style={styles.link}>Coaches</Link>
-        <Link to="/customers" style={styles.link}>Customers</Link>
-        <Link to="/tips" style={styles.link}>Tips</Link>
-        <Link to="/events" style={styles.link}>Events</Link>
+        <Link to="/dashboard" style={isActive('/dashboard') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+          Dashboard
+        </Link>
+        <Link to="/employees" style={isActive('/employees') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+          Coaches
+        </Link>
+        <Link to="/customers" style={isActive('/customers') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+          Customers
+        </Link>
+        <Link to="/tips" style={isActive('/tips') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+          Tips
+        </Link>
+        <Link to="/events" style={isActive('/events') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+          Events
+        </Link>
       </nav>
 
       {/* Boutons à droite */}
@@ -93,7 +107,22 @@ const styles = {
   link: {
     textDecoration: 'none',
     color: '#333',
-    fontSize: '16px'
+    fontSize: '16px',
+    padding: '10px 0',
+    position: 'relative' // Nécessaire pour la barre bleue en dessous
+  },
+  activeLink: {
+    color: '#007bff', // Couleur bleue pour le lien actif
+    fontWeight: 'bold',
+  },
+  activeBar: {
+    content: '""',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    height: '2px',
+    backgroundColor: '#007bff', // Barre bleue sous le lien actif
   },
   buttons: {
     display: 'flex',

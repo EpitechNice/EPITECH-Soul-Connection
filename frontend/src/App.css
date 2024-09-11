@@ -196,65 +196,72 @@ nav {
 }
 
 /* Statistics page */
-
-.container-statistics {
+.statistics-page {
   display: flex;
-  justify-content: space-around;
-  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f7f8fa;
 }
 
-.row-stats {
-  display: flex;
-  gap: 80px;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  margin-top: 70px;
-}
-
-.card {
-  width: 200px;
-  height: 150px;
+.content {
+  flex: 1;
   padding: 20px;
+}
+
+.overview {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.overview-item {
+  background: #fff;
+  padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  transition: background-color 0.3s ease;
-  align-items: flex-start;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  margin-right: 15px;
 }
 
-#cardclient {
-  background-color: #ffe7e7;
+.overview-item:last-child {
+  margin-right: 0;
 }
 
-#cardcoach {
-  background-color: #fff3d9;
-}
-
-#cardrdv {
-  background-color: #e6fae6;
-}
-
-.card img {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 15px;
-}
-
-.card p {
-  margin: 5px 0;
+.count {
   font-size: 24px;
   font-weight: bold;
-  color: #000;
+  margin-right: 10px;
 }
 
-.card p:last-child {
-  font-size: 16px;
-  font-weight: normal;
-  color: #666;
+.percentage {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.positive {
+  color: #28a745;
+}
+
+.negative {
+  color: #dc3545;
+}
+
+.charts-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.chart {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.chart h4 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #333;
 }
 
 /* Tips page */
