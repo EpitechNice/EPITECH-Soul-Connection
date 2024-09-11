@@ -24,7 +24,7 @@ const Statistics = () => {
     datasets: [
       {
         label: 'Events',
-        data: eventArray.map(event => event.participants),
+        data: eventArray.map(event => event.attendees),
         backgroundColor: 'rgba(54, 162, 235, 0.6)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
