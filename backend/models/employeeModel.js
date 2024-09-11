@@ -74,8 +74,8 @@ Employee.init({
  * - events
 */
 
-Event.belongsTo(Employee);
-Employee.hasMany(Event);
+// Event.belongsTo(Employee);
+// Employee.hasMany(Event);
 
 // Employee.hasMany(Event, {
 //     as: "events",

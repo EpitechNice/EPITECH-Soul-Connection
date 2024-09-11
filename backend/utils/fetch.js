@@ -15,6 +15,7 @@ import Customer from "../models/customerModel.js"
 import { createDB, delay } from "../config/dbCreate.js";
 
 import * as fs from "fs";
+import Clothing from "../models/clothingModel.js";
 
 const UPLOAD_PATH = "/usr/src/app/images/";
 const areWeManager = true;
@@ -53,6 +54,22 @@ async function addClothe(session, type, id) {
 async function addEncounter(session, id) {
     let response = await retreiveData(session, `/api/encounters/${id}`, "comment");
     return await Encounter.upsert(response.data);
+}
+
+function clearOfId(items, idsToRemove) {
+    let clearedItems = items;
+    for (let id in idsToRemove) {
+        try {
+            clearedItems = clearedItems.filter(item => item.id !== idsToRemove[id]);
+        } catch(err) {
+            console.log(clearedItems);
+        }
+    }
+    return clearedItems;
+}
+
+function getIds(items) {
+    return items.map(item => item.id);
 }
 
 async function fetchDB() {
@@ -101,25 +118,36 @@ async function fetchDB() {
     console.log("\x1b[92m%s\x1b[0m", "[INFO] === Retreiving tips ===");
 
     try {
-        let alltips = await retreiveData(session, "/api/tips", 0);
+        let alltips = (await retreiveData(session, "/api/tips", 0)).data;
+        alltips = clearOfId(alltips, getIds((await Tip.findAll())));
 
-        for (var index in alltips.data)
-            Tip.upsert(alltips.data[index]);
+        for (var index in alltips)
+            await Tip.upsert(alltips[index]);
     } catch (err) {
         console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retrieve tips: ${err}`);
     }
 
     console.log("\x1b[92m%s\x1b[0m", "[INFO] === Retreiving events ===");
 
-    let events = await retreiveData(session, "/api/events", 0);
+    let events = (await retreiveData(session, "/api/events", 0)).data;
+    events = clearOfId(events, getIds((await Event.findAll())));
 
-    events = events.data;
+    for (let event in events) {
+        try {
+            await Event.upsert((await retreiveData(session, `/api/events/${events[event].id}`, "id")).data);
+        } catch (err) {
+            console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retrieve data for event ${events[event].id}: ${err}`);
+        }
+    }
 
     console.log("\x1b[92m%s\x1b[0m", "[INFO] === Retreiving employees ===");
 
-    const allemployees = await retreiveData(session, "/api/employees", 0);
+    let allEmployees = (await retreiveData(session, "/api/employees", 0)).data;
+    allEmployees = clearOfId(allEmployees, getIds((await Employee.findAll())));
 
-    await Promise.all(allemployees.data.map(async (employee, i) => {
+    console.log()
+
+    await Promise.all(allEmployees.map(async (employee, i) => {
         try {
             const response = await retreiveData(session, `/api/employees/${employee.id}`, "id");
 
@@ -140,9 +168,6 @@ async function fetchDB() {
                 image_path: UPLOAD_PATH + `employees/${response.data.id}.png`,
                 work: response.data.work,
             });
-
-            const hisEvents = events.filter(event => event.employee_id == employee.id);
-            await employeeObject[0].addEvents(hisEvents);
         } catch (err) {
             console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retrieve data or image for employee ${employee.id}: ${err}`);
         }
@@ -150,29 +175,31 @@ async function fetchDB() {
 
     console.log("\x1b[92m%s\x1b[0m", "[INFO] === Retreiving customers ===");
 
-    const allcustomers = await retreiveData(session, "/api/customers", 0);
+    let allCustomers = (await retreiveData(session, "/api/customers", 0)).data;
+    allCustomers = clearOfId(allCustomers, getIds((await Customer.findAll())));
 
-    await Promise.all(allcustomers.data.map(async (customer, i) => {
+    await Promise.all(allCustomers.map(async (customer, i) => {
         try {
             let clothes = (await retreiveData(session, `/api/customers/${customer.id}/clothes`, 0)).data;
             let payments = (await retreiveData(session, `/api/customers/${customer.id}/payments_history`, 0)).data;
             let encounters = (await retreiveData(session, `/api/encounters/customer/${customer.id}`, 0)).data;
             const response = await retreiveData(session, `/api/customers/${customer.id}`, "id");
 
-            let clothes_array = [];
+            clothes = clearOfId(clothes, getIds((await Clothing.findAll())));
+            payments = clearOfId(payments, getIds((await Payment.findAll())));
+            encounters = clearOfId(encounters, getIds((await Encounter.findAll())));
 
             for (let clothe in clothes)
-                clothes_array.push(await addClothe(session, clothes[clothe].type, clothes[clothe].id));
-
-            let encounters_array = [];
+                await addClothe(session, clothes[clothe].type, clothes[clothe].id);
 
             for (let encounter in encounters)
-                encounters_array.push(await addEncounter(session, encounters[encounter].id));
-
-            let payments_array = [];
+                await addEncounter(session, encounters[encounter].id);
 
             for (let payment in payments)
-                payments_array.push((await Payment.upsert(payments[payment]))[0]);
+                await Payment.upsert({
+                    ...payments[payment],
+                    user_id: customer.id
+                });
 
             const imageResponse = await session.get(`/api/customers/${customer.id}/image`, {
                 responseType: "arraybuffer"
@@ -190,17 +217,22 @@ async function fetchDB() {
                 image_path: UPLOAD_PATH + `customers/${response.data.id}.png`,
                 astrological_sign: response.data.astrological_sign,
                 description: response.data.description,
+                address: response.data.address,
             }))[0];
-
-            if (userObject[0] !== undefined) {
-                await userObject[0].addClothings(clothes_array);
-                await userObject[0].addPayments(payments_array);
-                await userObject[0].addEncounters(encounters_array);
-            }
         } catch (err) {
             console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retrieve data or image for customer ${customer.id}: ${err}`);
         }
     }));
 }
 
-fetchDB();
+async function run_n_wait(params) {
+    let start = performance.now();
+    await fetchDB();
+    let seconds = performance.now() - start;
+    let minutes = ~~(seconds / 60);
+    seconds %= 60;
+    console.log("\x1b[95m%s\x1b[0m", `=== Fetching remote DB successfull. Took ${minutes}min and ${seconds}sec ===`);
+    await delay(30 * 60 * 1000);
+}
+
+run_n_wait();

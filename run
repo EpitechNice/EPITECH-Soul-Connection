@@ -12,9 +12,12 @@ then
     DC_COMMAND="docker compose"
 fi
 
+sudo mkdir -p ./data/images/
+sudo cp default.png ./data/images/
+
 (
-    $SUDO_ACCESS docker stop soul-connection-db soul-connection-backend soul-connection-frontend
-    $SUDO_ACCESS docker rm soul-connection-db soul-connection-backend soul-connection-frontend
+    $SUDO_ACCESS docker stop soul-connection-db soul-connection-backend soul-connection-frontend soul-connection-fetch
+    $SUDO_ACCESS docker rm soul-connection-db soul-connection-backend soul-connection-frontend soul-connection-fetch
 
     $SUDO_ACCESS docker network rm soul-connection
     $SUDO_ACCESS docker network create --gateway 172.20.0.1 --subnet 172.20.0.0/24 soul-connection

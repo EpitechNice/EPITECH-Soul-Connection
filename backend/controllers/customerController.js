@@ -170,7 +170,8 @@ export const getCustomerPayments = catchAsyncErrors(async (req, res, next) => {
 
         res.status(200).json(payments);
     } catch (err) {
-
+        console.error(err);
+        newt(new ErrorHandler("An error occurred while fetching customers", 500))
     }
 });
 

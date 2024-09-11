@@ -28,6 +28,11 @@ Encounter.init({
     source: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+
+    customer_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
     }
 }, {
     sequelize,
