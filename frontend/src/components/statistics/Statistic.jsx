@@ -19,12 +19,19 @@ const Statistics = () => {
   if (isLoading) return <Loader />;
 
   const eventArray = Array.isArray(data) ? data : data?.events || [];
+  // Count events per day
+  const eventCountByDate = eventArray.reduce((acc, event) => {
+    const date = event.date.split('T')[0]; // Assuming date is in ISO format
+    acc[date] = (acc[date] || 0) + 1;
+    return acc;
+  }, {});
+
   const eventData = {
-    labels: eventArray.map(event => event.date),
+    labels: Object.keys(eventCountByDate),
     datasets: [
       {
-        label: 'Events',
-        data: eventArray.map(event => event.attendees),
+        label: 'Number of Events',
+        data: Object.values(eventCountByDate),
         backgroundColor: 'rgba(54, 162, 235, 0.6)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
