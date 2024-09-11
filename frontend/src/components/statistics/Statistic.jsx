@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect } from 'react';
 import SideMenu from "../layout/SideMenu";
 import BarChart from "./Bar";
 import PieChart from "./Pie";
@@ -9,9 +9,6 @@ import Loader from '../layout/Loader';
 
 const Statistics = () => {
   const { data, isLoading, error, isError } = useGetEventsQuery();
-  const [monthlyEvents, setMonthlyEvents] = useState(0);
-  const [weeklyEvents, setWeeklyEvents] = useState(0);
-  const [dailyAvgEvents, setDailyAvgEvents] = useState(0);
 
   useEffect(() => {
     if (isError) {
@@ -20,34 +17,45 @@ const Statistics = () => {
   }, [isError, error]);
 
   if (isLoading) return <Loader />;
-  const now = new Date();
-  const eventsThisMonth = Statistics.filter(eventArray => new Date(eventArray.date).getMonth() === now.getMonth());
-  const eventsThisWeek = Statistics.filter(eventArray => {
-    const eventDate = new Date(eventArray.date);
-    const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
-    const endOfWeek = new Date(now.setDate(now.getDate() - now.getDay() + 6));
-    return eventDate >= startOfWeek && eventDate <= endOfWeek;
-  });
-  const eventsToday = eventArray.filter(eventArray => new Date(eventArray.date).toDateString() === new Date().toDateString());
 
-  setMonthlyEvents(eventsThisMonth.length);
-  setWeeklyEvents(eventsThisWeek.length);
-  setDailyAvgEvents(eventsToday.length / 7); // Moyenne sur 7 jours
+  const eventArray = Array.isArray(data) ? data : data?.events || [];
 
-  const eventArray = Array.isArray(data) ? data : data?.Statistics || [];
-  // Count events per day
-  const eventCountByDate = eventArray.reduce((acc, event) => {
-    const date = event.date.split('T')[0]; // Assuming date is in ISO format
-    acc[date] = (acc[date] || 0) + 1;
+  // Helper functions
+  const getMonthYear = (date) => date.split('T')[0].slice(0, 7); // 'YYYY-MM'
+  const getWeek = (date) => {
+    const dt = new Date(date);
+    const firstJan = new Date(dt.getFullYear(), 0, 1);
+    const days = Math.floor((dt - firstJan) / (24 * 60 * 60 * 1000));
+    return Math.ceil((dt.getDay() + 1 + days) / 7);
+  };
+
+  // Group events by month
+  const eventCountByMonth = eventArray.reduce((acc, event) => {
+    const monthYear = getMonthYear(event.date);
+    acc[monthYear] = (acc[monthYear] || 0) + 1;
     return acc;
   }, {});
 
-  const eventData = {
-    labels: Object.keys(eventCountByDate),
+  // Group events by week
+  const eventCountByWeek = eventArray.reduce((acc, event) => {
+    const weekNumber = getWeek(event.date);
+    const year = new Date(event.date).getFullYear();
+    const key = `${year}-W${weekNumber}`;
+    acc[key] = (acc[key] || 0) + 1;
+    return acc;
+  }, {});
+
+  // Count total unique days and calculate daily average
+  const uniqueDays = [...new Set(eventArray.map(event => event.date.split('T')[0]))];
+  const dailyAverage = eventArray.length / uniqueDays.length;
+
+  // Prepare data for charts
+  const eventDataByMonth = {
+    labels: Object.keys(eventCountByMonth),
     datasets: [
       {
-        label: 'Number of Events',
-        data: Object.values(eventCountByDate),
+        label: 'Number of Events per Month',
+        data: Object.values(eventCountByMonth),
         backgroundColor: 'rgba(54, 162, 235, 0.6)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 0.5,
@@ -56,12 +64,12 @@ const Statistics = () => {
     ],
   };
 
-  const customerGrowthData = {
-    labels: ['01 Jul', '05 Jul', '10 Jul', '15 Jul', '20 Jul', '25 Jul', '30 Jul'],
+  const eventDataByWeek = {
+    labels: Object.keys(eventCountByWeek),
     datasets: [
       {
-        label: 'Customers',
-        data: [850, 870, 900, 910, 920, 925, 932],
+        label: 'Number of Events per Week',
+        data: Object.values(eventCountByWeek),
         backgroundColor: 'rgba(75, 192, 192, 0.4)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 2,
@@ -70,20 +78,16 @@ const Statistics = () => {
     ],
   };
 
-  // Count events by type
-  const eventCountByType = eventArray.reduce((acc, event) => {
-    acc[event.type] = (acc[event.type] || 0) + 1;
-    return acc;
-  }, {});
-
-  const pieData = {
-    labels: Object.keys(eventCountByType),
+  const dailyAverageData = {
+    labels: ['Daily Average'],
     datasets: [
       {
-        label: 'Event Types',
-        data: Object.values(eventCountByType),
-        backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
-        hoverOffset: 4,
+        label: 'Average Events per Day',
+        data: [dailyAverage],
+        backgroundColor: 'rgba(255, 206, 86, 0.6)',
+        borderColor: 'rgba(255, 206, 86, 1)',
+        borderWidth: 0.5,
+        fill: true,
       },
     ],
   };
@@ -115,61 +119,23 @@ const Statistics = () => {
     },
   };
 
-  const pieChartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      tooltip: {
-        callbacks: {
-          label: function(tooltipItem) {
-            return tooltipItem.label + ': ' + tooltipItem.raw;
-          }
-        }
-      }
-    }
-  };
-
   return (
     <div className="statistics-page">
       <SideMenu />
       <div className="content">
         <div className="overview">
           <div className="overview-item">
-            <h3>Customers</h3>
-            <span className="count">932</span>
-            <span className="percentage positive">+12.37%</span>
-          <div className="chart">
-            <h4>Customer Growth</h4>
-            <LineChart data={customerGrowthData} options={chartOptions} />
-          </div>
-          </div>
-          <div className="overview-item">
-          <h3>Events</h3>
-            <h4>Our events and their status.</h4>
+            <h3>Events</h3>
             <h5>Monthly</h5>
-            <span className="count">{monthlyEvents}</span>
-            <span className="percentage positive">+4.63%</span>
+            <BarChart data={eventDataByMonth} options={chartOptions} />
             <h5>Weekly</h5>
-            <span className="count">{weeklyEvents}</span>
-            <span className="percentage positive">+4.63%</span>
-            <h5>Daily(Avg)</h5>
-            <span className="count">{dailyAvgEvents.toFixed(2)}</span>
-            <span className="percentage positive">+4.63%</span>
-            <div className="chart">
-            <BarChart data={eventData} options={chartOptions} />
+            <BarChart data={eventDataByWeek} options={chartOptions} />
+            <h5>Daily Average</h5>
+            <BarChart data={dailyAverageData} options={chartOptions} />
           </div>
-          </div>
-          <div className="overview-item">
-            <h3>Meeting top sources</h3>
-            <div className="chart">
-            <PieChart data={pieData} options={pieChartOptions} />
-          </div>
-          </div>
-        </div>
         </div>
       </div>
+    </div>
   );
 };
 
