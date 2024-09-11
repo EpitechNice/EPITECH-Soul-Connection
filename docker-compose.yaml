@@ -38,25 +38,25 @@ services:
     depends_on:
       - db
 
-  frontend:
-    build:
-      context: ./frontend/
-    env_file:
-      - ./frontend/.env
-    container_name: soul-connection-frontend
-    restart: always
-    environment:
-      NODE_ENV: ${NODE_ENV}
-      API_BASE_URL: ${LOCAL_API_BASE_URL}
-      PORT: ${FRONT_PORT}
-    networks:
-      soul-connection:
-        ipv4_address: ${FRONT_HOST}
-    ports:
-      - "${FRONT_PORT}:${FRONT_PORT}"
-    depends_on:
-      - db
-      - backend
+  # frontend:
+  #   build:
+  #     context: ./frontend/
+  #   env_file:
+  #     - ./frontend/.env
+  #   container_name: soul-connection-frontend
+  #   restart: always
+  #   environment:
+  #     NODE_ENV: ${NODE_ENV}
+  #     API_BASE_URL: ${LOCAL_API_BASE_URL}
+  #     PORT: ${FRONT_PORT}
+  #   networks:
+  #     soul-connection:
+  #       ipv4_address: ${FRONT_HOST}
+  #   ports:
+  #     - "${FRONT_PORT}:${FRONT_PORT}"
+  #   depends_on:
+  #     - db
+  #     - backend
 
 networks:
   soul-connection:

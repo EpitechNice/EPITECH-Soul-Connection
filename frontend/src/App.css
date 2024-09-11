@@ -947,3 +947,42 @@ hr {
   border: none;
   cursor: pointer;
 }
+
+/* Edit Button */
+
+
+.actions-dropdown {
+  position: relative; /* Nécessaire pour positionner le menu déroulant */
+}
+
+.actions-button {
+  background: transparent; /* Fond transparent pour le bouton */
+  border: none; /* Enlève les bordures */
+  font-size: 18px; /* Taille de la police */
+  cursor: pointer; /* Curseur pointer pour indiquer que c'est cliquable */
+  color: #333; /* Couleur du texte */
+  padding: 0; /* Enlève le padding par défaut */
+}
+
+.actions-options {
+  position: absolute; /* Positionne le menu déroulant */
+  top: 100%; /* Place le menu juste en dessous du bouton */
+  right: 0; /* Aligne le menu à droite du bouton */
+  background: white; /* Fond blanc */
+  border: 1px solid #ddd; /* Bordure légère */
+  border-radius: 4px; /* Coins arrondis */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre portée */
+  list-style: none; /* Enlève les puces de la liste */
+  padding: 0; /* Enlève le padding par défaut */
+  margin: 0; /* Enlève la marge par défaut */
+  z-index: 1000; /* Assure que le menu soit au-dessus des autres éléments */
+}
+
+.actions-options li {
+  padding: 8px 12px; /* Espacement interne des éléments */
+  cursor: pointer; /* Curseur pointer pour les éléments de menu */
+}
+
+.actions-options li:hover {
+  background-color: #f0f0f0; /* Fond de survol */
+}

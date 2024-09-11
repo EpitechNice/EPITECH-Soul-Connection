@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SideMenu from "../layout/SideMenu";
-import { useGetCustomersQuery, useDeleteCustomerMutation, useUpdateCustomerMutation } from '../../redux/api/customerApi'; // Remplacer par les hooks de customer
+import { useGetEmployeesQuery, useDeleteEmployeeMutation, useUpdateEmployeeMutation } from '../../redux/api/employeeApi';
 import toast from "react-hot-toast";
 import Loader from '../layout/Loader';
 import IconDownload from '../../assets/Download.svg';
@@ -9,22 +9,22 @@ import SettingsIcon from '../../assets/Settings.svg';
 import { useSelector } from 'react-redux';
 import FormPopup from '../edit/FormPopupAdd';
 
-const Customers = () => {
-    const { data, isLoading, error, isError, refetch } = useGetCustomersQuery(); // Utilisation de l'API Customers
+const Employees = () => {
+    const { data, isLoading, error, isError, refetch } = useGetEmployeesQuery();
     const [users, setUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [sortOrder, setSortOrder] = useState('default');
     const [showPopup, setShowPopup] = useState(false);
     const [editMenuOpen, setEditMenuOpen] = useState(null);
-    const [deleteCustomer] = useDeleteCustomerMutation(); // Suppression d'un customer
-    const { mutate: updateCustomer } = useUpdateCustomerMutation(); // Mise à jour d'un customer
+    const [deleteEmployee] = useDeleteEmployeeMutation();
+    const { mutate: updateEmployee } = useUpdateEmployeeMutation();
     const usertype = useSelector((state) => state.auth);
-    const customerImgData = "";
+    const employeeImgData = "";
 
     useEffect(() => {
         if (data) {
-            setUsers(data.customers || []); // Récupération des clients
+            setUsers(data.coach || []);
         }
         if (isError) {
             toast.error(error?.data?.message || "An error occurred.");
@@ -56,39 +56,39 @@ const Customers = () => {
     const handleEditClick = async (id) => {
         const user = users.find(user => user.id === id);
         try {
-            await updateCustomer(user).unwrap(); // Mise à jour du client
-            refetch();
-            toast.success("Customer updated successfully.");
+            await updateEmployee(user).unwrap();
+            refetch(); // Recharger les données après la mise à jour
+            toast.success("Employee updated successfully.");
         } catch (err) {
-            console.error('Failed to update customer:', err);
-            toast.error("Failed to update customer.");
+            console.error('Failed to update employee:', err);
+            toast.error("Failed to update employee.");
         }
     };
 
     const handleDeleteClick = async (userId) => {
         try {
-            await deleteCustomer(userId).unwrap(); // Suppression du client
-            refetch();
-            toast.success("Customer deleted successfully.");
+            await deleteEmployee(userId).unwrap();
+            refetch(); // Recharger les données après la suppression
+            toast.success("Employee deleted successfully.");
         } catch (err) {
-            console.error('Failed to delete customer:', err);
-            toast.error("Failed to delete customer.");
+            console.error('Failed to delete employee:', err);
+            toast.error("Failed to delete employee.");
         }
     };
 
     const downloadCSV = () => {
         const csvRows = [];
-        csvRows.push(['Name', 'Email', 'Phone', 'Address', 'Birth Date', 'Gender', 'Astrological Sign'].join(','));
+        csvRows.push(['Name', 'Email', 'Phone', 'Number of Customers', 'Birth Date', 'Gender', 'Work'].join(','));
 
         users.forEach(user => {
             const row = [
                 `${user.name} ${user.surname}`,
                 user.email,
-                user.phone_number || 'N/A',
-                user.address || 'N/A',
+                user.phone || 'N/A',
+                user.customers?.length || 'N/A',
                 user.birth_date || 'N/A',
                 user.gender || 'N/A',
-                user.astrological_sign || 'N/A'
+                user.work || 'N/A'
             ];
             csvRows.push(row.join(','));
         });
@@ -98,7 +98,7 @@ const Customers = () => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'customers_list.csv'; // Renommé pour les clients
+        a.download = 'employees_list.csv';
         a.click();
         window.URL.revokeObjectURL(url);
     };
@@ -118,18 +118,18 @@ const Customers = () => {
     });
 
     if (isLoading) return <Loader />;
-    const CustomerArray = Array.isArray(filteredUsers) ? filteredUsers : [];
+    const EmployeeArray = Array.isArray(filteredUsers) ? filteredUsers : [];
 
     return (
-        <div className="customers-page">
+        <div className="employees-page">
             <div className="side-menu">
                 <SideMenu />
             </div>
             <div className="main-content">
-                <div className="head-content-customers-page">
-                    <div className="title-content-customers">
-                        <h1 className="page-title">Customers List</h1>
-                        <p className="page-subtitle">You have total {users.length} customers.</p>
+                <div className="head-content-coaches-page">
+                    <div className="title-content-coaches">
+                        <h1 className="page-title">Coaches List</h1>
+                        <p className="page-subtitle">You have total {users.length} coaches.</p>
                     </div>
                     <div className='group-button'>
                         <button className="export-button" onClick={downloadCSV}>
@@ -159,7 +159,7 @@ const Customers = () => {
                                     <div className="search-wrapper">
                                         <input
                                             type="text"
-                                            placeholder="Search customers..."
+                                            placeholder="Search coaches..."
                                             value={searchTerm}
                                             onChange={(e) => setSearchTerm(e.target.value)}
                                             className="search-input"
@@ -190,25 +190,25 @@ const Customers = () => {
                     </div>
                     <div className="user-table">
                         <div className="user-table-header">
-                            <div className="user-table-header-cell">Customer</div>
+                            <div className="user-table-header-cell">Coach</div>
                             <div className="user-table-header-cell">Email</div>
                             <div className="user-table-header-cell">Phone</div>
-                            <div className="user-table-header-cell">Address</div>
+                            <div className="user-table-header-cell">Number of customers</div>
                             {usertype.user.type === "Manager" ? (
                             <div id="action-title" className="user-table-header-cell">Actions</div>
                             ) : null}
                         </div>
                         <div className="user-table-body">
-                            {CustomerArray.length === 0 ? (
+                            {EmployeeArray.length === 0 ? (
                                 <div className="user-table-row">
                                     <div className="user-table-cell">No data available</div>
                                 </div>
                             ) : (
-                                CustomerArray.map((user) => (
+                                EmployeeArray.map((user) => (
                                     <div className="user-table-row" key={user.id}>
                                         <div className="user-table-cell">
-                                            {customerImgData?.[user.id] ? (
-                                                <img src={customerImgData[user.id]} alt="User" className="user-image" />
+                                            {employeeImgData?.[user.id] ? (
+                                                <img src={employeeImgData[user.id]} alt="User" className="user-image" />
                                             ) : (
                                                 <div className="avatar-circle">
                                                     {user.name.charAt(0)}{user.surname?.charAt(0)}
@@ -219,8 +219,8 @@ const Customers = () => {
                                             </div>
                                         </div>
                                         <div className="user-table-cell">{user.email}</div>
-                                        <div className="user-table-cell">{user.phone_number || "N/A"}</div>
-                                        <div className="user-table-cell">{user.address || "N/A"}</div>
+                                        <div className="user-table-cell">{user.phone || "N/A"}</div>
+                                        <div className="user-table-cell">{user.customers?.length || "N/A"}</div>
                                         {usertype.user.type === "Manager" ? (
                                         <div id="action-button" className="user-table-cell">
                                             <button className="edit-button" onClick={() => handleMenuClick(user.id)}>
@@ -248,4 +248,4 @@ const Customers = () => {
     );
 };
 
-export default Customers;
+export default Employees;
