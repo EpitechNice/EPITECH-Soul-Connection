@@ -9,14 +9,17 @@ const Header = () => {
 
   const { isLoading } = useGetEmployeeProfileQuery();
 
-  const [logout, { data} ] = useLazyLogoutQuery();
+  const [logout ] = useLazyLogoutQuery();
 
   const { user } = useSelector((state) => state.auth);
 
   const logoutHandler = () => {
     logout();
-    //Refresh page
-    navigate(0);
+    navigate('/', { replace: true });
+  
+    setTimeout(() => {
+      window.location.reload();
+    }, 50);
   };
 
   return (
@@ -26,7 +29,7 @@ const Header = () => {
       </div>
       <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
         {user ? (
-            <Link to="/login" className="btn ms-4" id="logout_btn" onClick={logoutHandler}>
+            <Link className="btn ms-4" id="logout_btn" to="/" onClick={logoutHandler}>
                 Logout{" "}
                 </Link>
         ) : (
