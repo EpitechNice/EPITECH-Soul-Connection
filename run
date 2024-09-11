@@ -23,14 +23,6 @@ $SUDO_ACCESS docker rmi -f epitech-soul-connection-backend epitech-soul-connecti
 
 ./scripts/read_env.py > ./frontend/.env || exit 1
 
-export $(cat ./frontend/.env | xargs)
+$SUDO_ACCESS bash -c "export $(cat ./frontend/.env | xargs) && $DC_COMMAND up"
 
-if [ "$STATUS" = "prod" ]; then
-    export LOCAL_PORT=$BACK_PROD_PORT
-else
-    export LOCAL_PORT=$BACK_DEV_PORT
-fi
-
-$SUDO_ACCESS bash -c "export $(cat ./frontend/.env | xargs) && export NODE_ENV=$STATUS && export LOCAL_PORT=$LOCAL_PORT && $SUDO_ACCESS $DC_COMMAND up"
-
-rm ./frontend/.env
+# rm ./frontend/.env
