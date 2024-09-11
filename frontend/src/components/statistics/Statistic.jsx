@@ -55,7 +55,7 @@ const Statistics = () => {
   };
 
   const pieData = {
-    labels: ['Dating App', 'Social Media', 'Referral'],
+    labels: eventArray.map(event => event.type),
     datasets: [
       {
         label: 'Meeting Sources',
