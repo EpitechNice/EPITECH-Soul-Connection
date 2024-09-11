@@ -96,7 +96,8 @@ export const getCustomers = catchAsyncErrors(async (req, res, next) => {
     }
 });
 
-export const getCustomer = catchAsyncErrors(async (req, res, next) => {
+//Get customer details: /customers/:id
+export const getCustomerDetails = catchAsyncErrors(async (req, res, next) => {
     try {
         var cookie = req.cookies.token;
         const decoded = jwt.verify(cookie, process.env.SECRET_KEY);
@@ -130,6 +131,7 @@ export const getCustomer = catchAsyncErrors(async (req, res, next) => {
     }
 });
 
+//Get customer image: /customers/:id/image
 export const getCustomerImg = catchAsyncErrors(async (req, res, next) => {
     const customer = await Customer.findByPk(req.params.id);
 
@@ -138,7 +140,6 @@ export const getCustomerImg = catchAsyncErrors(async (req, res, next) => {
     if (customer)
         imagePath = customer.image_path;
 
-    // https://stackoverflow.com/questions/5823722/how-to-serve-an-image-using-nodejs
     var type = mime[path.extname(imagePath).slice(1)] || 'text/plain';
     var s = fs.createReadStream(imagePath);
     s.on('open', function () {
@@ -148,8 +149,4 @@ export const getCustomerImg = catchAsyncErrors(async (req, res, next) => {
     s.on('error', function () {
         res.status(404).end('Not found');
     });
-
-    // res.status(200).json({
-        // employeeImg,
-    // });
 });

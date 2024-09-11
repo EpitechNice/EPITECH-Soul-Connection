@@ -7,9 +7,29 @@ export const tipApi = createApi({
     endpoints: (builder) => ({
         getTips: builder.query({
             query: () => "/tips",
-        })
-    })
-})
+        }),
+        createTip: builder.mutation({
+            query: (newTipData) => ({
+                url: "/tips",
+                method: "POST",
+                body: newTipData,
+            }),
+        }),
+        updateTip: builder.mutation({
+          query: ({ id, ...updatedFields }) => ({
+            url: `/tips/${id}`,
+            method: "PUT",
+            body: updatedFields,
+          }),
+        }),
+        deleteTip: builder.mutation({
+          query: (id) => ({
+            url: `/tips/${id}`,
+            method: "DELETE",
+          }),
+        }),
+    }),
+});
 
 //Hook
-export const { useGetTipsQuery } = tipApi;
+export const { useGetTipsQuery, useCreateTipMutation, useUpdateTipMutation, useDeleteTipMutation } = tipApi;

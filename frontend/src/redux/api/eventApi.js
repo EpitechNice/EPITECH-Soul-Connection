@@ -12,7 +12,27 @@ export const eventApi = createApi({
       getEventDetails: builder.query({
         query: (id) => `/events/${id}`,
       }),
+      createEvent: builder.mutation({
+        query: (newEventData) => ({
+            url: "/events",
+            method: "POST",
+            body: newEventData,
+        }),
+      }),
+      updateEvent: builder.mutation({
+        query: ({ id, ...updatedFields }) => ({
+          url: `/events/${id}`,
+          method: "PUT",
+          body: updatedFields,
+        }),
+      }),
+      deleteEvent: builder.mutation({
+        query: (id) => ({
+          url: `/events/${id}`,
+          method: "DELETE",
+        }),
+      }),
     }),
   });
 
-export const { useGetEventsQuery, useGetEventDetailsQuery } = eventApi;
+export const { useGetEventsQuery, useGetEventDetailsQuery, useCreateEventMutation, useUpdateEventMutation, useDeleteEventMutation } = eventApi;

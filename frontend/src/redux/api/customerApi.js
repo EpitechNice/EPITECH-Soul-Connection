@@ -7,9 +7,15 @@ export const customerApi = createApi({
     endpoints: (builder) => ({
         getCustomers: builder.query({
             query: () => "/customers",
-        })
+        }),
+        getCustomerDetails: builder.query({
+            query: (id) => `/customers/${id}`,
+        }),
+        getCustomerImg: builder.query({
+            query: (id) => `/customers/${id}/image`,
+        }),
     })
 })
 
 //Hook
-export const { useGetCustomersQuery } = customerApi;
+export const { useGetCustomersQuery, useGetCustomerDetailsQuery, useGetCustomerImgQuery } = customerApi;

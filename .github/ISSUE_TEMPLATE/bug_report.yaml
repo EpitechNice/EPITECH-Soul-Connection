@@ -1,0 +1,68 @@
+name: Bug Report
+description: Report a problem
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        *Before reporting:*
+        - Confirm the problem is reproducible on latest commit / latest release.
+        - Search existing issues (including closed)
+        - Try your best to make the bug reproducible on any system (provide containerd instructions)
+
+  - type: textarea
+    attributes:
+      label: "Problem"
+      description: "Describe the current behavior. May include logs, images, or videos."
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: "Steps to reproduce"
+      description: |
+        - For build failures: list the exact steps.
+      placeholder: |
+        ./run
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: "Expected behavior"
+      description: "Describe the behavior you expect."
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: "Commit SHA"
+      placeholder: "012345678910"
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: "Operating system/version"
+      placeholder: "Ubuntu 22.04"
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: "Docker version"
+      description: |
+        - Output of `docker -v` or `docker --version`
+      placeholder: "Docker version 27.2.0, build 3ab4256"
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: "Docker Compose version"
+      description: |
+        - Output of `docker compose version` or `docker-compose version`
+      placeholder: "Docker Compose version v2.29.2"
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: "Previous tryes"
+      description: "Describe everything you tryed before in order to fix the issue"
+    validations:
+      required: true
