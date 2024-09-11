@@ -7,6 +7,7 @@ import path from "path";
 import * as fs from "fs";
 
 import jwt from "jsonwebtoken";
+import Payment from "../models/paymentModel.js";
 
 const DEFAULT_IMAGE_PATH = "/usr/src/app/images/default.png"
 
@@ -133,20 +134,120 @@ export const getCustomerDetails = catchAsyncErrors(async (req, res, next) => {
 
 //Get customer image: /customers/:id/image
 export const getCustomerImg = catchAsyncErrors(async (req, res, next) => {
-    const customer = await Customer.findByPk(req.params.id);
+    try {
+        const customer = await Customer.findByPk(req.params.id);
 
-    let imagePath = DEFAULT_IMAGE_PATH;
+        let imagePath = DEFAULT_IMAGE_PATH;
 
-    if (customer)
-        imagePath = customer.image_path;
+        if (customer)
+            imagePath = customer.image_path;
 
-    var type = mime[path.extname(imagePath).slice(1)] || 'text/plain';
-    var s = fs.createReadStream(imagePath);
-    s.on('open', function () {
-        res.set('Content-Type', type);
-        s.pipe(res);
-    });
-    s.on('error', function () {
-        res.status(404).end('Not found');
-    });
+        var type = mime[path.extname(imagePath).slice(1)] || 'text/plain';
+        var s = fs.createReadStream(imagePath);
+        s.on('open', function () {
+            res.set('Content-Type', type);
+            s.pipe(res);
+        });
+        s.on('error', function () {
+            res.status(404).end('Not found');
+        });
+    } catch (err) {
+        console.error(err);
+        newt(new ErrorHandler("An error occurred while fetching customers", 500))
+    }
+});
+
+export const getCustomerPayments = catchAsyncErrors(async (req, res, next) => {
+    try {
+        const customer = await Customer.findByPk(req.params.id);
+
+        const payments = await Payment.findAll({
+            where: {
+                userId: customer.id,
+            }
+        })
+
+        res.status(200).json(payments);
+    } catch (err) {
+
+    }
+});
+
+export const getCustomerClothes = catchAsyncErrors(async (req, res, next) => {
+});
+
+export const createCustomer = catchAsyncErrors(async (req, res) => {
+    try {
+        const modifiedBody = {
+            ...req.body,
+            image_path: DEFAULT_IMAGE_PATH,
+        };
+
+        const customer = await Customer.create(modifiedBody);
+
+        res.status(201).json({
+            message: "New customer created successfully",
+            customer,
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(400).json({
+            error: "Failed to create customer",
+            details: err.message
+        });
+    }
+});
+
+export const updateCustomer = catchAsyncErrors(async (req, res, next) => {
+    let customerId = req?.params?.id;
+
+    const customer = await Customer.findByPk(customerId);
+
+    if (!customer) {
+        return next(new ErrorHandler(`Customer '${customerId}' not found`, 404));
+    }
+
+    try {
+        const updatedCustomer = await customer.update(
+            req.body,
+            { returning: true }
+        );
+
+        res.status(200).json({
+            message: "Customer updated successfully",
+            data: updatedCustomer,
+        });
+    } catch (err) {
+        console.error(err);
+        next(new ErrorHandler("An error occurred while updating the customer", err.status));
+    }
+});
+
+//Delete customer item: /clothes
+export const deleteCustomer = catchAsyncErrors(async (req, res, next) => {
+    let id = req?.params?.id;
+
+    if (!id || isNaN(id)) {
+        return next(new ErrorHandler("Invalid customer ID", 400));
+    }
+
+    const customer = await Customer.findByPk(id);
+
+    if (!customer)
+        return next(new ErrorHandler(`Customer '${id}' not found`, 404));
+
+    try {
+        const result = await customer.destroy({
+            returning: true
+        });
+
+        res.status(200).json({
+            message: "Customer deleted successfully",
+            count: result[0]
+        });
+    } catch (err) {
+        console.error(err);
+        next(new ErrorHandler("An error occurred while deleting the customer", 500));
+    }
 });
