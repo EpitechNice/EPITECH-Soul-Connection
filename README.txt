@@ -19,3 +19,20 @@
 
 0x03
     Sequelize documentation: https://sequelize.org/docs/v6/getting-started/
+
+0x04: Environement
+
+0x05: How to use
+    The aim is to make the deployment as easy as possible.
+    This is achieved using bash and docker.
+    Make sure you have docker installed, as well as the compose plugin.
+    To start the main compose (DB, backend and frontend), simply run `./run`
+    This might ask you for your sudo password (if you are not part of the docker group),
+    but will mostly ask you for a "Password: ".
+    This is used to build environement variables (see 0x04).
+    This password can be found on the discord server. (You can also set it as an environement variable :
+        export ENV_PASSWORD=[PASSWORD]
+    to add it automaticly.)
+    It will then run everything.
+    To fetch remote DB, run `./fetch`.
+    To add a password to a user, run `./add_user [email] [password]`.

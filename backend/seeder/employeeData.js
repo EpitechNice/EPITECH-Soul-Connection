@@ -1,4 +1,5 @@
 import { hashSync, genSaltSync } from "bcrypt";
+import { employeeType } from "../models/employeeModel";
 
 const salt = genSaltSync(10);
 
@@ -7,7 +8,7 @@ export default [
     id: 1,
     email: "manager@test.com",
     password: hashSync("mdp1", salt),
-    type: "Manager",
+    type: employeeType.MANAGER,
     name: "ManagerName",
     surname: "ManagerSurname",
     birth_date: new Date("2000-02-25"),
@@ -18,7 +19,7 @@ export default [
     id: 2,
     email: "coach@test.com",
     password: hashSync("mdp2", salt),
-    type: "Coach",
+    type: employeeType.MANAGER,
     name: "CoachName",
     surname: "CoachSurname",
     birth_date: new Date("2000-02-25"),

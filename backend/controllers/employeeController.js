@@ -76,17 +76,16 @@ export const loginEmployee = catchAsyncErrors(async (req, res, next) => {
         expiresIn: 3 * 7 * 24 * 60 * 60,
     });
 
-    res.cookie("token", token).status(301).redirect("/");
-    // res.status(200).cookie("token", token).json({
-        // token,
-    // });
+    res.status(200).cookie("token", token).json({
+        token,
+    });
 })
 
 // Logout employee : /api/logout
 export const logoutEmployee = catchAsyncErrors(async(req, res, next) => {
     res.clearCookie("token");
 
-    returnres.status(200).json({
+    return res.status(200).json({
         message: "Logged out successfully",
     });
 });

@@ -1,6 +1,8 @@
 services:
   db:
     image: mysql:9.0.1
+    env_file:
+      - ./frontend/.env
     container_name: soul-connection-db
     restart: always
     environment:
@@ -8,7 +10,7 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
     networks:
       soul-connection:
-        ipv4_address: 172.20.0.2 #${DB_HOST}
+        ipv4_address: ${DB_HOST}
     volumes:
       - "./data/db/:/var/lib/mysql"
 
@@ -16,12 +18,13 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    env_file:
+      - ./frontend/.env
     container_name: soul-connection-backend
     restart: always
     environment:
-      LOCAL_PORT: ${LOCAL_PORT}
+      LOCAL_PORT: ${BACK_PORT}
       NODE_ENV: ${NODE_ENV}
-      STATUS: ${STATUS}
       DB_HOST: ${DB_HOST}
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
@@ -35,26 +38,25 @@ services:
     depends_on:
       - db
 
-  # frontend:
-  #   build:
-  #     context: ./frontend/
-  #     dockerfile: ./Dockerfile-Frontend
-  #   container_name: soul-connection-frontend
-  #   restart: always
-  #   environment:
-  #     STATUS: ${STATUS}
-  #     API_BASE_URL: ${LOCAL_API_BASE_URL}
-  #     FRONT_PROD_PORT: ${FRONT_PROD_PORT}
-  #     FRONT_DEV_PORT: ${FRONT_DEV_PORT}
-  #     PORT: ${PORT}
-  #   networks:
-  #     soul-connection:
-  #       ipv4_address: ${FRONT_HOST}
-  #   ports:
-  #     - "${PORT}:${PORT}"
-  #   depends_on:
-  #     - db
-  #     - backend
+  frontend:
+    build:
+      context: ./frontend/
+    env_file:
+      - ./frontend/.env
+    container_name: soul-connection-frontend
+    restart: always
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      API_BASE_URL: ${LOCAL_API_BASE_URL}
+      PORT: ${FRONT_PORT}
+    networks:
+      soul-connection:
+        ipv4_address: ${FRONT_HOST}
+    ports:
+      - "${FRONT_PORT}:${FRONT_PORT}"
+    depends_on:
+      - db
+      - backend
 
 networks:
   soul-connection:
