@@ -80,6 +80,11 @@ const Statistics = () => {
           display: true,
           text: 'Date',
         },
+        ticks: {
+          maxRotation: 90,
+          minRotation: 45,
+          autoSkip: false, // Show all labels
+        },
       },
       y: {
         title: {
