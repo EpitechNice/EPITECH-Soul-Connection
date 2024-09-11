@@ -25,25 +25,70 @@ function App() {
         <div className="pages">
           <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/statistics" element={<Statistics />} />
-          <Route path="/tips" element={<Tips />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/clothes" element={<Clothes />} />
-          {/* TODO: En réalité pour toutes les routes "protected" (besoin de s'authentifier)
-          il faudra faire comme ça : */}
-          {/* <Route path="/" element={
-              <PrivateRoute>
-                <Home />
-              </PrivateRoute>
-              }
-            /> */}
 
-            {/* TODO : du coup pour toutes les routes en dessous faut aussi les mettre en protected */}
-          <Route path="/employees" element={<Employees />} />
-          <Route path="/compatibility" element={<Compatibility />} />
-          <Route path="/customers" element={<Customers /> } />
+          <Route path="/" element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+            }
+          />
+
+          <Route path="/home" element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+            }
+          />
+
+          <Route path="/statistics" element={
+            <PrivateRoute>
+              <Statistics />
+            </PrivateRoute>
+            }
+          />
+
+          <Route path="/tips" element={
+            <PrivateRoute>
+              <Tips />
+            </PrivateRoute>
+            }
+          />
+
+          <Route path="/events" element={
+            <PrivateRoute>
+              <Events />
+            </PrivateRoute>
+            }
+          />
+
+          <Route path="/clothes" element={
+            <PrivateRoute>
+              <Clothes />
+            </PrivateRoute>
+            }
+          />
+
+          <Route path="/employees" element={
+            <PrivateRoute>
+              <Employees />
+            </PrivateRoute>
+            }
+          />
+
+          <Route path="/compatibility" element={
+            <PrivateRoute>
+              <Compatibility />
+            </PrivateRoute>
+            }
+          />
+
+          <Route path="/customers" element={
+            <PrivateRoute>
+              <Customers />
+            </PrivateRoute>
+            }
+          />
+
           {/*
           <Route path="/employees/login" element={ } />
           <Route path="/employees/me" element={ } />
