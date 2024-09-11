@@ -54,46 +54,54 @@ const Employees = () => {
     const EmployeeArray = Array.isArray(users) ? users : [];
 
     return (
-        <div className="employees pages">
-            <div className="col-12 col-lg-3">
+        <div className="employees-page">
+            <div className="side-menu">
                 <SideMenu />
             </div>
-            <h1>Coaches</h1>
-            <div className="separator"></div>
-
-            <section id="employees" className="user-table">
-                <div className="user-table-header">
-                    <div className="user-table-header-cell">Number</div>
-                    <div className="user-table-header-cell">Name</div>
-                    <div className="user-table-header-cell">Email</div>
-                    <div className="user-table-header-cell">Birth Date</div>
-                    <div className="user-table-header-cell">Customers</div>
-                    <div className="user-table-header-cell">Last Connection</div>
+            <div className="main-content">
+                <h1 className="page-title">Coaches List</h1>
+                <p className="page-subtitle">You have total {users.length} coaches.</p>
+                <div className="actions">
+                    <button className="bulk-action-button">Bulk Action</button>
+                    <button className="export-button">Export</button>
                 </div>
-
-                <div className="user-table-body">
-                    {EmployeeArray.length === 0 ? (
-                        <div className="user-table-row">
-                            <div className="user-table-cell">No data available</div>
-                        </div>
-                    ) : (
-                        EmployeeArray.map((user, index) => (
-                            <div className="user-table-row" key={user.id}>
-                                <div className="user-table-cell">{index + 1}</div>
-                                <div className="user-table-cell">{user.name} {user.surname}</div>
-                                <div className="user-table-cell">{user.email}</div>
-                                <div className="user-table-cell">{formatDate(user.birth_date)}</div>
-                                <div className="user-table-cell">
-                                    <button className="coach_button" onClick={() => handleOpenModal(user)}>
-                                        Edit List ...
-                                    </button>
-                                </div>
-                                <div className="user-table-cell">{formatDate(user.updatedAt) || "N/A"}</div>
+                <div className="user-table">
+                    <div className="user-table-header">
+                        <div className="user-table-header-cell">Coach</div>
+                        <div className="user-table-header-cell">Email</div>
+                        <div className="user-table-header-cell">Phone</div>
+                        <div className="user-table-header-cell">Number of customers</div>
+                    </div>
+                    <div className="user-table-body">
+                        {EmployeeArray.length === 0 ? (
+                            <div className="user-table-row">
+                                <div className="user-table-cell">No data available</div>
                             </div>
-                        ))
-                    )}
+                        ) : (
+                            EmployeeArray.map((user, index) => (
+                                <div className="user-table-row" key={user.id}>
+                                    <div className="user-table-cell">
+                                        <div className="avatar-circle">
+                                            {user.name.charAt(0)}{user.surname?.charAt(0)}
+                                        </div>
+                                        <div className="user-info">
+                                            <p className="user-name">{user.name} {user.surname}</p>
+                                        </div>
+                                    </div>
+                                    <div className="user-table-cell">{user.email}</div>
+                                    <div className="user-table-cell">{user.phone}</div>
+                                    <div className="user-table-cell">{user.customers?.length || "N/A"}</div>
+                                    <div className="user-table-cell">
+                                        <button className="edit-button" onClick={() => handleOpenModal(user)}>
+                                            ...
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
                 </div>
-            </section>
+            </div>
 
             {showModal && selectedUser && (
                 <div className="modal">
@@ -112,7 +120,7 @@ const Employees = () => {
                                 </div>
                             ))}
                         </div>
-                        <button className="coach_button" onClick={handleCloseModal}>
+                        <button className="save-button" onClick={handleCloseModal}>
                             Save
                         </button>
                     </div>
