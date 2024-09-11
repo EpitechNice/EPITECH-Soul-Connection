@@ -22,13 +22,12 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
+      authApi.middleware,
+      userApi.middleware,
       tipApi.middleware,
       employeeApi.middleware,
-      userApi.middleware,
-      authApi.middleware,
       customerApi.middleware,
       eventApi.middleware,
-      employeeApi.middleware,
     ]),
 });
 

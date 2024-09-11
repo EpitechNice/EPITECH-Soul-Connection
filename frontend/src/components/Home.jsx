@@ -7,7 +7,7 @@ const Home = () => {
 
   // Fetch data from the API when the component is mounted
   useEffect(() => {
-    fetch('/employees') // Replace with your actual API endpoint
+    fetch('/api/employees') // Replace with your actual API endpoint
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

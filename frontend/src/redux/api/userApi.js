@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setIsAuthenticated, setLoading, setUser } from "../features/userSlice";
+import { setIsAuthenticated, setUser, setLoading } from "../features/userSlice";
 
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
   tagTypes: ["User"],
   endpoints: (builder) => ({
-    getProfile: builder.query({
+    getEmployeeProfile: builder.query({
       query: () => `/employees/me`,
       transformResponse: (result) => result.user,
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
@@ -22,36 +22,36 @@ export const userApi = createApi({
       },
       providesTags: ["User"],
     }),
-    updateProfile: builder.mutation({
-      query(body) {
-        return {
-          url: "/profile/update",
-          method: "PUT",
-          body,
-        };
-      },
-      invalidatesTags: ["User"],
-    }),
-    uploadAvatar: builder.mutation({
-      query(body) {
-        return {
-          url: "/profile/upload_avatar",
-          method: "PUT",
-          body,
-        };
-      },
-      invalidatesTags: ["User"],
-    }),
-    updatePassword: builder.mutation({
-      query(body) {
-        return {
-          url: "/password/update",
-          method: "PUT",
-          body,
-        };
-      },
-    }),
+    // updateProfile: builder.mutation({
+    //   query(body) {
+    //     return {
+    //       url: "/profile/update",
+    //       method: "PUT",
+    //       body,
+    //     };
+    //   },
+    //   invalidatesTags: ["User"],
+    // }),
+    // uploadAvatar: builder.mutation({
+    //   query(body) {
+    //     return {
+    //       url: "/profile/upload_avatar",
+    //       method: "PUT",
+    //       body,
+    //     };
+    //   },
+    //   invalidatesTags: ["User"],
+    // }),
+    // updatePassword: builder.mutation({
+    //   query(body) {
+    //     return {
+    //       url: "/password/update",
+    //       method: "PUT",
+    //       body,
+    //     };
+    //   },
+    // }),
   }),
 });
 
-export const {useGetProfileQuery, useUpdateProfileMutation, useUploadAvatarMutation, useUpdatePasswordMutation } = userApi;
+export const {useGetEmployeeProfileQuery } = userApi;
