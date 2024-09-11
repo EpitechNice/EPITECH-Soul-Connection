@@ -9,10 +9,10 @@ export const tipApi = createApi({
             query: () => "/tips",
         }),
         createTip: builder.mutation({
-            query: (newEmployeeData) => ({
+            query: (newTipData) => ({
                 url: "/tips",
                 method: "POST",
-                body: newEmployeeData,
+                body: newTipData,
             }),
         }),
         updateTip: builder.mutation({
