@@ -11,6 +11,4 @@ if [ $(test -r /var/run/docker.sock; echo "$?") -ne 0 ]; then
     SUDO_ACCESS="sudo"
 fi
 
-export REMOTE_API_EMAIL=
-
-$SUDO_ACCESS docker run -it --rm -v ./:/app/ -v ./data/images/:/usr/src/app/images/ --env-file .env --network soul-connection -e REMOTE_API_EMAIL="$1" -e REMOTE_API_PASSW="$2" --name soul-connection-fetch node:22.7.0 node /app/backend/utils/addUser.js
+$SUDO_ACCESS docker run -it --rm -v $(pwd)/:/app/ -v $(pwd)/data/images/:/usr/src/app/images/ --env-file ./frontend/.env -e REMOTE_API_EMAIL="$1" -e REMOTE_API_PASSW="$2" --network soul-connection --ip 172.20.0.11 --name soul-connection-add_user node:22.7.0 bash -c "cd /app/ && npm install && node /app/backend/utils/addUser.js"

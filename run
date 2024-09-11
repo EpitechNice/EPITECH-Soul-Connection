@@ -1,7 +1,5 @@
 #!/bin/bash
 
-STATUS="dev" # "dev" / "prod"
-
 DC_COMMAND="docker-compose"
 SUDO_ACCESS=""
 
@@ -14,15 +12,17 @@ then
     DC_COMMAND="docker compose"
 fi
 
-$SUDO_ACCESS docker stop soul-connection-db soul-connection-backend soul-connection-frontend
-$SUDO_ACCESS docker rm soul-connection-db soul-connection-backend soul-connection-frontend
+(
+    $SUDO_ACCESS docker stop soul-connection-db soul-connection-backend soul-connection-frontend
+    $SUDO_ACCESS docker rm soul-connection-db soul-connection-backend soul-connection-frontend
 
-$SUDO_ACCESS docker network rm soul-connection
-$SUDO_ACCESS docker network create --gateway 172.20.0.1 --subnet 172.20.0.0/24 soul-connection
-$SUDO_ACCESS docker rmi -f epitech-soul-connection-backend epitech-soul-connection-frontend epitech-soul-connection_backend:latest epitech-soul-connection_frontend:latest
+    $SUDO_ACCESS docker network rm soul-connection
+    $SUDO_ACCESS docker network create --gateway 172.20.0.1 --subnet 172.20.0.0/24 soul-connection
+    $SUDO_ACCESS docker rmi -f epitech-soul-connection-backend epitech-soul-connection-frontend epitech-soul-connection_backend:latest epitech-soul-connection_frontend:latest
+) # >/dev/null 2>/dev/null
 
 ./scripts/read_env.py > ./frontend/.env || exit 1
 
 $SUDO_ACCESS bash -c "export $(cat ./frontend/.env | xargs) && $DC_COMMAND up"
 
-# rm ./frontend/.env
+rm ./frontend/.env

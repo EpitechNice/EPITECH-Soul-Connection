@@ -10,7 +10,7 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
     networks:
       soul-connection:
-        ipv4_address: 172.20.0.2 #${DB_HOST}
+        ipv4_address: ${DB_HOST}
     volumes:
       - "./data/db/:/var/lib/mysql"
 
