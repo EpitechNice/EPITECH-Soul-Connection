@@ -21,6 +21,7 @@ export const store = configureStore({
     [tipApi.reducerPath]: tipApi.reducer,
     [clothingApi.reducerPath]: clothingApi.reducer,
     [eventApi.reducerPath]: eventApi.reducer,
+    [encounterApi.reducerPath]: encounterApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
@@ -31,5 +32,6 @@ export const store = configureStore({
       tipApi.middleware,
       clothingApi.middleware,
       eventApi.middleware,
+      encounterApi.middleware,
     ]),
 });

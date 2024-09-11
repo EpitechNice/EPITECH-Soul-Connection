@@ -28,7 +28,7 @@ export const getEncounters = catchAsyncErrors(async(req, res, next) => {
 });
 
 // /api/encounter/:id
-export const getEncounter = catchAsyncErrors(async(req, res, next) => {
+export const getEncounterDetails = catchAsyncErrors(async(req, res, next) => {
     try {
         const id = req?.params?.id;
         const encounter = await Encounter.findOne({
