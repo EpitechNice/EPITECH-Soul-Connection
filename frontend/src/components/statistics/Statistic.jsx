@@ -54,16 +54,19 @@ const Statistics = () => {
     ],
   };
 
+  // Count events by type
+  const eventCountByType = eventArray.reduce((acc, event) => {
+    acc[event.type] = (acc[event.type] || 0) + 1;
+    return acc;
+  }, {});
+
   const pieData = {
-    labels: eventArray.map(event => event.type),
+    labels: Object.keys(eventCountByType),
     datasets: [
       {
-        label: 'Meeting Sources',
-        data: Object.values(eventArray.reduce((acc, event) => {
-          acc[event.type] = (acc[event.type] || 0) + 1;
-          return acc;
-        }, {})),
-        backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
+        label: 'Event Types',
+        data: Object.values(eventCountByType),
+        backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
         hoverOffset: 4,
       },
     ],
@@ -95,9 +98,16 @@ const Statistics = () => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'right',
+        position: 'top',
       },
-    },
+      tooltip: {
+        callbacks: {
+          label: function(tooltipItem) {
+            return tooltipItem.label + ': ' + tooltipItem.raw;
+          }
+        }
+      }
+    }
   };
 
   return (
