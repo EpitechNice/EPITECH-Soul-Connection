@@ -17,6 +17,9 @@ import { createDB, delay } from "../config/dbCreate.js";
 import * as fs from "fs";
 import Clothing from "../models/clothingModel.js";
 
+const SLEEP_TIME = 30 * 60;
+
+const DEFAULT_IMAGE_PATH = "/usr/src/app/images/default.png";
 const UPLOAD_PATH = "/usr/src/app/images/";
 const areWeManager = true;
 
@@ -177,10 +180,17 @@ async function fetchDB() {
         try {
             const response = await retreiveData(session, `/api/employees/${employee.id}`, "id");
 
-            const imageResponse = await session.get(`/api/employees/${employee.id}/image`, {
-                responseType: "arraybuffer"
-            });
-            fs.writeFileSync(UPLOAD_PATH + `employees/${employee.id}.png`, imageResponse.data);
+            let imageDownloaded = false;
+
+            try {
+                const imageResponse = await session.get(`/api/employees/${employee.id}/image`, {
+                    responseType: "arraybuffer"
+                });
+                fs.writeFileSync(UPLOAD_PATH + `employees/${employee.id}.png`, imageResponse.data);
+                imageDownloaded = true;
+            } catch (err) {
+                console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retreive image: ${err}`);
+            }
 
             const employeeObject = await Employee.upsert({
                 id: response.data.id,
@@ -191,7 +201,7 @@ async function fetchDB() {
                 surname: makeAscii(response.data.surname),
                 birth_date: parseDate(response.data.birth_date),
                 gender: response.data.gender,
-                image_path: UPLOAD_PATH + `employees/${response.data.id}.png`,
+                image_path: (imageDownloaded ? UPLOAD_PATH + `employees/${response.data.id}.png` : DEFAULT_IMAGE_PATH),
                 work: makeAscii(response.data.work),
             });
         } catch (err) {
@@ -227,10 +237,17 @@ async function fetchDB() {
                     user_id: customer.id
                 });
 
-            const imageResponse = await session.get(`/api/customers/${customer.id}/image`, {
-                responseType: "arraybuffer"
-            });
-            fs.writeFileSync(UPLOAD_PATH + `customers/${customer.id}.png`, imageResponse.data);
+            let imageDownloaded = false;
+
+            try {
+                const imageResponse = await session.get(`/api/customers/${customer.id}/image`, {
+                    responseType: "arraybuffer"
+                });
+                fs.writeFileSync(UPLOAD_PATH + `customers/${customer.id}.png`, imageResponse.data);
+                imageDownloaded = true;
+            } catch (err) {
+                console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retreive image: ${err}`);
+            }
 
             await Customer.upsert({
                 id: response.data.id,
@@ -240,14 +257,12 @@ async function fetchDB() {
                 surname: makeAscii(response.data.surname),
                 birth_date: parseDate(response.data.birth_date),
                 gender: response.data.gender,
-                image_path: UPLOAD_PATH + `customers/${response.data.id}.png`,
+                image_path: (imageDownloaded ? UPLOAD_PATH + `customers/${response.data.id}.png` : DEFAULT_IMAGE_PATH),
                 astrological_sign: response.data.astrological_sign,
                 description: makeAscii(response.data.description),
                 phone_number: response.data.phone_number,
                 address: makeAscii(response.data.address),
             });
-
-            process.exit(1);
         } catch (err) {
             console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retrieve data or image for customer ${customer.id}: ${err}`);
         }
@@ -258,7 +273,7 @@ async function run_n_wait() {
     let start = performance.now();
     await fetchDB();
     console.log("\x1b[95m%s\x1b[0m", `=== Fetching remote DB successfull. Took ${Number(((performance.now() - start) / 1000).toFixed(2))}sec ===`);
-    await delay(30 * 60 * 1000);
+    await delay(SLEEP_TIME * 1000);
 }
 
 run_n_wait();
