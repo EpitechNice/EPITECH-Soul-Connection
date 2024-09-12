@@ -10,6 +10,7 @@ const CustomerPage = () => {
     const navigate = useNavigate(); // Hook pour la navigation
     const { data, isLoading, error, isError } = useGetCustomerDetailsQuery(id);
     const [selectedUser, setSelectedUser] = useState(null);
+    const customerImgData = "";
 
     useEffect(() => {
         if (data) {
@@ -27,6 +28,21 @@ const CustomerPage = () => {
     };
 
     if (isLoading) return <Loader />;
+
+    const renderTableRows = (items, fields) => {
+        if (!items || items.length === 0) {
+            return (
+                <div className="empty-message">No data available</div>
+            );
+        }
+        return items.map(item => (
+            <div className="table-row" key={item.id}>
+                {fields.map(field => (
+                    <div className="table-cell" key={field.key}>{field.format ? field.format(item[field.key]) : item[field.key]}</div>
+                ))}
+            </div>
+        ));
+    };
 
     return (
         <div className="customers-container">
@@ -46,64 +62,65 @@ const CustomerPage = () => {
 
                 {selectedUser ? (
                     <div className="customer-details">
-                        <div className="customer-info">
-                            <img src={selectedUser.image_path} alt="User" className="customer-image" />
-                            <div className="info-section">
-                                <h2>{selectedUser.name} {selectedUser.surname}</h2>
-                                <p>User ID: {selectedUser.id}</p>
-                                <p>Email: {selectedUser.email}</p>
-                                <p>Address: {selectedUser.address}</p>
-                                <p>Last Activity: {convertDate(selectedUser.lastActivity)}</p>
-                                <p>Coach: {selectedUser.coach}</p>
+                        <div className="profile-section">
+                            <div className="customer-info">
+                                {customerImgData ? (
+                                    <img src={customerImgData} alt="User" className="customer-image" />
+                                ) : (
+                                    <div className="avatar-circle-profile">
+                                        {selectedUser.name.charAt(0)}{selectedUser.surname?.charAt(0)}
+                                    </div>
+                                )}
+                                <h2 className="user-name-profil">{selectedUser.name} {selectedUser.surname}</h2>
+                                <hr className="separator" />
+                                <div className="short-details">
+                                    <strong>SHORT DETAILS</strong>
+                                    <p>User ID: {selectedUser.id}</p>
+                                    <p>Email: {selectedUser.email}</p>
+                                    <p>Address: {selectedUser.address}</p>
+                                    <p>Last Activity: {convertDate(selectedUser.createdAt)}</p>
+                                    <p>Last Update: {convertDate(selectedUser.updatedAt)}</p>
+                                    <p>Coach: {selectedUser.coach}</p>
+                                </div>
                             </div>
                         </div>
-
-                        <div className="recent-meetings">
-                            <h3>Recent Meetings</h3>
-                            <table className="meetings-table">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Rating</th>
-                                        <th>Report</th>
-                                        <th>Source</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {selectedUser.meetings && selectedUser.meetings.map(meeting => (
-                                        <tr key={meeting.id}>
-                                            <td>{convertDate(meeting.date)}</td>
-                                            <td>{'★'.repeat(meeting.rating) + '☆'.repeat(5 - meeting.rating)}</td>
-                                            <td>{meeting.report}</td>
-                                            <td>{meeting.source}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div className="payment-history">
-                            <h3>Payments History</h3>
-                            <table className="payments-table">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Payment Method</th>
-                                        <th>Amount</th>
-                                        <th>Comment</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {selectedUser.payments && selectedUser.payments.map(payment => (
-                                        <tr key={payment.id}>
-                                            <td>{convertDate(payment.date)}</td>
-                                            <td>{payment.paymentMethod}</td>
-                                            <td>{payment.amount}</td>
-                                            <td>{payment.comment}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                        <div className="profil tables-section">
+                            <div className="tables-wrapper">
+                                <div className="user-table">
+                                    <div className="table-header">Recent Meetings</div>
+                                    <div className="user-table-header">
+                                        <div className="user-table-header-cell">Date</div>
+                                        <div className="user-table-header-cell">Rating</div>
+                                        <div className="user-table-header-cell">Report</div>
+                                        <div className="user-table-header-cell">Source</div>
+                                    </div>
+                                    <div className="user-table-body">
+                                        {renderTableRows(selectedUser.meetings, [
+                                            { key: 'date', format: convertDate },
+                                            { key: 'rating', format: value => '★'.repeat(value) + '☆'.repeat(5 - value) },
+                                            { key: 'report' },
+                                            { key: 'source' }
+                                        ])}
+                                    </div>
+                                </div>
+                                <div className="user-table">
+                                    <div className="table-header">Payments History</div>
+                                    <div className="user-table-header">
+                                        <div className="user-table-header-cell">Date</div>
+                                        <div className="user-table-header-cell">Payment Method</div>
+                                        <div className="user-table-header-cell">Amount</div>
+                                        <div className="user-table-header-cell">Comment</div>
+                                    </div>
+                                    <div className="user-table-body">
+                                        {renderTableRows(selectedUser.payments, [
+                                            { key: 'date', format: convertDate },
+                                            { key: 'paymentMethod' },
+                                            { key: 'amount' },
+                                            { key: 'comment' }
+                                        ])}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 ) : (
