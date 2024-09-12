@@ -25,9 +25,7 @@ const mime = {
 
 async function getAllClients(req, res, next) {
     try {
-        const customers = await Customer.findAll({
-            attributes: { exclude: ['password'] }
-        });
+        const customers = await Customer.findAll();
 
         res.status(200).json({
             customers,
