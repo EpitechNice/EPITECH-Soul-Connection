@@ -25,9 +25,7 @@ const mime = {
 
 async function getAllClients(req, res, next) {
     try {
-        const customers = await Customer.findAll({
-            attributes: { exclude: ['password'] }
-        });
+        const customers = await Customer.findAll({});
 
         res.status(200).json({
             customers,
@@ -129,7 +127,7 @@ export const getCustomerDetails = catchAsyncErrors(async (req, res, next) => {
         res.status(200).json(customer);
     } catch(err) {
         console.error(err);
-        newt(new ErrorHandler("An error occurred while fetching customers", 500))
+        next(new ErrorHandler("An error occurred while fetching customers", 500))
     }
 });
 
