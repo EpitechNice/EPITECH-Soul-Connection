@@ -238,6 +238,7 @@ async function fetchDB() {
                 image_path: UPLOAD_PATH + `customers/${response.data.id}.png`,
                 astrological_sign: response.data.astrological_sign,
                 description: makeAscii(response.data.description),
+                phone_number: response.data.phone_number,
                 address: makeAscii(response.data.address),
             });
         } catch (err) {

@@ -61,6 +61,11 @@ Customer.init({
         allowNull: false,
     },
 
+    phone_number: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+
     modified_by: {
         type: DataTypes.INTEGER,
         allowNull: true,
