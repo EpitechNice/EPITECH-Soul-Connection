@@ -59,6 +59,11 @@ Customer.init({
     address: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+
+    modified_by: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
     }
 }, {
     sequelize,
@@ -75,14 +80,14 @@ Customer.init({
  * - payments
 */
 
-Customer.belongsTo(Employee);
-Employee.hasMany(Customer);
+// Customer.belongsTo(Employee);
+// Employee.hasMany(Customer);
 
-Customer.belongsToMany(Clothing, { through: "CustomerClothing" });
-Clothing.belongsToMany(Customer, { through: "CustomerClothing" });
+// Customer.belongsToMany(Clothing, { through: "CustomerClothing" });
+// Clothing.belongsToMany(Customer, { through: "CustomerClothing" });
 
-Payment.belongsTo(Customer);
-Customer.hasMany(Payment);
+// Payment.belongsTo(Customer);
+// Customer.hasMany(Payment);
 
 // This setup the client-coach One-to-Many and Many-to-One relation
 

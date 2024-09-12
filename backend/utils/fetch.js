@@ -20,7 +20,7 @@ import Clothing from "../models/clothingModel.js";
 const UPLOAD_PATH = "/usr/src/app/images/";
 const areWeManager = true;
 
-const parse_unicode_into_ascii = {'à': 'a', 'ç': 'c', 'é': 'e', 'è': 'e', 'ù': 'u', 'î': 'i', 'ï': 'i', 'À': 'A', 'Ç': 'C', 'É': 'E', 'È': 'E', 'Ù': 'U', 'Î': 'I', 'Ï': 'I'}
+const parse_unicode_into_ascii = {'à': 'a', 'ç': 'c', 'é': 'e', 'è': 'e', 'ù': 'u', 'ô': 'o', 'î': 'i', 'ï': 'i', 'À': 'A', 'Ç': 'C', 'É': 'E', 'È': 'E', 'Ù': 'U', 'Ô': 'O', 'Î': 'I', 'Ï': 'I'}
 
 async function retreiveData(session, url, requiredField) {
     let data;
