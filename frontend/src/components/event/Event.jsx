@@ -67,9 +67,9 @@ const Events = () => {
   }));
 
   const handleEventClick = (clickInfo) => {
-    const { location_x, location_y } = clickInfo.event.extendedProps;
-    if (location_x && location_y) {
-      setSelectedLocation({ lat: location_y, lng: location_x });
+    const { location_y, location_x } = clickInfo.event.extendedProps;
+    if (location_y && location_x) {
+      setSelectedLocation({ lat: location_x, lng: location_y });
     }
   };
 
@@ -111,7 +111,7 @@ const Events = () => {
           />
           {eventArray.map((event, index) => (
             event.location_y && event.location_x && (
-              <Marker key={index} position={[event.location_y, event.location_x]}>
+              <Marker key={index} position={[event.location_x, event.location_y]}>
                 <Popup>
                   <b>{event.name}</b><br />
                   {event.location_name}<br />

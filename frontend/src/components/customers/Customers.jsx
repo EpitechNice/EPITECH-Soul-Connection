@@ -7,7 +7,7 @@ import IconDownload from '../../assets/Download.svg';
 import SortIcon from '../../assets/Sort.svg';
 import SettingsIcon from '../../assets/Settings.svg';
 import { useSelector } from 'react-redux';
-import FormPopup from '../edit/FormPopupAdd';
+import FormPopup from './CustomerFormPopupAdd';
 
 const Customers = () => {
     const { data, isLoading, error, isError, refetch } = useGetCustomersQuery();
@@ -126,8 +126,8 @@ const Customers = () => {
                 <SideMenu />
             </div>
             <div className="main-content">
-                <div className="head-content-customers-page">
-                    <div className="title-content-customers">
+                <div className="head-content-coaches-page">
+                    <div className="title-content-coaches">
                         <h1 className="page-title">Customers List</h1>
                         <p className="page-subtitle">You have total {users.length} customers.</p>
                     </div>
@@ -193,7 +193,7 @@ const Customers = () => {
                             <div className="user-table-header-cell">Customer</div>
                             <div className="user-table-header-cell">Email</div>
                             <div className="user-table-header-cell">Phone</div>
-                            <div className="user-table-header-cell">Address</div>
+                            <div className="user-table-header-cell">Payement Methods</div>
                             {usertype.user.type === "Manager" ? (
                             <div id="action-title" className="user-table-header-cell">Actions</div>
                             ) : null}
@@ -220,7 +220,7 @@ const Customers = () => {
                                         </div>
                                         <div className="user-table-cell">{user.email}</div>
                                         <div className="user-table-cell">{user.phone_number || "N/A"}</div>
-                                        <div className="user-table-cell">{user.address || "N/A"}</div>
+                                        <div className="user-table-cell">{"N/A"}</div>
                                         {usertype.user.type === "Manager" ? (
                                         <div id="action-button" className="user-table-cell">
                                             <button className="edit-button" onClick={() => handleMenuClick(user.id)}>
