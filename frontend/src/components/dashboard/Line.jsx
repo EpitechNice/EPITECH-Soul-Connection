@@ -5,31 +5,27 @@ Chart.register(LineController, LineElement, PointElement, CategoryScale, LinearS
 
 const LineChart = ({ data, options }) => {
   const chartRef = useRef(null);
-  const chartInstance = useRef(null); // Track the Chart.js instance
+  const chartInstance = useRef(null);
 
   useEffect(() => {
     const ctx = chartRef.current.getContext('2d');
 
-    // If a chart instance exists, destroy it before creating a new one
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
 
-    // Create a new chart instance
     chartInstance.current = new Chart(ctx, {
       type: 'line',
       data: data,
       options: options,
     });
 
-    // Cleanup function to destroy the chart on unmount
     return () => {
       if (chartInstance.current) {
         chartInstance.current.destroy();
       }
     };
-  }, [data, options]); // Recreate the chart if data or options change
-
+  }, [data, options]);
   return (
     <div>
       <canvas ref={chartRef}></canvas>
