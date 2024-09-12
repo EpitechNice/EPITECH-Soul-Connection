@@ -1,15 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SideMenu from "../layout/SideMenu";
-import { useGetCustomersQuery } from "../../redux/api/customerApi"; // Import from customerApi for users
-import { useGetClothesQuery } from "../../redux/api/clothingApi"; // Import from clothingApi for clothes
+import { useGetClothingImgQuery} from '../../redux/api/clothingApi';
+import Loader from '../layout/Loader';
+import toast from "react-hot-toast";
 
 const Clothes = () => {
-  const { data: users, isLoading: usersLoading } = useGetCustomersQuery();
-  const [selectedUser, setSelectedUser] = useState('');
+  const { data: clothes, isLoading, error, isError } = useGetClothingImgQuery();
+  const [openIndex, setOpenIndex] = useState(null);
 
-  // State to hold clothes for the selected user
-  const [userClothes, setUserClothes] = useState({ hats: [], tops: [], bottoms: [], shoes: [] });
-  
+  useEffect(() => {
+    if (isError) {
+      toast.error(error?.data?.message);
+    }
+  }, [isError, error]);
+
+  if (isLoading) return <Loader />;
+
+  const clothesArray = Array.isArray(clothes) ? clothes : clothes?.clothes;
+
+  const toggleClothing = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  }
+
   const [currentIndex, setCurrentIndex] = useState({
     hats: 0,
     tops: 0,
@@ -17,45 +29,28 @@ const Clothes = () => {
     shoes: 0,
   });
 
-  // Fetch clothes when user is selected
-  const { data: clothesData, isLoading: clothesLoading } = useGetClothesQuery(selectedUser, {
-    skip: !selectedUser // Skip query if no user is selected
-  });
-
-  useEffect(() => {
-    if (clothesData) {
-      // Separate clothes into categories: hats, tops, bottoms, shoes
-      const hats = clothesData.filter(item => item.category === 'chapeaux');
-      const tops = clothesData.filter(item => item.category === 'tops');
-      const bottoms = clothesData.filter(item => item.category === 'bottoms');
-      const shoes = clothesData.filter(item => item.category === 'shoes');
-      
-      setUserClothes({ hats, tops, bottoms, shoes });
-    }
-  }, [clothesData]);
-
+  const hats = clothesArray.filter((item) => item.category === 'hats');
+  const tops = clothesArray.filter((item) => item.category === 'tops');
+  const bottoms = clothesArray.filter((item) => item.category === 'bottoms');
+  const shoes = clothesArray.filter((item) => item.category === 'shoes');
   const prevItem = (category) => {
     setCurrentIndex((prevState) => ({
       ...prevState,
-      [category]: prevState[category] > 0 ? prevState[category] - 1 : userClothes[category].length - 1,
+      [category]: prevState[category] > 0 ? prevState[category] - 1 : eval(category).length - 1,
     }));
   };
 
   const nextItem = (category) => {
     setCurrentIndex((prevState) => ({
       ...prevState,
-      [category]: prevState[category] < userClothes[category].length - 1 ? prevState[category] + 1 : 0,
+      [category]: prevState[category] < eval(category).length - 1 ? prevState[category] + 1 : 0,
     }));
   };
 
-  if (usersLoading || clothesLoading) {
-    return <div>Chargement...</div>;
-  }
-
-  const visibleHats = userClothes.hats[currentIndex.hats] ? [userClothes.hats[currentIndex.hats]] : [];
-  const visibleTops = userClothes.tops[currentIndex.tops] ? [userClothes.tops[currentIndex.tops]] : [];
-  const visibleBottoms = userClothes.bottoms[currentIndex.bottoms] ? [userClothes.bottoms[currentIndex.bottoms]] : [];
-  const visibleShoes = userClothes.shoes[currentIndex.shoes] ? [userClothes.shoes[currentIndex.shoes]] : [];
+  const visibleHats = [hats[currentIndex.hats]];
+  const visibleTops = [tops[currentIndex.tops]];
+  const visibleBottoms = [bottoms[currentIndex.bottoms]];
+  const visibleShoes = [shoes[currentIndex.shoes]];
 
   return (
     <div className="garde-robe-page pages">
@@ -64,35 +59,21 @@ const Clothes = () => {
       </div>
       <h1>Garde Robe Virtuelle</h1>
 
-      {/* Menu de sélection des utilisateurs */}
-      <div className="client-menu">
-        <label htmlFor="user">Choisissez un client :</label>
-        <select value={selectedUser} onChange={(e) => setSelectedUser(e.target.value)}>
-          <option value="">Sélectionner un client</option>
-          {users && users.map((user) => (
-            <option key={user.id} value={user.id}>
-              {user.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Carrousels des vêtements */}
       <div className="carousels">
         <div className="carousel">
           <h2>Chapeaux</h2>
           <div className="carousel-container">
             <button className="button-clothes" onClick={() => prevItem('hats')}>⬅️</button>
             <div className="carousel-item">
-              {visibleHats.length > 0 ? visibleHats.map((item, index) => (
-                <div key={index}>
-                  <img src={item.imageUrl} alt={item.name} style={{ width: '100px' }} />
-                  <p>{item.name}</p>
+              {visibleHats.map((item, index) => (
+                <div key={index} className="image-box">
+                  <img src={item.imageUrl} alt={item.name} />
                 </div>
-              )) : <p>Aucun chapeau disponible</p>}
+              ))}
+              <p>{visibleHats[0].name}</p>
             </div>
             <button className="button-clothes" onClick={() => nextItem('hats')}>➡️</button>
-          </div>
+            </div>
         </div>
 
         <div className="carousel">
@@ -100,12 +81,12 @@ const Clothes = () => {
           <div className="carousel-container">
             <button className="button-clothes" onClick={() => prevItem('tops')}>⬅️</button>
             <div className="carousel-item">
-              {visibleTops.length > 0 ? visibleTops.map((item, index) => (
-                <div key={index}>
-                  <img src={item.imageUrl} alt={item.name} style={{ width: '100px' }} />
-                  <p>{item.name}</p>
+              {visibleTops.map((item, index) => (
+                <div key={index} className="image-box">
+                  <img src={item.imageUrl} alt={item.name} />
                 </div>
-              )) : <p>Aucun haut disponible</p>}
+              ))}
+              <p>{visibleTops[0].name}</p>
             </div>
             <button className="button-clothes" onClick={() => nextItem('tops')}>➡️</button>
           </div>
@@ -116,12 +97,12 @@ const Clothes = () => {
           <div className="carousel-container">
             <button className="button-clothes" onClick={() => prevItem('bottoms')}>⬅️</button>
             <div className="carousel-item">
-              {visibleBottoms.length > 0 ? visibleBottoms.map((item, index) => (
-                <div key={index}>
-                  <img src={item.imageUrl} alt={item.name} style={{ width: '100px' }} />
-                  <p>{item.name}</p>
+              {visibleBottoms.map((item, index) => (
+                <div key={index} className="image-box">
+                  <img src={item.imageUrl} alt={item.name} />
                 </div>
-              )) : <p>Aucun bas disponible</p>}
+              ))}
+              <p>{visibleBottoms[0].name}</p>
             </div>
             <button className="button-clothes" onClick={() => nextItem('bottoms')}>➡️</button>
           </div>
@@ -132,12 +113,12 @@ const Clothes = () => {
           <div className="carousel-container">
             <button className="button-clothes" onClick={() => prevItem('shoes')}>⬅️</button>
             <div className="carousel-item">
-              {visibleShoes.length > 0 ? visibleShoes.map((item, index) => (
-                <div key={index}>
-                  <img src={item.imageUrl} alt={item.name} style={{ width: '100px' }} />
-                  <p>{item.name}</p>
+              {visibleShoes.map((item, index) => (
+                <div key={index} className="image-box">
+                  <img src={item.imageUrl} alt={item.name} />
                 </div>
-              )) : <p>Aucune chaussure disponible</p>}
+              ))}
+              <p>{visibleShoes[0].name}</p>
             </div>
             <button className="button-clothes" onClick={() => nextItem('shoes')}>➡️</button>
           </div>
