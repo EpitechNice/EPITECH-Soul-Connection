@@ -54,7 +54,7 @@ const CustomerPage = () => {
             </div>
             <div className="content-container">
                 <div className="head-content-coaches-page">
-                    <h1 className="title">Customer Details</h1>
+                    <h1 className="page-title">Customer Details</h1>
                     <button 
                         className="back-button"
                         onClick={() => navigate('/customers')}

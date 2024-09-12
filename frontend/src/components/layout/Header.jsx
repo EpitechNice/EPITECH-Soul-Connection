@@ -55,7 +55,11 @@ const Header = () => {
         <Link to="/events" style={isActive('/events') ? { ...styles.link, ...styles.activeLink } : styles.link}>
           Events
         </Link>
+        <Link to="/compatibility" style={isActive('/compatibility') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+          Compatiblity
+        </Link>
         <Link to="/clothes" style={isActive('/clothes') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+          Clothes
         </Link>
       </nav>
 

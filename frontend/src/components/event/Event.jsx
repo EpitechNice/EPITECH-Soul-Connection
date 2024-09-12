@@ -6,9 +6,11 @@ import L from 'leaflet';
 import { useGetEventsQuery } from '../../redux/api/eventApi';
 import toast from 'react-hot-toast';
 import Loader from '../layout/Loader';
-import FullCalendar from '@fullcalendar/react'; // Assuming you are using FullCalendar
+import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { useSelector } from 'react-redux';
+import EventPopup from './EventPopupAdd';
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -28,9 +30,11 @@ const center = {
 };
 
 const Events = () => {
-  const { data, isLoading, error, isError } = useGetEventsQuery();
+  const { data, isLoading, error, isError, refetch } = useGetEventsQuery();
   const [selectedLocation, setSelectedLocation] = useState(center);
   const mapRef = useRef(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const usertype = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (isError) {
@@ -57,7 +61,7 @@ const Events = () => {
 
   const eventsForCalendar = eventArray.map(event => ({
     title: event.name,
-    start: event.date, // Assuming `event.date` is in ISO format or correct Date string
+    start: event.date,
     extendedProps: {
       location_name: event.location_name,
       max_participants: event.max_participants,
@@ -75,54 +79,72 @@ const Events = () => {
 
   return (
     <div className="events-page pages">
-      <div className="col-12 col-lg-3">
-        <SideMenu />
+      <div className="head-content-coaches-page">
+        <div className="title-content-coaches">
+          <h1 className="page-title">Events</h1>
+        </div>
+        <div className='group-button'>
+          {usertype.user.type === "Manager" && (
+            <button className="add-button" onClick={() => setShowPopup(true)}>
+              +
+            </button>
+          )}
+        </div>
       </div>
-      <h1>Events</h1>
-      <div className="separator"></div>
 
-      {/* Calendar Section */}
-      <div className="calendar-section">
-        <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          events={eventsForCalendar}
-          eventClick={handleEventClick}
-          headerToolbar={{
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,dayGridWeek,dayGridDay',
-          }}
+      {/* Conditionally render the Calendar and Map */}
+      {!showPopup && (
+        <>
+          {/* Calendar Section */}
+          <div className="calendar-section">
+            <FullCalendar
+              plugins={[dayGridPlugin, interactionPlugin]}
+              initialView="dayGridMonth"
+              events={eventsForCalendar}
+              eventClick={handleEventClick}
+              headerToolbar={{
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,dayGridWeek,dayGridDay',
+              }}
+            />
+          </div>
+
+          {/* Map Section */}
+          <div className="map-section">
+            <MapContainer 
+              style={mapContainerStyle} 
+              center={center} 
+              zoom={12} 
+              scrollWheelZoom={false}
+              whenCreated={mapInstance => { mapRef.current = mapInstance; }}
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+              {eventArray.map((event, index) => (
+                event.location_y && event.location_x && (
+                  <Marker key={index} position={[event.location_x, event.location_y]}>
+                    <Popup>
+                      <b>{event.name}</b><br />
+                      {event.location_name}<br />
+                      Max participants: {event.max_participants}
+                    </Popup>
+                  </Marker>
+                )
+              ))}
+              <MapUpdater />
+            </MapContainer>
+          </div>
+        </>
+      )}
+      {showPopup && (
+        <EventPopup 
+          onClose={() => setShowPopup(false)} 
+          refetch={refetch} 
         />
-      </div>
-
-      {/* Map Section */}
-      <div className="map-section">
-        <MapContainer 
-          style={mapContainerStyle} 
-          center={center} 
-          zoom={12} 
-          scrollWheelZoom={false}
-          whenCreated={mapInstance => { mapRef.current = mapInstance; }}
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
-          {eventArray.map((event, index) => (
-            event.location_y && event.location_x && (
-              <Marker key={index} position={[event.location_x, event.location_y]}>
-                <Popup>
-                  <b>{event.name}</b><br />
-                  {event.location_name}<br />
-                  Max participants: {event.max_participants}
-                </Popup>
-              </Marker>
-            )
-          ))}
-          <MapUpdater />
-        </MapContainer>
-      </div>
+      )}
     </div>
   );
 };

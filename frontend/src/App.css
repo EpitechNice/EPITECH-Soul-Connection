@@ -1160,3 +1160,7 @@ hr {
   height: 100px;
   object-fit: cover;
 }
+
+.selector-container {
+  margin-top: 60px;
+}

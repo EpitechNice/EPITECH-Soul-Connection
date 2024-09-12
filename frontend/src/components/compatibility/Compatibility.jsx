@@ -1,19 +1,40 @@
-import React, { useState } from 'react';
-import SideMenu from "../layout/SideMenu";
+import React, { useState, useEffect } from 'react';
+import SideMenu from '../layout/SideMenu';
+import { useGetCustomersQuery } from '../../redux/api/customerApi';
+import Loader from '../layout/Loader';
+import toast from "react-hot-toast";
 
 const Compatibility = () => {
-    const signs = [
-        'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
-        'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
-    ];
-
-    const [sign1, setSign1] = useState('');
-    const [sign2, setSign2] = useState('');
+    const { data, isLoading, error, isError } = useGetCustomersQuery();
+    const [customers, setCustomers] = useState([]);
+    const [selectedClient1, setSelectedClient1] = useState('');
+    const [selectedClient2, setSelectedClient2] = useState('');
     const [result, setResult] = useState(null);
 
+    useEffect(() => {
+        if (data) {
+            setCustomers(data.customers || []);
+        }
+        if (isError) {
+            toast.error(error?.data?.message || "An error occurred.");
+        }
+    }, [data, isError, error, isLoading]);
+
+    const handleClientChange = (setter) => (e) => {
+        setter(e.target.value);
+    };
+
     const calculateCompatibility = () => {
-        if (sign1 && sign2) {
-            setResult(getCompatibility(sign1, sign2));
+        if (selectedClient1 && selectedClient2) {
+            const client1 = customers.find(client => client.email === selectedClient1);
+            const client2 = customers.find(client => client.email === selectedClient2);
+
+            if (client1 && client2) {
+                const result = getCompatibility(client1.astrological_sign, client2.astrological_sign);
+                setResult(result);
+            } else {
+                setResult(null);
+            }
         } else {
             setResult(null);
         }
@@ -45,40 +66,44 @@ const Compatibility = () => {
         }
     };
 
+    if (isLoading) return <Loader />;
+
     return (
         <div className="compatibility pages">
             <div className="col-12 col-lg-3">
                 <SideMenu />
             </div>
-            <h1>Astrological Sign Compatibility</h1>
-            <div className="separator"></div>
-            <div>
-                <label htmlFor="sign1">Your Sign:</label>
-                <select value={sign1} onChange={(e) => setSign1(e.target.value)} id="sign1">
-                    <option value="">Select your sign</option>
-                    {signs.map(sign => (
-                        <option key={sign} value={sign}>{sign}</option>
-                    ))}
-                </select>
+            <h1 className='page-title'>Client Compatibility</h1>
+            <div className="selector-container">
+                <div>
+                    <label htmlFor="client1">Select Client 1:</label>
+                    <select value={selectedClient1} onChange={handleClientChange(setSelectedClient1)} id="client1">
+                        <option value="">Select a client</option>
+                        {customers.map(client => (
+                            <option key={client.email} value={client.email}>{client.name}</option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label htmlFor="client2">Select Client 2:</label>
+                    <select value={selectedClient2} onChange={handleClientChange(setSelectedClient2)} id="client2">
+                        <option value="">Select a client</option>
+                        {customers.map(client => (
+                            <option key={client.email} value={client.email}>{client.name}</option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <button 
+                        className="button_comp" 
+                        onClick={calculateCompatibility} 
+                        disabled={!selectedClient1 || !selectedClient2}
+                    >
+                        Calculate Compatibility
+                    </button>
+                </div>
             </div>
-            <div>
-                <label htmlFor="sign2">Partner's Sign:</label>
-                <select value={sign2} onChange={(e) => setSign2(e.target.value)} id="sign2">
-                    <option value="">Select partner's sign</option>
-                    {signs.map(sign => (
-                        <option key={sign} value={sign}>{sign}</option>
-                    ))}
-                </select>
-            </div>
-            <div>
-                <button 
-                    className="button_comp" 
-                    onClick={calculateCompatibility} 
-                    disabled={!sign1 || !sign2}
-                >
-                    Calculate Compatibility
-                </button>
-            </div>
+
             {result !== null && (
                 <div>
                     <h2>Result: {result}%</h2>
