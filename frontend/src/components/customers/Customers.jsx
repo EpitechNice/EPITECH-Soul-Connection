@@ -8,6 +8,7 @@ import SortIcon from '../../assets/Sort.svg';
 import SettingsIcon from '../../assets/Settings.svg';
 import { useSelector } from 'react-redux';
 import FormPopup from './CustomerFormPopupAdd';
+import { useNavigate } from 'react-router-dom';
 
 const Customers = () => {
     const { data, isLoading, error, isError, refetch } = useGetCustomersQuery();
@@ -21,6 +22,7 @@ const Customers = () => {
     const { mutate: updateCustomer } = useUpdateCustomerMutation();
     const usertype = useSelector((state) => state.auth);
     const customerImgData = "";
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (data) {
@@ -74,6 +76,10 @@ const Customers = () => {
             console.error('Failed to delete customer:', err);
             toast.error("Failed to delete customer.");
         }
+    };
+
+    const handleUserClick = (userId) => {
+        navigate(`/customers/${userId}`);
     };
 
     const downloadCSV = () => {
@@ -215,7 +221,11 @@ const Customers = () => {
                                                 </div>
                                             )}
                                             <div className="user-info">
-                                                <p className="user-name">{user.name} {user.surname}</p>
+                                            <p className="user-name" 
+                                                onClick={() => handleUserClick(user.id)}
+                                            >
+                                                {user.name} {user.surname}
+                                            </p>
                                             </div>
                                         </div>
                                         <div className="user-table-cell">{user.email}</div>

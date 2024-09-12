@@ -985,3 +985,100 @@ hr {
 .actions-options li:hover {
   background-color: #f0f0f0;
 }
+
+/* Page Clients */
+
+.customer-container {
+  display: flex;
+  font-family: Arial, sans-serif;
+}
+
+.customer-side-menu {
+  width: 20%;
+  padding: 20px;
+  background-color: #f7f7f7;
+}
+
+.customer-content-container {
+  width: 80%;
+  padding: 20px;
+}
+
+.customer-select {
+  margin: 20px 0;
+  padding: 10px;
+  font-size: 16px;
+  width: 300px;
+}
+
+.customer-details {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.customer-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.customer-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.customer-info-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.customer-info-section h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.customer-recent-meetings,
+.customer-payment-history {
+  margin-top: 20px;
+}
+
+.customer-recent-meetings h3,
+.customer-payment-history h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.customer-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.customer-table th,
+.customer-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.customer-table th {
+  background-color: #f2f2f2;
+}
+
+.customer-meetings-table td,
+.customer-payments-table td {
+  font-size: 14px;
+}
+
+.user-name {
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.user-name:hover {
+  font-weight: bold;
+}

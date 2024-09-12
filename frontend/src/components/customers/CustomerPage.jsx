@@ -1,251 +1,108 @@
-// import React, { useEffect, useState } from 'react';
-// import SideMenu from "../layout/SideMenu";
-// import { useGetEmployeesQuery, useDeleteEmployeeMutation, useUpdateEmployeeMutation } from '../../redux/api/employeeApi';
-// import toast from "react-hot-toast";
-// import Loader from '../layout/Loader';
-// import IconDownload from '../../assets/Download.svg';
-// import SortIcon from '../../assets/Sort.svg';
-// import SettingsIcon from '../../assets/Settings.svg';
-// import { useSelector } from 'react-redux';
-// import FormPopup from '../edit/FormPopupAdd';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom'; // Importer useParams
+import SideMenu from '../layout/SideMenu';
+import { useGetCustomersQuery } from '../../redux/api/customerApi';
+import Loader from '../layout/Loader';
+import toast from "react-hot-toast";
 
-// const Employees = () => {
-//     const { data, isLoading, error, isError, refetch } = useGetEmployeesQuery();
-//     const [users, setUsers] = useState([]);
-//     const [searchTerm, setSearchTerm] = useState('');
-//     const [dropdownOpen, setDropdownOpen] = useState(false);
-//     const [sortOrder, setSortOrder] = useState('default');
-//     const [showPopup, setShowPopup] = useState(false);
-//     const [editMenuOpen, setEditMenuOpen] = useState(null);
-//     const [deleteEmployee] = useDeleteEmployeeMutation();
-//     const { mutate: updateEmployee } = useUpdateEmployeeMutation();
-//     const usertype = useSelector((state) => state.auth);
-//     const employeeImgData = "";
+const CustomerPage = () => {
+    const { id } = useParams(); // Récupérer l'ID du client depuis l'URL
+    const { data, isLoading, error, isError } = useGetCustomersQuery();
+    const [selectedUser, setSelectedUser] = useState(null);
 
-//     useEffect(() => {
-//         if (data) {
-//             setUsers(data.coach || []);
-//         }
-//         if (isError) {
-//             toast.error(error?.data?.message || "An error occurred.");
-//         }
-//     }, [data, isError, error, isLoading]);
+    useEffect(() => {
+        if (data) {
+            const user = data.customers.find(user => user.id === id);
+            setSelectedUser(user);
+        }
+        if (isError) {
+            toast.error(error?.data?.message || "An error occurred.");
+        }
+    }, [data, isError, error, id]);
 
-//     useEffect(() => {
-//         handleSortChange(sortOrder);
-//     }, [sortOrder]);
+    const convertDate = (isoString) => {
+        const date = new Date(isoString);
+        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+    };
 
-//     const handleSortChange = (order) => {
-//         let sortedUsers = [...users];
-//         if (order === 'asc') {
-//             sortedUsers.sort((a, b) => a.name.localeCompare(b.name));
-//         } else if (order === 'desc') {
-//             sortedUsers.sort((a, b) => b.name.localeCompare(a.name));
-//         }
-//         setUsers(sortedUsers);
-//     };
+    if (isLoading) return <Loader />;
 
-//     const handleMenuClick = (id) => {
-//         if (editMenuOpen === id) {
-//             setEditMenuOpen(null);
-//         } else {
-//             setEditMenuOpen(id);
-//         }
-//     };
+    return (
+        <div className="customers-container">
+            <div className="side-menu">
+                <SideMenu />
+            </div>
+            <div className="content-container">
+                <h1>Customer Details</h1>
 
-//     const handleEditClick = async (id) => {
-//         const user = users.find(user => user.id === id);
-//         try {
-//             await updateEmployee(user).unwrap();
-//             refetch(); // Recharger les données après la mise à jour
-//             toast.success("Employee updated successfully.");
-//         } catch (err) {
-//             console.error('Failed to update employee:', err);
-//             toast.error("Failed to update employee.");
-//         }
-//     };
+                {selectedUser ? (
+                    <div className="customer-details">
+                        <div className="customer-info">
+                            <img src={selectedUser.image_path} alt="User" className="customer-image" />
+                            <div className="info-section">
+                                <h2>{selectedUser.name} {selectedUser.surname}</h2>
+                                <p>User ID: {selectedUser.id}</p>
+                                <p>Email: {selectedUser.email}</p>
+                                <p>Address: {selectedUser.address}</p>
+                                <p>Last Activity: {convertDate(selectedUser.lastActivity)}</p>
+                                <p>Coach: {selectedUser.coach}</p>
+                            </div>
+                        </div>
 
-//     const handleDeleteClick = async (userId) => {
-//         try {
-//             await deleteEmployee(userId).unwrap();
-//             refetch(); // Recharger les données après la suppression
-//             toast.success("Employee deleted successfully.");
-//         } catch (err) {
-//             console.error('Failed to delete employee:', err);
-//             toast.error("Failed to delete employee.");
-//         }
-//     };
+                        <div className="recent-meetings">
+                            <h3>Recent Meetings</h3>
+                            <table className="meetings-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Rating</th>
+                                        <th>Report</th>
+                                        <th>Source</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {selectedUser.meetings.map(meeting => (
+                                        <tr key={meeting.id}>
+                                            <td>{convertDate(meeting.date)}</td>
+                                            <td>{'★'.repeat(meeting.rating) + '☆'.repeat(5 - meeting.rating)}</td>
+                                            <td>{meeting.report}</td>
+                                            <td>{meeting.source}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
 
-//     const downloadCSV = () => {
-//         const csvRows = [];
-//         csvRows.push(['Name', 'Email', 'Phone', 'Number of Customers', 'Birth Date', 'Gender', 'Work'].join(','));
+                        <div className="payment-history">
+                            <h3>Payments History</h3>
+                            <table className="payments-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Payment Method</th>
+                                        <th>Amount</th>
+                                        <th>Comment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {selectedUser.payments.map(payment => (
+                                        <tr key={payment.id}>
+                                            <td>{convertDate(payment.date)}</td>
+                                            <td>{payment.paymentMethod}</td>
+                                            <td>{payment.amount}</td>
+                                            <td>{payment.comment}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                ) : (
+                    <p>No user found with ID {id}</p>
+                )}
+            </div>
+        </div>
+    );
+};
 
-//         users.forEach(user => {
-//             const row = [
-//                 `${user.name} ${user.surname}`,
-//                 user.email,
-//                 user.phone || 'N/A',
-//                 user.customers?.length || 'N/A',
-//                 user.birth_date || 'N/A',
-//                 user.gender || 'N/A',
-//                 user.work || 'N/A'
-//             ];
-//             csvRows.push(row.join(','));
-//         });
-
-//         const csvString = csvRows.join('\n');
-//         const blob = new Blob([csvString], { type: 'text/csv' });
-//         const url = window.URL.createObjectURL(blob);
-//         const a = document.createElement('a');
-//         a.href = url;
-//         a.download = 'employees_list.csv';
-//         a.click();
-//         window.URL.revokeObjectURL(url);
-//     };
-
-//     const handleBulkAction = () => {
-//         const selectedAction = document.querySelector('.bulk-action-select').value;
-//         if (selectedAction === 'delete') {
-//             // Handle bulk delete
-//         } else if (selectedAction === 'email') {
-//             // Send email to selected users
-//         }
-//     };
-
-//     const filteredUsers = users.filter(user => {
-//         const fullName = `${user.name} ${user.surname}`.toLowerCase();
-//         return fullName.includes(searchTerm.toLowerCase());
-//     });
-
-//     if (isLoading) return <Loader />;
-//     const EmployeeArray = Array.isArray(filteredUsers) ? filteredUsers : [];
-
-//     return (
-//         <div className="employees-page">
-//             <div className="side-menu">
-//                 <SideMenu />
-//             </div>
-//             <div className="main-content">
-//                 <div className="head-content-coaches-page">
-//                     <div className="title-content-coaches">
-//                         <h1 className="page-title">Coaches List</h1>
-//                         <p className="page-subtitle">You have total {users.length} coaches.</p>
-//                     </div>
-//                     <div className='group-button'>
-//                         <button className="export-button" onClick={downloadCSV}>
-//                             <img src={IconDownload} alt="Download Icon" />
-//                             Export
-//                         </button>
-//                         {usertype.user.type === "Manager" ? (
-//                             <button className="add-button" onClick={() => setShowPopup(true)}>
-//                                 +
-//                             </button>
-//                         ) : null}
-//                     </div>
-//                 </div>
-//                 <div className="all-content-table">
-//                     <div className="actions">
-//                         <div className="user-table-header-cell bulk-action-dropdown button-left-group">
-//                             <select className="bulk-action-select">
-//                                 <option value="">Bulk Action</option>
-//                                 <option value="delete">Delete</option>
-//                                 <option value="email">Send Email</option>
-//                             </select>
-//                             <button className="bulk-action-button" onClick={handleBulkAction}>
-//                                 Apply
-//                             </button>
-//                             <div className="group-button-table">
-//                                 <div className="search-bar">
-//                                     <div className="search-wrapper">
-//                                         <input
-//                                             type="text"
-//                                             placeholder="Search coaches..."
-//                                             value={searchTerm}
-//                                             onChange={(e) => setSearchTerm(e.target.value)}
-//                                             className="search-input"
-//                                         />
-//                                         <i className="search-icon fas fa-search"></i>
-//                                     </div>
-//                                 </div>
-//                                 <div className="sort-dropdown">
-//                                     <img
-//                                         src={SortIcon}
-//                                         alt="Sort Icon"
-//                                         className="sort-icon"
-//                                         onClick={() => setDropdownOpen(!dropdownOpen)}
-//                                     />
-//                                     {dropdownOpen && (
-//                                         <ul className="sort-options">
-//                                             <li onClick={() => handleSortChange('default')}>Default</li>
-//                                             <li onClick={() => handleSortChange('asc')}>A - Z</li>
-//                                             <li onClick={() => handleSortChange('desc')}>Z - A</li>
-//                                         </ul>
-//                                     )}
-//                                 </div>
-//                                 <div className="sort-dropdown">
-//                                     <img src={SettingsIcon} alt="Settings Icon" className="sort-icon" />
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                     <div className="user-table">
-//                         <div className="user-table-header">
-//                             <div className="user-table-header-cell">Coach</div>
-//                             <div className="user-table-header-cell">Email</div>
-//                             <div className="user-table-header-cell">Phone</div>
-//                             <div className="user-table-header-cell">Number of customers</div>
-//                             {usertype.user.type === "Manager" ? (
-//                             <div id="action-title" className="user-table-header-cell">Actions</div>
-//                             ) : null}
-//                         </div>
-//                         <div className="user-table-body">
-//                             {EmployeeArray.length === 0 ? (
-//                                 <div className="user-table-row">
-//                                     <div className="user-table-cell">No data available</div>
-//                                 </div>
-//                             ) : (
-//                                 EmployeeArray.map((user) => (
-//                                     <div className="user-table-row" key={user.id}>
-//                                         <div className="user-table-cell">
-//                                             {employeeImgData?.[user.id] ? (
-//                                                 <img src={employeeImgData[user.id]} alt="User" className="user-image" />
-//                                             ) : (
-//                                                 <div className="avatar-circle">
-//                                                     {user.name.charAt(0)}{user.surname?.charAt(0)}
-//                                                 </div>
-//                                             )}
-//                                             <div className="user-info">
-//                                                 <p className="user-name">{user.name} {user.surname}</p>
-//                                             </div>
-//                                         </div>
-//                                         <div className="user-table-cell">{user.email}</div>
-//                                         <div className="user-table-cell">{user.phone || "N/A"}</div>
-//                                         <div className="user-table-cell">{user.customers?.length || "N/A"}</div>
-//                                         {usertype.user.type === "Manager" ? (
-//                                         <div id="action-button" className="user-table-cell">
-//                                             <button className="edit-button" onClick={() => handleMenuClick(user.id)}>
-//                                                 ...
-//                                             </button>
-//                                             {editMenuOpen === user.id && (
-//                                                 <div className="actions-dropdown">
-//                                                     <ul className="actions-options">
-//                                                         <li onClick={() => handleEditClick(user.id)}>Edit</li>
-//                                                         <li onClick={() => handleDeleteClick(user.id)}>Delete</li>
-//                                                     </ul>
-//                                                 </div>
-//                                             )}
-//                                         </div>
-//                                         ) : null}
-//                                     </div>
-//                                 ))
-//                             )}
-//                         </div>
-//                     </div>
-//                 </div>
-//                 {showPopup && <FormPopup onClose={() => { setShowPopup(false); refetch(); }} />}
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Employees;
+export default CustomerPage;

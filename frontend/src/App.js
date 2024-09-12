@@ -14,6 +14,7 @@ import Events from "./components/event/Event"
 import Clothes from "./components/clothes/Clothes"
 import Compatibility from "./components/compatibility/Compatibility"
 import Customers from "./components/customers/Customers"
+import CustomerPage from "./components/customers/CustomerPage"
 
 function App() {
   return (
@@ -82,6 +83,13 @@ function App() {
             </PrivateRoute>
             }
           />
+
+          <Route path="/customers/:id" element={
+            <PrivateRoute>
+            <CustomerPage />
+            </PrivateRoute>
+            }
+            />
 
           {/*
           <Route path="/employees/login" element={ } />
