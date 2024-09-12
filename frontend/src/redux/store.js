@@ -10,6 +10,7 @@ import { userApi } from "./api/userApi.js";
 import { eventApi } from "./api/eventApi.js";
 import { clothingApi } from "./api/clothingApi.js";
 import { encounterApi } from "./api/encounterApi.js";
+import { paymentApi } from "./api/paymentApi.js";
 
 
 export const store = configureStore({
@@ -23,6 +24,7 @@ export const store = configureStore({
     [clothingApi.reducerPath]: clothingApi.reducer,
     [eventApi.reducerPath]: eventApi.reducer,
     [encounterApi.reducerPath]: encounterApi.reducer,
+    [paymentApi.reducerPath] : paymentApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
@@ -34,5 +36,6 @@ export const store = configureStore({
       clothingApi.middleware,
       eventApi.middleware,
       encounterApi.middleware,
+      paymentApi.middleware,
     ]),
 });
