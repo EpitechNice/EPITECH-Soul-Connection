@@ -225,7 +225,7 @@ async function fetchDB() {
     }));
 }
 
-async function run_n_wait(params) {
+async function run_n_wait() {
     let start = performance.now();
     await fetchDB();
     console.log("\x1b[95m%s\x1b[0m", `=== Fetching remote DB successfull. Took ${performance.now() - start}sec ===`);
