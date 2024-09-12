@@ -66,7 +66,12 @@ const Dashboard = () => {
       {
         label: 'Event Types',
         data: Object.values(eventCountByType),
-        backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
+        backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40',
+          '#E74C3C', '#8E44AD', '#3498DB', '#2ECC71', '#1ABC9C', '#34495E',
+          '#2980B9', '#27AE60', '#F39C12', '#1F618D', '#7F8C8D',
+          '#FF5733', '#3498DB', '#2ECC71', '#1ABC9C', '#34495E', '#2980B9',
+          '#27AE60', '#F39C12', '#1F618D', '#7F8C8D', '#FF5733', '#3498DB',
+          '#2ECC71', '#1ABC9C', '#34495E', '#2980B9', '#27AE60', '#F39C12'],
         hoverOffset: 4,
       },
     ],
@@ -118,6 +123,11 @@ const Dashboard = () => {
   return (
     <div className="statistics-page">
       <SideMenu />
+      <div className="content-container">
+        <div className="head-content-dashboard-page">
+          <h1 className="page-title">Dashboard</h1>
+          <p className="page-subtitle">Welcome!</p>
+        </div>
       <div className="content">
         <div className="overview">
           <div className="overview-item">
@@ -153,6 +163,7 @@ const Dashboard = () => {
           </div>
         </div>
         </div>
+      </div>
       </div>
   );
 };

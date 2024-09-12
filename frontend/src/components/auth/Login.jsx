@@ -17,7 +17,7 @@ const Login = () => {
 
     useEffect(() => {
       if (isAuthenticated) {
-        navigate("/home");
+        navigate("/dashboard");
       }
       if (error) {
         toast.error(error?.data?.message);

@@ -10,7 +10,7 @@ const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
   const location = useLocation(); // Utilisé pour savoir quel lien est actif
-  
+
   const { isLoading } = useGetEmployeeProfileQuery();
   const [logout] = useLazyLogoutQuery();
   const { user } = useSelector((state) => state.auth);
@@ -31,63 +31,62 @@ const Header = () => {
   // Fonction pour vérifier si une route est active
   const isActive = (path) => location.pathname === path;
 
-  return (
-    <header style={styles.header}>
-      {/* Nom de l'entreprise */}
-      <div style={styles.logo}>
-        <h2>Soul Connection</h2>
-      </div>
-
-      {/* Menu de navigation */}
-      <nav style={styles.nav}>
-        <Link to="/dashboard" style={isActive('/dashboard') ? { ...styles.link, ...styles.activeLink } : styles.link}>
-          Dashboard
-        </Link>
-        <Link to="/employees" style={isActive('/employees') ? { ...styles.link, ...styles.activeLink } : styles.link}>
-          Coaches
-        </Link>
-        <Link to="/customers" style={isActive('/customers') ? { ...styles.link, ...styles.activeLink } : styles.link}>
-          Customers
-        </Link>
-        <Link to="/tips" style={isActive('/tips') ? { ...styles.link, ...styles.activeLink } : styles.link}>
-          Tips
-        </Link>
-        <Link to="/events" style={isActive('/events') ? { ...styles.link, ...styles.activeLink } : styles.link}>
-          Events
-        </Link>
-        <Link to="/clothes" style={isActive('/clothes') ? { ...styles.link, ...styles.activeLink } : styles.link}>
-        </Link>
-      </nav>
-
-      {/* Boutons à droite */}
-      <div style={styles.buttons}>
-        {/* Bouton de messagerie */}
-        <button style={styles.button}>
-          <FaEnvelope size={20} />
-        </button>
-
-        {/* Bouton avec image ronde */}
-        <button style={styles.button}>
-          <img src={usaFlag} alt="User" style={styles.roundImage} />
-        </button>
-
-        {/* Bouton de l'utilisateur avec menu déroulant */}
-        <div style={styles.userMenu}>
-          <button style={styles.button} onClick={toggleDropdown}>
-            <FaUserCircle size={20} />
-          </button>
-          {showDropdown && (
-            <div style={styles.dropdown}>
-              <Link to="/profile" style={styles.dropdownLink}>Profile</Link>
-              <Link className="btn ms-4" id="logout_btn" to="/" onClick={logoutHandler}>
-                Logout
-              </Link>
-            </div>
-          )}
+  if (user) {
+    return (
+      <header style={styles.header}>
+        <div style={styles.logo}>
+          <h2><strong>Soul Connection</strong></h2>
         </div>
-      </div>
-    </header>
-  );
+
+        <nav style={styles.nav}>
+          <Link to="/dashboard" style={isActive('/dashboard') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+            Dashboard
+          </Link>
+          <Link to="/employees" style={isActive('/employees') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+            Coaches
+          </Link>
+          <Link to="/customers" style={isActive('/customers') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+            Customers
+          </Link>
+          <Link to="/tips" style={isActive('/tips') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+            Tips
+          </Link>
+          <Link to="/events" style={isActive('/events') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+            Events
+          </Link>
+          <Link to="/clothes" style={isActive('/clothes') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+          </Link>
+        </nav>
+
+        <div style={styles.buttons}>
+          <button style={styles.button}>
+            <FaEnvelope size={20} />
+          </button>
+
+          <button style={styles.button}>
+            <img src={usaFlag} alt="User" style={styles.roundImage} />
+          </button>
+
+          <div style={styles.userMenu}>
+            <button style={styles.button} onClick={toggleDropdown}>
+              <FaUserCircle size={35} />
+            </button>
+            {showDropdown && (
+              <div style={styles.dropdown}>
+                <Link to="/employees/me" style={styles.dropdownLink}>Profile</Link>
+                <Link id="logout_btn" to="/" onClick={logoutHandler} style={styles.dropdownLink}>
+                  Logout
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      </header>
+    );
+  } else {
+    return null;
+
+  }
 };
 
 const styles = {
@@ -112,10 +111,10 @@ const styles = {
     color: '#333',
     fontSize: '16px',
     padding: '10px 0',
-    position: 'relative' // Nécessaire pour la barre bleue en dessous
+    position: 'relative'
   },
   activeLink: {
-    color: '#007bff', // Couleur bleue pour le lien actif
+    color: '#007bff',
     fontWeight: 'bold',
   },
   activeBar: {
@@ -125,7 +124,7 @@ const styles = {
     left: 0,
     width: '100%',
     height: '2px',
-    backgroundColor: '#007bff', // Barre bleue sous le lien actif
+    backgroundColor: '#007bff',
   },
   buttons: {
     display: 'flex',
