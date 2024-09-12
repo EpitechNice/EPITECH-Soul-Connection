@@ -52,6 +52,8 @@ services:
     networks:
       soul-connection:
         ipv4_address: ${FRONT_HOST}
+    volumes:
+      - "./data/images/:/usr/src/app/images/"
     ports:
       - "${FRONT_PORT}:${FRONT_PORT}"
     depends_on:

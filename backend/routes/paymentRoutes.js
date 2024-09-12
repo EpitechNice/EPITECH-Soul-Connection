@@ -6,7 +6,7 @@ import { employeeType } from "../models/employeeModel.js";
 const router = express.Router();
 
 router.route("/payments").get(isAuth, getPayments);
-router.route("/payments/customer/:id").get(isAuth, getPaymentsByCustomer);
+router.route("/customer/:id/payments").get(isAuth, getPaymentsByCustomer);
 
 router.route("/payments").post(isAuth, authorizeRoles(employeeType.MANAGER), createPayment);
 router.route("/payments/:id").put(isAuth, authorizeRoles(employeeType.MANAGER), updatePayment);

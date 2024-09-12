@@ -47,7 +47,7 @@ const Login = () => {
                 Email
               </label>
               <input
-              type="email"
+              type="text"
               id="email_field"
               className="form-control"
               name="email"

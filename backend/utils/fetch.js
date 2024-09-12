@@ -35,6 +35,7 @@ async function retreiveData(session, url, requiredField) {
         try {
             data = await session.get(url);
         } catch(err) {
+            console.error("\x1b[31m%s\x1b[0m", `[ERROR] Got the following while retreiving ${url}: ${err}`);
             await delay(1000);
         }
     }

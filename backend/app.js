@@ -30,6 +30,7 @@ import customerRoutes from "./routes/customerRoutes.js";
 import clothingRoutes from "./routes/clothingRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import tipRoutes from "./routes/tipRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js"
 
 app.use("/api", employeeRoutes);
 app.use("/api", encounterRoutes);
@@ -37,6 +38,7 @@ app.use("/api", customerRoutes);
 app.use("/api", clothingRoutes);
 app.use("/api", eventRoutes);
 app.use("/api", tipRoutes);
+app.use("/api", paymentRoutes);
 
 //Using error middleware
 app.use(errorMiddleware);

@@ -23,7 +23,7 @@ export const getPaymentsByCustomer = catchAsyncErrors(async(req, res, next) => {
     try {
         const customer = await Customer.findByPk(req?.params?.id);
 
-        if (!clothes) {
+        if (!customer) {
             return next(new ErrorHandler("Customer not found", 404));
         }
 
@@ -36,7 +36,7 @@ export const getPaymentsByCustomer = catchAsyncErrors(async(req, res, next) => {
         res.status(200).json(payments);
     } catch (err) {
         console.error(err);
-        next(new ErrorHandler("An error occurred while fetching clothes", 500));
+        next(new ErrorHandler("An error occurred while fetching payments", 500));
     }
 });
 
