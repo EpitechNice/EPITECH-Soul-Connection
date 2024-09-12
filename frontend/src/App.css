@@ -1082,3 +1082,29 @@ hr {
 .user-name:hover {
   font-weight: bold;
 }
+
+
+.back-button {
+  background: white;
+  border: 1px solid #ccc;
+  color: #344761;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s, border-color 0.3s;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+}
+
+.back-button:hover {
+  background-color: #f1f1f1;
+  border-color: #aaa;
+}
+
+.back-icon {
+  margin-right: 8px;
+  font-size: 20px;
+}

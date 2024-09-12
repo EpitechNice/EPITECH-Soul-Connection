@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; // Importer useParams
+import { useParams, useNavigate } from 'react-router-dom';
 import SideMenu from '../layout/SideMenu';
-import { useGetCustomersQuery } from '../../redux/api/customerApi';
+import { useGetCustomerDetailsQuery } from '../../redux/api/customerApi';
 import Loader from '../layout/Loader';
 import toast from "react-hot-toast";
 
 const CustomerPage = () => {
-    const { id } = useParams(); // Récupérer l'ID du client depuis l'URL
-    const { data, isLoading, error, isError } = useGetCustomersQuery();
+    const { id } = useParams();
+    const navigate = useNavigate(); // Hook pour la navigation
+    const { data, isLoading, error, isError } = useGetCustomerDetailsQuery(id);
     const [selectedUser, setSelectedUser] = useState(null);
 
     useEffect(() => {
         if (data) {
-            const user = data.customers.find(user => user.id === id);
+            const user = data; // ou data.customers.find(user => user.id === parseInt(id, 10))
             setSelectedUser(user);
         }
         if (isError) {
@@ -33,7 +34,15 @@ const CustomerPage = () => {
                 <SideMenu />
             </div>
             <div className="content-container">
-                <h1>Customer Details</h1>
+                <div className="head-content-coaches-page">
+                    <h1 className="title">Customer Details</h1>
+                    <button 
+                        className="back-button"
+                        onClick={() => navigate('/customers')}
+                    >
+                        <span className="back-icon">&#8592;</span> Back
+                    </button>
+                </div>
 
                 {selectedUser ? (
                     <div className="customer-details">
@@ -61,7 +70,7 @@ const CustomerPage = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {selectedUser.meetings.map(meeting => (
+                                    {selectedUser.meetings && selectedUser.meetings.map(meeting => (
                                         <tr key={meeting.id}>
                                             <td>{convertDate(meeting.date)}</td>
                                             <td>{'★'.repeat(meeting.rating) + '☆'.repeat(5 - meeting.rating)}</td>
@@ -85,7 +94,7 @@ const CustomerPage = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {selectedUser.payments.map(payment => (
+                                    {selectedUser.payments && selectedUser.payments.map(payment => (
                                         <tr key={payment.id}>
                                             <td>{convertDate(payment.date)}</td>
                                             <td>{payment.paymentMethod}</td>
