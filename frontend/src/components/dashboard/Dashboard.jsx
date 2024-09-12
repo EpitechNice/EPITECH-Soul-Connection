@@ -7,7 +7,7 @@ import { useGetEventsQuery } from '../../redux/api/eventApi';
 import toast from 'react-hot-toast';
 import Loader from '../layout/Loader';
 
-const Statistics = () => {
+const Dashboard = () => {
   const { data, isLoading, error, isError } = useGetEventsQuery();
 
   useEffect(() => {
@@ -157,4 +157,4 @@ const Statistics = () => {
   );
 };
 
-export default Statistics;
+export default Dashboard;

@@ -4,6 +4,7 @@ import { FaEnvelope, FaUserCircle } from 'react-icons/fa';
 import { useGetEmployeeProfileQuery } from '../../redux/api/userApi';
 import { useSelector } from 'react-redux';
 import { useLazyLogoutQuery } from '../../redux/api/authApi';
+import usaFlag from '../../assets/usa.svg';
 
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -54,6 +55,8 @@ const Header = () => {
         <Link to="/events" style={isActive('/events') ? { ...styles.link, ...styles.activeLink } : styles.link}>
           Events
         </Link>
+        <Link to="/clothes" style={isActive('/clothes') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+        </Link>
       </nav>
 
       {/* Boutons à droite */}
@@ -65,7 +68,7 @@ const Header = () => {
 
         {/* Bouton avec image ronde */}
         <button style={styles.button}>
-          <img src="path/to/image.png" alt="User" style={styles.roundImage} />
+          <img src={usaFlag} alt="User" style={styles.roundImage} />
         </button>
 
         {/* Bouton de l'utilisateur avec menu déroulant */}

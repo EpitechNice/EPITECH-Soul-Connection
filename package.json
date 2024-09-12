@@ -32,6 +32,8 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.0",
     "react-chartjs-2": "^5.2.0",
+    "react-multi-carousel": "^2.8.5",
+    "react-responsive-carousel": "^3.2.23",
     "sequelize": "^6.37.3",
     "sqlite3": "^5.1.7"
   },

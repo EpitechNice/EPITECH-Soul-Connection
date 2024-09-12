@@ -9,7 +9,7 @@ import Login from "./components/auth/Login";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import Employees from "./components/employees/Employee";
 import Tips from "./components/tips/Tips";
-import Statistics from "./components/statistics/Statistic"
+import Dashboard from "./components/dashboard/Dashboard"
 import Events from "./components/event/Event"
 import Clothes from "./components/clothes/Clothes"
 import Compatibility from "./components/compatibility/Compatibility"
@@ -34,16 +34,9 @@ function App() {
             }
           />
 
-          <Route path="/home" element={
+          <Route path="/dashboard" element={
             <PrivateRoute>
-              <Home />
-            </PrivateRoute>
-            }
-          />
-
-          <Route path="/statistics" element={
-            <PrivateRoute>
-              <Statistics />
+              <Dashboard />
             </PrivateRoute>
             }
           />
