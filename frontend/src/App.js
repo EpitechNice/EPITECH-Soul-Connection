@@ -27,9 +27,9 @@ function App() {
         <div className="pages">
           <Routes>
 
-          {/* <Route path="/" element={<Login />} /> */}
           <Route path="/" element={
-            <PrivateRoute>
+            <PrivateRoute>*
+              <Dashboard />
             </PrivateRoute>
             }
           />
