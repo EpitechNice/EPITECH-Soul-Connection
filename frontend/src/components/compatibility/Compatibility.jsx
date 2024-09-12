@@ -79,18 +79,22 @@ const Compatibility = () => {
                     <label htmlFor="client1">Select Client 1:</label>
                     <select value={selectedClient1} onChange={handleClientChange(setSelectedClient1)} id="client1">
                         <option value="">Select a client</option>
-                        {customers.map(client => (
-                            <option key={client.email} value={client.email}>{client.name}</option>
-                        ))}
+                        {customers
+                            .filter(client => client.email !== selectedClient2) // Exclude selectedClient2
+                            .map(client => (
+                                <option key={client.email} value={client.email}>{client.name}</option>
+                            ))}
                     </select>
                 </div>
                 <div>
                     <label htmlFor="client2">Select Client 2:</label>
                     <select value={selectedClient2} onChange={handleClientChange(setSelectedClient2)} id="client2">
                         <option value="">Select a client</option>
-                        {customers.map(client => (
-                            <option key={client.email} value={client.email}>{client.name}</option>
-                        ))}
+                        {customers
+                            .filter(client => client.email !== selectedClient1) // Exclude selectedClient1
+                            .map(client => (
+                                <option key={client.email} value={client.email}>{client.name}</option>
+                            ))}
                     </select>
                 </div>
                 <div>

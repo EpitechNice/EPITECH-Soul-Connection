@@ -138,7 +138,7 @@ const Dashboard = () => {
       <div className="content-container">
         <div className="head-content-dashboard-page">
           <h1 className="page-title">Dashboard</h1>
-          <p className="page-subtitle">Welcome!</p>
+          <h4 className="page-subtitle">Welcome!</h4>
         </div>
       <div className="content">
         <div className="overview">
@@ -154,7 +154,7 @@ const Dashboard = () => {
           </div>
           <div className="overview-item">
           <h3>Events</h3>
-            <h4>Our events and their status.</h4>
+            <h4 className="sous-titre-graph">Our events and their status.</h4>
             <div className="data-graph-event">
               <div className="block-graph-event">
                 <h5>Monthly</h5>
