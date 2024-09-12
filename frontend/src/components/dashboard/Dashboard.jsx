@@ -4,11 +4,13 @@ import BarChart from "./Bar";
 import PieChart from "./Pie";
 import LineChart from './Line';
 import { useGetEventsQuery } from '../../redux/api/eventApi';
+import { useGetCustomersQuery } from '../../redux/api/customerApi';
 import toast from 'react-hot-toast';
 import Loader from '../layout/Loader';
 
 const Dashboard = () => {
   const { data, isLoading, error, isError } = useGetEventsQuery();
+  const { data: customersData } = useGetCustomersQuery();
 
   useEffect(() => {
     if (isError) {
@@ -17,12 +19,21 @@ const Dashboard = () => {
   }, [isError, error]);
 
   if (isLoading) return <Loader />;
-
+  
+  const customersArray = Array.isArray(customersData) ? customersData : customersData?.customers || [];
   const eventArray = Array.isArray(data) ? data : data?.events || [];
   // Count events per day
+  const today = new Date();
+  const thirtyDaysAgo = new Date(today);
+  thirtyDaysAgo.setDate(today.getDate() - 30);
+  
   const eventCountByDate = eventArray.reduce((acc, event) => {
-    const date = event.date.split('T')[0]; // Assuming date is in ISO format
-    acc[date] = (acc[date] || 0) + 1;
+    const eventDate = new Date(event.date.split('T')[0]);
+    // Vérifie si la date de l'événement est dans les 30 derniers jours
+    if (eventDate >= thirtyDaysAgo && eventDate <= today) {
+      const dateString = eventDate.toISOString().split('T')[0];
+      acc[dateString] = (acc[dateString] || 0) + 1;
+    }
     return acc;
   }, {});
 
@@ -41,7 +52,7 @@ const Dashboard = () => {
   };
 
   const customerGrowthData = {
-    labels: ['01 Jul', '05 Jul', '10 Jul', '15 Jul', '20 Jul', '25 Jul', '30 Jul'],
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
     datasets: [
       {
         label: 'Customers',
@@ -140,20 +151,26 @@ const Dashboard = () => {
           </div>
           </div>
           <div className="overview-item">
-            <h3>Events</h3>
+          <h3>Events</h3>
             <h4>Our events and their status.</h4>
-            <h5>Monthly</h5>
-            <span className="count">{eventArray.length}</span>
-            <span className="percentage positive">+4.63%</span>
-            <h5>Weekly</h5>
-            <span className="count">{eventArray.length}</span>
-            <span className="percentage positive">+4.63%</span>
-            <h5>Daily</h5>
-            <span className="count">{eventArray.length}</span>
-            <span className="percentage positive">+4.63%</span>
-            <div className="chart">
+            <div className="data-graph-event">
+              <div className="block-graph-event">
+                <h5>Monthly</h5>
+                <span className="count">{eventArray.length}</span>
+                <span className="percentage positive">+4.63%</span>
+              </div>
+            <div className="block-graph-event">
+              <h5>Weekly</h5>
+              <span className="count">{eventArray.length}</span>
+              <span className="percentage positive">+4.63%</span>
+            </div>
+            <div className="block-graph-event">
+              <h5>Daily</h5>
+              <span className="count">{eventArray.length}</span>
+              <span className="percentage positive">+4.63%</span>
+            </div>
+            </div>
             <BarChart data={eventData} options={chartOptions} />
-          </div>
           </div>
           <div className="overview-item">
             <h3>Meeting top sources</h3>

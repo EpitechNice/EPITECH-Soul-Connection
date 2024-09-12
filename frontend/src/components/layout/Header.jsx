@@ -38,25 +38,30 @@ const Header = () => {
           <h2><strong>Soul Connection</strong></h2>
         </div>
 
-        <nav style={styles.nav}>
-          <Link to="/dashboard" style={isActive('/dashboard') ? { ...styles.link, ...styles.activeLink } : styles.link}>
-            Dashboard
-          </Link>
-          <Link to="/employees" style={isActive('/employees') ? { ...styles.link, ...styles.activeLink } : styles.link}>
-            Coaches
-          </Link>
-          <Link to="/customers" style={isActive('/customers') ? { ...styles.link, ...styles.activeLink } : styles.link}>
-            Customers
-          </Link>
-          <Link to="/tips" style={isActive('/tips') ? { ...styles.link, ...styles.activeLink } : styles.link}>
-            Tips
-          </Link>
-          <Link to="/events" style={isActive('/events') ? { ...styles.link, ...styles.activeLink } : styles.link}>
-            Events
-          </Link>
-          <Link to="/clothes" style={isActive('/clothes') ? { ...styles.link, ...styles.activeLink } : styles.link}>
-          </Link>
-        </nav>
+      {/* Menu de navigation */}
+      <nav style={styles.nav}>
+        <Link to="/dashboard" style={isActive('/dashboard') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+          Dashboard
+        </Link>
+        <Link to="/employees" style={isActive('/employees') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+          Coaches
+        </Link>
+        <Link to="/customers" style={isActive('/customers') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+          Customers
+        </Link>
+        <Link to="/tips" style={isActive('/tips') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+          Tips
+        </Link>
+        <Link to="/events" style={isActive('/events') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+          Events
+        </Link>
+        <Link to="/compatibility" style={isActive('/compatibility') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+          Compatiblity
+        </Link>
+        <Link to="/clothes" style={isActive('/clothes') ? { ...styles.link, ...styles.activeLink } : styles.link}>
+          Clothes
+        </Link>
+      </nav>
 
         <div style={styles.buttons}>
           <button style={styles.button}>
