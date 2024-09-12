@@ -79,7 +79,10 @@ const CustomerPage = () => {
                                     <p>Email: {selectedUser.email}</p>
                                     <p>Address: {selectedUser.address}</p>
                                     <p>Last Activity: {convertDate(selectedUser.createdAt)}</p>
-                                    <p>Last Update: {convertDate(selectedUser.updatedAt)}</p>
+                                    {selectedUser.modified_by ? (<p>Last Update: {convertDate(selectedUser.updatedAt)} by {selectedUser.modified_by}</p>
+                                        ) : (
+                                            <p>Last Update: never</p>
+                                        )}
                                     <p>Coach: {selectedUser.coach}</p>
                                 </div>
                             </div>

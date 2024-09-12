@@ -4,8 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 const SideMenu = () => {
     const menuItems = [
         {
-            name: "Home",
-            url: "/home",
+            name: "Dashboard",
+            url: "/dashboard",
         },
         {
             name: "Coaches",
