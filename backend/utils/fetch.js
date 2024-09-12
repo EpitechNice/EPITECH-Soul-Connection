@@ -20,6 +20,8 @@ import Clothing from "../models/clothingModel.js";
 const UPLOAD_PATH = "/usr/src/app/images/";
 const areWeManager = true;
 
+const parse_unicode_into_ascii = {'à': 'a', 'ç': 'c', 'é': 'e', 'è': 'e', 'ù': 'u', 'î': 'i', 'ï': 'i', 'À': 'A', 'Ç': 'C', 'É': 'E', 'È': 'E', 'Ù': 'U', 'Î': 'I', 'Ï': 'I'}
+
 async function retreiveData(session, url, requiredField) {
     let data;
     try {
@@ -54,6 +56,21 @@ async function addClothe(session, type, id) {
 async function addEncounter(session, id) {
     let response = await retreiveData(session, `/api/encounters/${id}`, "comment");
     return await Encounter.upsert(response.data);
+}
+
+function makeAscii(data) {
+    let asciiText = '';
+
+    for (let i = 0; i < data.length; i++) {
+        const char = data[i];
+
+        if (parse_unicode_into_ascii[char]) {
+            asciiText += parse_unicode_into_ascii[char];
+        } else {
+            asciiText += char;
+        }
+    }
+    return asciiText;
 }
 
 function clearOfId(items, idsToRemove) {
@@ -134,7 +151,11 @@ async function fetchDB() {
 
     for (let event in events) {
         try {
-            await Event.upsert((await retreiveData(session, `/api/events/${events[event].id}`, "id")).data);
+            const eventData = (await retreiveData(session, `/api/events/${events[event].id}`, "id")).data;
+            await Event.upsert({
+                ...eventData,
+                location_name: makeAscii(eventData.location_name),
+            });
         } catch (err) {
             console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retrieve data for event ${events[event].id}: ${err}`);
         }
@@ -161,12 +182,12 @@ async function fetchDB() {
                 email: response.data.email,
                 password: (response.data.email === process.env.REMOTE_API_EMAIL ? hashSync(process.env.REMOTE_API_PASSW, genSaltSync(10)) : null),
                 type: (response.data.email === process.env.REMOTE_API_EMAIL ? (areWeManager ? employeeType.MANAGER : employeeType.COACH) : employeeType.COACH),
-                name: response.data.name,
-                surname: response.data.surname,
+                name: makeAscii(response.data.name),
+                surname: makeAscii(response.data.surname),
                 birth_date: Date(response.data.birth_date),
                 gender: response.data.gender,
                 image_path: UPLOAD_PATH + `employees/${response.data.id}.png`,
-                work: response.data.work,
+                work: makeAscii(response.data.work),
             });
         } catch (err) {
             console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retrieve data or image for employee ${employee.id}: ${err}`);
@@ -206,19 +227,19 @@ async function fetchDB() {
             });
             fs.writeFileSync(UPLOAD_PATH + `customers/${customer.id}.png`, imageResponse.data);
 
-            let userObject = (await Customer.upsert({
+            await Customer.upsert({
                 id: response.data.id,
                 email: response.data.email,
                 type: "Client",
-                name: response.data.name,
-                surname: response.data.surname,
+                name: makeAscii(response.data.name),
+                surname: makeAscii(response.data.surname),
                 birth_date: Date(response.data.birth_date),
                 gender: response.data.gender,
                 image_path: UPLOAD_PATH + `customers/${response.data.id}.png`,
                 astrological_sign: response.data.astrological_sign,
-                description: response.data.description,
-                address: response.data.address,
-            }))[0];
+                description: makeAscii(response.data.description),
+                address: makeAscii(response.data.address),
+            });
         } catch (err) {
             console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retrieve data or image for customer ${customer.id}: ${err}`);
         }
@@ -228,7 +249,7 @@ async function fetchDB() {
 async function run_n_wait() {
     let start = performance.now();
     await fetchDB();
-    console.log("\x1b[95m%s\x1b[0m", `=== Fetching remote DB successfull. Took ${performance.now() - start}sec ===`);
+    console.log("\x1b[95m%s\x1b[0m", `=== Fetching remote DB successfull. Took ${Number(((performance.now() - start) / 1000).toFixed(2))}sec ===`);
     await delay(30 * 60 * 1000);
 }
 
