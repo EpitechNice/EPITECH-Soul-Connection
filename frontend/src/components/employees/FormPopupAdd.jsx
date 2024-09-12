@@ -27,11 +27,10 @@ const FormPopup = ({ onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { email, password, price, type, name, surname, birth_date, gender, work } = formData;
+            const { email, password, type, name, surname, birth_date, gender, work } = formData;
             const newEmployee = {
                 email,
                 password,
-                price: parseFloat(price),
                 type,
                 name,
                 surname,
@@ -70,15 +69,6 @@ const FormPopup = ({ onClose }) => {
                             type="password"
                             name="password"
                             value={formData.password}
-                            onChange={handleChange}
-                            required
-                        />
-                    </label>
-                    <label>Price:
-                        <input
-                            type="number"
-                            name="price"
-                            value={formData.price}
                             onChange={handleChange}
                             required
                         />

@@ -60,29 +60,29 @@ services:
       - db
       - backend
 
-  fetch:
-    image: node:22.7.0
-    env_file:
-      - ./frontend/.env
-    container_name: soul-connection-fetch
-    restart: always
-    environment:
-      REMOTE_API_KEY: ${REMOTE_API_KEY}
-      REMOTE_API_EMAIL: ${REMOTE_API_EMAIL}
-      REMOTE_API_PASSW: ${REMOTE_API_PASSW}
-      DB_HOST: ${DB_HOST}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      DB_NAME: ${DB_NAME}
-    entrypoint: bash -c "cd /app/ && npm install && node /app/backend/utils/fetch.js"
-    volumes:
-      - "./data/images/:/usr/src/app/images/"
-      - "./:/app/"
-    networks:
-      soul-connection:
-        ipv4_address: ${FETCH_HOST}
-    depends_on:
-      - db
+  # fetch:
+  #   image: node:22.7.0
+  #   env_file:
+  #     - ./frontend/.env
+  #   container_name: soul-connection-fetch
+  #   restart: always
+  #   environment:
+  #     REMOTE_API_KEY: ${REMOTE_API_KEY}
+  #     REMOTE_API_EMAIL: ${REMOTE_API_EMAIL}
+  #     REMOTE_API_PASSW: ${REMOTE_API_PASSW}
+  #     DB_HOST: ${DB_HOST}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
+  #     DB_NAME: ${DB_NAME}
+  #   entrypoint: bash -c "cd /app/ && npm install && node /app/backend/utils/fetch.js"
+  #   volumes:
+  #     - "./data/images/:/usr/src/app/images/"
+  #     - "./:/app/"
+  #   networks:
+  #     soul-connection:
+  #       ipv4_address: ${FETCH_HOST}
+  #   depends_on:
+  #     - db
 
 networks:
   soul-connection:

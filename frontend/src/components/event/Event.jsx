@@ -92,10 +92,8 @@ const Events = () => {
         </div>
       </div>
 
-      {/* Conditionally render the Calendar and Map */}
       {!showPopup && (
         <>
-          {/* Calendar Section */}
           <div className="calendar-section">
             <FullCalendar
               plugins={[dayGridPlugin, interactionPlugin]}
@@ -110,7 +108,6 @@ const Events = () => {
             />
           </div>
 
-          {/* Map Section */}
           <div className="map-section">
             <MapContainer 
               style={mapContainerStyle} 

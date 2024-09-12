@@ -5,12 +5,13 @@ import PieChart from "./Pie";
 import LineChart from './Line';
 import { useGetEventsQuery } from '../../redux/api/eventApi';
 import { useGetCustomersQuery } from '../../redux/api/customerApi';
+import {useGetEncountersQuery} from '../../redux/api/encounterApi';
 import toast from 'react-hot-toast';
 import Loader from '../layout/Loader';
 
 const Dashboard = () => {
   const { data, isLoading, error, isError } = useGetEventsQuery();
-  const { data: customersData } = useGetCustomersQuery();
+  const { data: encountersData } = useGetEncountersQuery();
 
   useEffect(() => {
     if (isError) {
@@ -20,7 +21,7 @@ const Dashboard = () => {
 
   if (isLoading) return <Loader />;
   
-  const customersArray = Array.isArray(customersData) ? customersData : customersData?.customers || [];
+  const encountersArray = Array.isArray(encountersData) ? encountersData : encountersData?.encounters || [];
   const eventArray = Array.isArray(data) ? data : data?.events || [];
   // Count events per day
   const today = new Date();
@@ -143,11 +144,12 @@ const Dashboard = () => {
         <div className="overview">
           <div className="overview-item">
             <h3>Customers</h3>
+            <h4 className="sous-titre-graph">When customers have joined in the time.</h4>
             <span className="count">932</span>
             <span className="percentage positive">+12.37%</span>
           <div className="chart">
-            <h4>Customer Growth</h4>
-            <LineChart data={customerGrowthData} options={chartOptions} />
+          <h4 className="sous-titre-graph">Our events their status.</h4>
+          <LineChart data={customerGrowthData} options={chartOptions} />
           </div>
           </div>
           <div className="overview-item">

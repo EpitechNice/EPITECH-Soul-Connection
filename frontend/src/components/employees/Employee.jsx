@@ -7,7 +7,7 @@ import IconDownload from '../../assets/Download.svg';
 import SortIcon from '../../assets/Sort.svg';
 import SettingsIcon from '../../assets/Settings.svg';
 import { useSelector } from 'react-redux';
-import FormPopup from '../edit/FormPopupAdd';
+import FormPopup from './FormPopupAdd';
 
 const Employees = () => {
     const { data, isLoading, error, isError, refetch } = useGetEmployeesQuery();

@@ -44,7 +44,6 @@ const EventPopup = ({ onClose, refetch }) => {
     };
 
     const isFormValid = () => {
-        // Convert all values to strings before trimming
         return Object.values(formData).every(value => String(value).trim() !== '');
     };
 
@@ -113,7 +112,7 @@ const EventPopup = ({ onClose, refetch }) => {
                             required
                         />
                     </label>
-                    <label>Coordinates (optional):
+                    <label>Coordinates:
                         <input
                             type="text"
                             name="location_x"

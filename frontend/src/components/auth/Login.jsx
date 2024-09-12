@@ -37,11 +37,11 @@ const Login = () => {
 
     return (
       <div className="page-container">
-        <div className="col-10 col-lg-5">
+        <div className="col-10 col-lg-5 ">
           <form className="login_card"
           onSubmit={submitHandler}
           >
-            <h2 className="mb-4">Login</h2>
+            <h2 className="mb-4"><strong>Login</strong></h2>
             <div className="mb-3">
               <label htmlFor="email_field" className="form-label">
                 Email
