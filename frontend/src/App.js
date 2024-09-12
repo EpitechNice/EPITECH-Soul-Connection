@@ -4,16 +4,17 @@ import { Toaster } from "react-hot-toast"
 import './App.css'
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
-import Home from "./components/Home"
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import Employees from "./components/employees/Employee";
 import Tips from "./components/tips/Tips";
-import Statistics from "./components/statistics/Statistic"
+import Dashboard from "./components/dashboard/Dashboard"
 import Events from "./components/event/Event"
 import Clothes from "./components/clothes/Clothes"
 import Compatibility from "./components/compatibility/Compatibility"
 import Customers from "./components/customers/Customers"
+import CustomerPage from "./components/customers/CustomerPage"
+import ProfilePage from "./components/user/ProfilePage"
 
 function App() {
   return (
@@ -25,25 +26,18 @@ function App() {
 
         <div className="pages">
           <Routes>
-          <Route path="/login" element={<Login />} />
 
+          {/* <Route path="/" element={<Login />} /> */}
           <Route path="/" element={
             <PrivateRoute>
-              <Home />
             </PrivateRoute>
             }
           />
+          <Route path="/login" element={<Login />} />
 
-          <Route path="/home" element={
+          <Route path="/dashboard" element={
             <PrivateRoute>
-              <Home />
-            </PrivateRoute>
-            }
-          />
-
-          <Route path="/statistics" element={
-            <PrivateRoute>
-              <Statistics />
+              <Dashboard />
             </PrivateRoute>
             }
           />
@@ -90,6 +84,20 @@ function App() {
             }
           />
 
+          <Route path="/customers/:id" element={
+            <PrivateRoute>
+            <CustomerPage />
+            </PrivateRoute>
+            }
+            />
+
+          <Route path="/employees/me" element={
+            <PrivateRoute>
+            <ProfilePage />
+            </PrivateRoute>
+            }
+            />
+
           {/*
           <Route path="/employees/login" element={ } />
           <Route path="/employees/me" element={ } />
@@ -106,7 +114,6 @@ function App() {
           <Route path="/events/:id" element={ } />
           <Route path="/clothes" element={ } />
           <Route path="/clothes/:id/image" element={ } /> */}
-          <Route path="/tips" element={ <Tips /> } />
           </Routes>
         </div>
 

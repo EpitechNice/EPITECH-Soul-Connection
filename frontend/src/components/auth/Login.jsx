@@ -17,7 +17,7 @@ const Login = () => {
 
     useEffect(() => {
       if (isAuthenticated) {
-        navigate("/home");
+        navigate("/dashboard");
       }
       if (error) {
         toast.error(error?.data?.message);
@@ -71,7 +71,7 @@ const Login = () => {
             </div>
 
             <button
-              id="login_button"
+              className="login_button"
               type="submit"
               disabled={isLoading}
             >

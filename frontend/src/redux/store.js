@@ -3,12 +3,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./features/userSlice";
 
 import { authApi } from "./api/authApi";
-import { employeeApi } from "./api/employeeApi.js";
-import { tipApi } from "./api/tipApi.js";
-import { customerApi } from "./api/customerApi.js";
 import { userApi } from "./api/userApi.js";
-import { eventApi } from "./api/eventApi.js";
+import { employeeApi } from "./api/employeeApi.js";
+import { customerApi } from "./api/customerApi.js";
+import { tipApi } from "./api/tipApi.js";
 import { clothingApi } from "./api/clothingApi.js";
+import { eventApi } from "./api/eventApi.js";
 import { encounterApi } from "./api/encounterApi.js";
 import { paymentApi } from "./api/paymentApi.js";
 

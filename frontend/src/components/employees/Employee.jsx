@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import SideMenu from "../layout/SideMenu";
-import { useGetEmployeesQuery } from '../../redux/api/employeeApi';
+import { useGetEmployeesQuery, useDeleteEmployeeMutation, useUpdateEmployeeMutation } from '../../redux/api/employeeApi';
 import toast from "react-hot-toast";
 import Loader from '../layout/Loader';
+import IconDownload from '../../assets/Download.svg';
+import SortIcon from '../../assets/Sort.svg';
+import SettingsIcon from '../../assets/Settings.svg';
+import { useSelector } from 'react-redux';
+import FormPopup from '../edit/FormPopupAdd';
 
 const Employees = () => {
-    const { data, isLoading, error, isError } = useGetEmployeesQuery();
+    const { data, isLoading, error, isError, refetch } = useGetEmployeesQuery();
     const [users, setUsers] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null);
-    const [userClients, setUserClients] = useState({});
-
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
-    };
+    const [searchTerm, setSearchTerm] = useState('');
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [sortOrder, setSortOrder] = useState('default');
+    const [showPopup, setShowPopup] = useState(false);
+    const [editMenuOpen, setEditMenuOpen] = useState(null);
+    const [editUser, setEditUser] = useState(null);
+    const [showEditPopup, setShowEditPopup] = useState(false);
+    const [deleteEmployee] = useDeleteEmployeeMutation();
+    const { mutate: updateEmployee } = useUpdateEmployeeMutation();
+    const usertype = useSelector((state) => state.auth);
+    const employeeImgData = "";
 
     useEffect(() => {
-        console.log("Data:", data);
-        console.log("Is Loading:", isLoading);
-        console.log("Is Error:", isError);
-        console.log("Error:", error);
-
         if (data) {
             setUsers(data.coach || []);
         }
@@ -33,96 +33,213 @@ const Employees = () => {
         }
     }, [data, isError, error, isLoading]);
 
-    const handleOpenModal = (user) => {
-        setSelectedUser(user);
-        setShowModal(true);
+    useEffect(() => {
+        handleSortChange(sortOrder);
+    }, [sortOrder]);
+
+    const handleSortChange = (order) => {
+        let sortedUsers = [...users];
+        if (order === 'asc') {
+            sortedUsers.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (order === 'desc') {
+            sortedUsers.sort((a, b) => b.name.localeCompare(a.name));
+        }
+        setUsers(sortedUsers);
     };
 
-    const handleCloseModal = () => {
-        setShowModal(false);
+    const handleMenuClick = (id) => {
+        if (editMenuOpen === id) {
+            setEditMenuOpen(null);
+        } else {
+            setEditMenuOpen(id);
+        }
     };
 
-    const handleClientSelection = (clientId) => {
-        setUserClients(prevState => {
-            const userId = selectedUser.id;
-            const currentUserClients = prevState[userId] || [];
+    const handleEditClick = (id) => {
+        const userToEdit = users.find(user => user.id === id);
+        setEditUser(userToEdit); 
+        setShowEditPopup(true);
+    };
 
-            const updatedClients = currentUserClients.includes(clientId)
-                ? currentUserClients.filter(id => id !== clientId)
-                : [...currentUserClients, clientId];
+    const handleDeleteClick = async (userId) => {
+        try {
+            await deleteEmployee(userId).unwrap();
+            refetch();
+            toast.success("Employee deleted successfully.");
+        } catch (err) {
+            console.error('Failed to delete employee:', err);
+            toast.error("Failed to delete employee.");
+        }
+    };
 
-            return { ...prevState, [userId]: updatedClients };
+    const downloadCSV = () => {
+        const csvRows = [];
+        csvRows.push(['Name', 'Email', 'Phone', 'Number of Customers', 'Birth Date', 'Gender', 'Work'].join(','));
+
+        users.forEach(user => {
+            const row = [
+                `${user.name} ${user.surname}`,
+                user.email,
+                user.phone || 'N/A',
+                user.customers?.length || 'N/A',
+                user.birth_date || 'N/A',
+                user.gender || 'N/A',
+                user.work || 'N/A'
+            ];
+            csvRows.push(row.join(','));
         });
+
+        const csvString = csvRows.join('\n');
+        const blob = new Blob([csvString], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'employees_list.csv';
+        a.click();
+        window.URL.revokeObjectURL(url);
     };
+
+    const handleBulkAction = () => {
+        const selectedAction = document.querySelector('.bulk-action-select').value;
+        if (selectedAction === 'delete') {
+            // Handle bulk delete
+        } else if (selectedAction === 'email') {
+            // Send email to selected users
+        }
+    };
+
+    const filteredUsers = users.filter(user => {
+        const fullName = `${user.name} ${user.surname}`.toLowerCase();
+        return fullName.includes(searchTerm.toLowerCase());
+    });
 
     if (isLoading) return <Loader />;
-    const EmployeeArray = Array.isArray(users) ? users : [];
+    const EmployeeArray = Array.isArray(filteredUsers) ? filteredUsers : [];
 
     return (
-        <div className="employees pages">
-            <div className="col-12 col-lg-3">
+        <div className="employees-page">
+            <div className="side-menu">
                 <SideMenu />
             </div>
-            <h1>Coaches</h1>
-            <div className="separator"></div>
-
-            <section id="employees" className="user-table">
-                <div className="user-table-header">
-                    <div className="user-table-header-cell">Number</div>
-                    <div className="user-table-header-cell">Name</div>
-                    <div className="user-table-header-cell">Email</div>
-                    <div className="user-table-header-cell">Birth Date</div>
-                    <div className="user-table-header-cell">Customers</div>
-                    <div className="user-table-header-cell">Last Connection</div>
-                </div>
-
-                <div className="user-table-body">
-                    {EmployeeArray.length === 0 ? (
-                        <div className="user-table-row">
-                            <div className="user-table-cell">No data available</div>
-                        </div>
-                    ) : (
-                        EmployeeArray.map((user, index) => (
-                            <div className="user-table-row" key={user.id}>
-                                <div className="user-table-cell">{index + 1}</div>
-                                <div className="user-table-cell">{user.name} {user.surname}</div>
-                                <div className="user-table-cell">{user.email}</div>
-                                <div className="user-table-cell">{formatDate(user.birth_date)}</div>
-                                <div className="user-table-cell">
-                                    <button className="coach_button" onClick={() => handleOpenModal(user)}>
-                                        Edit List ...
-                                    </button>
-                                </div>
-                                <div className="user-table-cell">{formatDate(user.updatedAt) || "N/A"}</div>
-                            </div>
-                        ))
-                    )}
-                </div>
-            </section>
-
-            {showModal && selectedUser && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <h3>Select Clients for {selectedUser?.name} {selectedUser?.surname}</h3>
-                        <div className="client-list">
-                            {users.map(user => (
-                                <div key={user.id}>
-                                    <input
-                                        type="checkbox"
-                                        id={`client-${user.id}`}
-                                        checked={(userClients[selectedUser.id] || []).includes(user.id)}
-                                        onChange={() => handleClientSelection(user.id)}
-                                    />
-                                    <label htmlFor={`client-${user.id}`}>{user.name} {user.surname}</label>
-                                </div>
-                            ))}
-                        </div>
-                        <button className="coach_button" onClick={handleCloseModal}>
-                            Save
+            <div className="main-content">
+                <div className="head-content-coaches-page">
+                    <div className="title-content-coaches">
+                        <h1 className="page-title">Coaches List</h1>
+                        <p className="page-subtitle">You have total {users.length} coaches.</p>
+                    </div>
+                    <div className='group-button'>
+                        <button className="export-button" onClick={downloadCSV}>
+                            <img src={IconDownload} alt="Download Icon" />
+                            Export
                         </button>
+                        {usertype.user.type === "Manager" ? (
+                            <button className="add-button" onClick={() => setShowPopup(true)}>
+                                +
+                            </button>
+                        ) : null}
                     </div>
                 </div>
-            )}
+                <div className="all-content-table">
+                    <div className="actions">
+                        <div className="user-table-header-cell bulk-action-dropdown button-left-group">
+                            <select className="bulk-action-select">
+                                <option value="">Bulk Action</option>
+                                <option value="delete">Delete</option>
+                                <option value="email">Send Email</option>
+                            </select>
+                            <button className="bulk-action-button" onClick={handleBulkAction}>
+                                Apply
+                            </button>
+                            <div className="group-button-table">
+                                <div className="search-bar">
+                                    <div className="search-wrapper">
+                                        <input
+                                            type="text"
+                                            placeholder="Search coaches..."
+                                            value={searchTerm}
+                                            onChange={(e) => setSearchTerm(e.target.value)}
+                                            className="search-input"
+                                        />
+                                        <i className="search-icon fas fa-search"></i>
+                                    </div>
+                                </div>
+                                <div className="sort-dropdown">
+                                    <img
+                                        src={SortIcon}
+                                        alt="Sort Icon"
+                                        className="sort-icon"
+                                        onClick={() => setDropdownOpen(!dropdownOpen)}
+                                    />
+                                    {dropdownOpen && (
+                                        <ul className="sort-options">
+                                            <li onClick={() => handleSortChange('default')}>Default</li>
+                                            <li onClick={() => handleSortChange('asc')}>A - Z</li>
+                                            <li onClick={() => handleSortChange('desc')}>Z - A</li>
+                                        </ul>
+                                    )}
+                                </div>
+                                <div className="sort-dropdown">
+                                    <img src={SettingsIcon} alt="Settings Icon" className="sort-icon" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="user-table">
+                        <div className="user-table-header">
+                            <div className="user-table-header-cell">Coach</div>
+                            <div className="user-table-header-cell">Email</div>
+                            <div className="user-table-header-cell">Phone</div>
+                            <div className="user-table-header-cell">Number of customers</div>
+                            {usertype.user.type === "Manager" ? (
+                            <div id="action-title" className="user-table-header-cell">Actions</div>
+                            ) : null}
+                        </div>
+                        <div className="user-table-body">
+                            {EmployeeArray.length === 0 ? (
+                                <div className="user-table-row">
+                                    <div className="user-table-cell">No data available</div>
+                                </div>
+                            ) : (
+                                EmployeeArray.map((user) => (
+                                    <div className="user-table-row" key={user.id}>
+                                        <div className="user-table-cell">
+                                            {employeeImgData?.[user.id] ? (
+                                                <img src={employeeImgData[user.id]} alt="User" className="user-image" />
+                                            ) : (
+                                                <div className="avatar-circle">
+                                                    {user.name.charAt(0)}{user.surname?.charAt(0)}
+                                                </div>
+                                            )}
+                                            <div className="user-info">
+                                                <p className="user-name">{user.name} {user.surname}</p>
+                                            </div>
+                                        </div>
+                                        <div className="user-table-cell">{user.email}</div>
+                                        <div className="user-table-cell">{user.phone || "N/A"}</div>
+                                        <div className="user-table-cell">{user.customers?.length || "N/A"}</div>
+                                        {usertype.user.type === "Manager" ? (
+                                        <div id="action-button" className="user-table-cell">
+                                            <button className="edit-button" onClick={() => handleMenuClick(user.id)}>
+                                                ...
+                                            </button>
+                                            {editMenuOpen === user.id && (
+                                                <div className="actions-dropdown">
+                                                    <ul className="actions-options">
+                                                        <li onClick={() => handleEditClick(user.id)}>Edit</li>
+                                                        <li onClick={() => handleDeleteClick(user.id)}>Delete</li>
+                                                    </ul>
+                                                </div>
+                                            )}
+                                        </div>
+                                        ) : null}
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+                </div>
+                {showPopup && <FormPopup onClose={() => { setShowPopup(false); refetch(); }} />}
+            </div>
         </div>
     );
 };

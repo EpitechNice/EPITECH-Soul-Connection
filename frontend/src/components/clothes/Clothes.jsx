@@ -1,33 +1,11 @@
-import React, { useState } from 'react';
-import SideMenu from "../layout/SideMenu";
+import React, { useEffect, useState } from 'react';
+import { useGetClothesQuery } from '../../redux/api/clothingApi';
+import Loader from '../layout/Loader';
+import toast from "react-hot-toast";
 
 const Clothes = () => {
-  const users = [
-    { id: 1, name: 'Client 1' },
-    { id: 2, name: 'Client 2' },
-  ];
+  const { data: clothes, isLoading, error, isError } = useGetClothesQuery();
 
-  const hats = [
-    { id: 1, name: 'Chapeau Rouge', category: 'chapeaux', color: 'red' },
-    { id: 2, name: 'Chapeau Bleu', category: 'chapeaux', color: 'blue' },
-  ];
-
-  const tops = [
-    { id: 1, name: 'Haut Vert', category: 'tops', color: 'green' },
-    { id: 2, name: 'Haut Jaune', category: 'tops', color: 'yellow' },
-  ];
-
-  const bottoms = [
-    { id: 1, name: 'Bas Noir', category: 'bottoms', color: 'black' },
-    { id: 2, name: 'Bas Blanc', category: 'bottoms', color: 'white' },
-  ];
-
-  const shoes = [
-    { id: 1, name: 'Chaussures Grises', category: 'shoes', color: 'gray' },
-    { id: 2, name: 'Chaussures Marron', category: 'shoes', color: 'brown' },
-  ];
-
-  const [selectedUser, setSelectedUser] = useState('');
   const [currentIndex, setCurrentIndex] = useState({
     hats: 0,
     tops: 0,
@@ -35,100 +13,75 @@ const Clothes = () => {
     shoes: 0,
   });
 
-  const prevItem = (category) => {
-    setCurrentIndex((prevState) => ({
-      ...prevState,
-      [category]: prevState[category] > 0 ? prevState[category] - 1 : eval(category).length - 1,
-    }));
-  };
+  useEffect(() => {
+    if (isError) {
+      const errorMsg = error?.data?.detail?.[0]?.msg || "An error occurred.";
+      toast.error(errorMsg);
+    }
+  }, [isError, error]);
 
-  const nextItem = (category) => {
-    setCurrentIndex((prevState) => ({
-      ...prevState,
-      [category]: prevState[category] < eval(category).length - 1 ? prevState[category] + 1 : 0,
-    }));
-  };
+  if (isLoading) return <Loader />;
 
-  const visibleHats = [hats[currentIndex.hats]];
-  const visibleTops = [tops[currentIndex.tops]];
-  const visibleBottoms = [bottoms[currentIndex.bottoms]];
-  const visibleShoes = [shoes[currentIndex.shoes]];
+  const clothesArray = Array.isArray(clothes) ? clothes : clothes?.clothes || [];
+
+  const categories = ['hats', 'tops', 'bottoms', 'shoes'];
+  const categoryItems = categories.reduce((acc, category) => {
+    acc[category] = clothesArray.filter(item => item.category === category);
+    return acc;
+  }, {});
+
+  const changeItem = (category, direction) => {
+    setCurrentIndex(prevState => {
+      const items = categoryItems[category];
+      if (!items.length) return prevState;
+      const maxIndex = items.length - 1;
+      const currentIndex = prevState[category];
+      const newIndex = direction === 'next'
+        ? (currentIndex < maxIndex ? currentIndex + 1 : 0)
+        : (currentIndex > 0 ? currentIndex - 1 : maxIndex);
+
+      return { ...prevState, [category]: newIndex };
+    });
+  };
 
   return (
     <div className="garde-robe-page pages">
-      <div>
-        <SideMenu />
-      </div>
       <h1>Garde Robe Virtuelle</h1>
 
-      <div className="client-menu">
-        <label htmlFor="user">Choisissez un client :</label>
-        <select value={selectedUser} onChange={(e) => setSelectedUser(e.target.value)}>
-          <option value="">Sélectionner un client</option>
-          {users.map((user) => (
-            <option key={user.id} value={user.id}>
-              {user.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
       <div className="carousels">
-        <div className="carousel">
-          <h2>Chapeaux</h2>
-          <div className="carousel-container">
-            <button className="button-clothes" onClick={() => prevItem('hats')}>⬅️</button>
-            <div className="carousel-item">
-              {visibleHats.map((item, index) => (
-                <div key={index} className="color-box" style={{ backgroundColor: item.color }}></div>
-              ))}
-              <p>{visibleHats[0].name}</p>
+        {categories.map(category => {
+          const items = categoryItems[category];
+          const currentItem = items[currentIndex[category]] || {};
+          return (
+            <div key={category} className="carousel">
+              <h2>{category.charAt(0).toUpperCase() + category.slice(1)}</h2>
+              <div className="carousel-container">
+                <button
+                  className="button-clothes"
+                  onClick={() => changeItem(category, 'prev')}
+                >
+                  ⬅️
+                </button>
+                <div className="carousel-item">
+                  {currentItem.imageUrl ? (
+                    <div className="image-box">
+                      <img src={currentItem.imageUrl} alt={currentItem.name} />
+                    </div>
+                  ) : (
+                    <p>No image available</p>
+                  )}
+                  <p>{currentItem.name || "No name available"}</p>
+                </div>
+                <button
+                  className="button-clothes"
+                  onClick={() => changeItem(category, 'next')}
+                >
+                  ➡️
+                </button>
+              </div>
             </div>
-            <button className="button-clothes" onClick={() => nextItem('hats')}>➡️</button>
-          </div>
-        </div>
-
-        <div className="carousel">
-          <h2>Hauts</h2>
-          <div className="carousel-container">
-            <button className="button-clothes" onClick={() => prevItem('tops')}>⬅️</button>
-            <div className="carousel-item">
-              {visibleTops.map((item, index) => (
-                <div key={index} className="color-box" style={{ backgroundColor: item.color }}></div>
-              ))}
-              <p>{visibleTops[0].name}</p>
-            </div>
-            <button className="button-clothes" onClick={() => nextItem('tops')}>➡️</button>
-          </div>
-        </div>
-
-        <div className="carousel">
-          <h2>Bas</h2>
-          <div className="carousel-container">
-            <button className="button-clothes" onClick={() => prevItem('bottoms')}>⬅️</button>
-            <div className="carousel-item">
-              {visibleBottoms.map((item, index) => (
-                <div key={index} className="color-box" style={{ backgroundColor: item.color }}></div>
-              ))}
-              <p>{visibleBottoms[0].name}</p>
-            </div>
-            <button className="button-clothes" onClick={() => nextItem('bottoms')}>➡️</button>
-          </div>
-        </div>
-
-        <div className="carousel">
-          <h2>Chaussures</h2>
-          <div className="carousel-container">
-            <button className="button-clothes" onClick={() => prevItem('shoes')}>⬅️</button>
-            <div className="carousel-item">
-              {visibleShoes.map((item, index) => (
-                <div key={index} className="color-box" style={{ backgroundColor: item.color }}></div>
-              ))}
-              <p>{visibleShoes[0].name}</p>
-            </div>
-            <button className="button-clothes" onClick={() => nextItem('shoes')}>➡️</button>
-          </div>
-        </div>
+          );
+        })}
       </div>
     </div>
   );
