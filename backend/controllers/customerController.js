@@ -8,6 +8,7 @@ import * as fs from "fs";
 
 import jwt from "jsonwebtoken";
 import Payment from "../models/paymentModel.js";
+import Clothing from "../models/clothingModel.js";
 
 const DEFAULT_IMAGE_PATH = "/usr/src/app/images/default.png"
 
@@ -171,17 +172,35 @@ export const getCustomerPayments = catchAsyncErrors(async (req, res, next) => {
         res.status(200).json(payments);
     } catch (err) {
         console.error(err);
-        newt(new ErrorHandler("An error occurred while fetching customers", 500))
+        newt(new ErrorHandler("An error occurred while fetching payments", 500))
     }
 });
 
 export const getCustomerClothes = catchAsyncErrors(async (req, res, next) => {
+    try {
+        const customer = await Customer.findByPk(req.params.id);
+
+        const clothings = await Clothing.findAll({
+            where: {
+                userId: customer.id,
+            }
+        })
+
+        res.status(200).json(clothings);
+    } catch (err) {
+        console.error(err);
+        newt(new ErrorHandler("An error occurred while fetching clothings", 500))
+    }
 });
 
 export const createCustomer = catchAsyncErrors(async (req, res) => {
     try {
+        var cookie = req.cookies.token;
+        const decoded = jwt.verify(cookie, process.env.SECRET_KEY);
+
         const modifiedBody = {
             ...req.body,
+            modified_by: decoded.id,
             image_path: DEFAULT_IMAGE_PATH,
         };
 
@@ -211,8 +230,13 @@ export const updateCustomer = catchAsyncErrors(async (req, res, next) => {
     }
 
     try {
-        const updatedCustomer = await customer.update(
-            req.body,
+        var cookie = req.cookies.token;
+        const decoded = jwt.verify(cookie, process.env.SECRET_KEY);
+
+        const updatedCustomer = await customer.update({
+                ...req.body,
+                modified_by: decoded.id,
+            },
             { returning: true }
         );
 
