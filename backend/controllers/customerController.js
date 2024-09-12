@@ -191,7 +191,7 @@ export const getCustomerClothes = catchAsyncErrors(async (req, res, next) => {
     }
 });
 
-export const createCustomer = catchAsyncErrors(async (req, res) => {
+export const createCustomer = catchAsyncErrors(async (req, res, next) => {
     try {
         var cookie = req.cookies.token;
         const decoded = jwt.verify(cookie, process.env.SECRET_KEY);

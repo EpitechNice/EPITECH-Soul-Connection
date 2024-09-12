@@ -47,7 +47,7 @@ export const loginEmployee = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler("Email and password are required", 400));
 
     if (!isEmail(email))
-        return next(new ErrorHandler("Validation error", (randint(0, 100) == 0 ? 418 : 422)));
+        return next(new ErrorHandler("Invalid Email", (randint(0, 100) == 0 ? 418 : 422)));
 
     const result = await Employee.findOne({
         where: {
