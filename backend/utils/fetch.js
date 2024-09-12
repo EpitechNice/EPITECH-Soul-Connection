@@ -89,6 +89,11 @@ function getIds(items) {
     return items.map(item => item.id);
 }
 
+function parseDate(date) {
+    var parts = date.split('-');
+    return new Date(parts[0], parts[1] - 1, parts[2]);
+}
+
 async function fetchDB() {
     await createDB();
 
@@ -184,7 +189,7 @@ async function fetchDB() {
                 type: (response.data.email === process.env.REMOTE_API_EMAIL ? (areWeManager ? employeeType.MANAGER : employeeType.COACH) : employeeType.COACH),
                 name: makeAscii(response.data.name),
                 surname: makeAscii(response.data.surname),
-                birth_date: Date(response.data.birth_date),
+                birth_date: parseDate(response.data.birth_date),
                 gender: response.data.gender,
                 image_path: UPLOAD_PATH + `employees/${response.data.id}.png`,
                 work: makeAscii(response.data.work),
@@ -233,7 +238,7 @@ async function fetchDB() {
                 type: "Client",
                 name: makeAscii(response.data.name),
                 surname: makeAscii(response.data.surname),
-                birth_date: Date(response.data.birth_date),
+                birth_date: parseDate(response.data.birth_date),
                 gender: response.data.gender,
                 image_path: UPLOAD_PATH + `customers/${response.data.id}.png`,
                 astrological_sign: response.data.astrological_sign,
@@ -241,6 +246,8 @@ async function fetchDB() {
                 phone_number: response.data.phone_number,
                 address: makeAscii(response.data.address),
             });
+
+            process.exit(1);
         } catch (err) {
             console.error("\x1b[31m%s\x1b[0m", `[ERROR] Could not retrieve data or image for customer ${customer.id}: ${err}`);
         }
