@@ -228,10 +228,7 @@ async function fetchDB() {
 async function run_n_wait(params) {
     let start = performance.now();
     await fetchDB();
-    let seconds = performance.now() - start;
-    let minutes = ~~(seconds / 60);
-    seconds %= 60;
-    console.log("\x1b[95m%s\x1b[0m", `=== Fetching remote DB successfull. Took ${minutes}min and ${seconds}sec ===`);
+    console.log("\x1b[95m%s\x1b[0m", `=== Fetching remote DB successfull. Took ${performance.now() - start}sec ===`);
     await delay(30 * 60 * 1000);
 }
 
