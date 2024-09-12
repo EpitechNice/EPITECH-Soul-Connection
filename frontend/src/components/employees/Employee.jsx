@@ -8,6 +8,8 @@ import SortIcon from '../../assets/Sort.svg';
 import SettingsIcon from '../../assets/Settings.svg';
 import { useSelector } from 'react-redux';
 import FormPopup from './FormPopupAdd';
+import ProfilePage from './ProfilePage';
+import { useNavigate } from 'react-router-dom';
 
 const Employees = () => {
     const { data, isLoading, error, isError, refetch } = useGetEmployeesQuery();
@@ -23,6 +25,7 @@ const Employees = () => {
     const { mutate: updateEmployee } = useUpdateEmployeeMutation();
     const usertype = useSelector((state) => state.auth);
     const employeeImgData = "";
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (data) {
@@ -106,6 +109,10 @@ const Employees = () => {
         } else if (selectedAction === 'email') {
             // Send email to selected users
         }
+    };
+
+    const handleUserClick = (userId) => {
+        navigate(`/employees/${userId}`);
     };
 
     const filteredUsers = users.filter(user => {
@@ -211,7 +218,11 @@ const Employees = () => {
                                                 </div>
                                             )}
                                             <div className="user-info">
-                                                <p className="user-name">{user.name} {user.surname}</p>
+                                                <p className="user-name" 
+                                                    onClick={() => handleUserClick(user.id)}
+                                                >
+                                                    {user.name} {user.surname}
+                                                </p>
                                             </div>
                                         </div>
                                         <div className="user-table-cell">{user.email}</div>
