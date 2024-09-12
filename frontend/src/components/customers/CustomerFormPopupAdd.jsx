@@ -24,11 +24,22 @@ const FormPopup = ({ onClose }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+    
+        if (name === "phone_number") {
+            if (/^\d*$/.test(value) && value.length <= 10) {
+                setFormData({
+                    ...formData,
+                    [name]: value,
+                });
+            }
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value,
+            });
+        }
     };
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();

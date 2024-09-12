@@ -67,17 +67,17 @@ const Dashboard = () => {
   };
 
   // Count events by type
-  const encounterCountByType = encountersArray.reduce((acc, encounter) => {
-    acc[encounter.type] = (acc[encounter.type] || 0) + 1;
+  const eventCountByType = eventArray.reduce((acc, event) => {
+    acc[event.type] = (acc[event.type] || 0) + 1;
     return acc;
   }, {});
 
   const pieData = {
-    labels: Object.keys(encounterCountByType),
+    labels: Object.keys(eventCountByType),
     datasets: [
       {
         label: 'Event Types',
-        data: Object.values(encounterCountByType),
+        data: Object.values(eventCountByType),
         backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40',
           '#E74C3C', '#8E44AD', '#3498DB', '#2ECC71', '#1ABC9C', '#34495E',
           '#2980B9', '#27AE60', '#F39C12', '#1F618D', '#7F8C8D',
