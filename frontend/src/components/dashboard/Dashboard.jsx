@@ -132,15 +132,23 @@ const Dashboard = () => {
           <div className="overview-item">
             <h3>Events</h3>
             <h4>Our events and their status.</h4>
+            <div className="data-graph-event">
+              <div className="block-graph-event">
             <h5>Monthly</h5>
             <span className="count">{eventArray.length}</span>
             <span className="percentage positive">+4.63%</span>
+            </div>
+            <div className="block-graph-event">
             <h5>Weekly</h5>
             <span className="count">{eventArray.length}</span>
             <span className="percentage positive">+4.63%</span>
+            </div>
+            <div className="block-graph-event">
             <h5>Daily</h5>
             <span className="count">{eventArray.length}</span>
             <span className="percentage positive">+4.63%</span>
+            </div>
+            </div>
             <div className="chart">
             <BarChart data={eventData} options={chartOptions} />
           </div>
