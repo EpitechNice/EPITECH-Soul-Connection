@@ -105,7 +105,7 @@ nav {
 #logout_btn,
 #view_btn,
 #new_review_btn {
-  background-color: #f0efeb;
+  background-color: #ffffff;
   padding: 0.4rem 1.8rem;
   color: rgb(0, 0, 0);
 }
@@ -700,6 +700,22 @@ hr {
   width: 100%;
 }
 
+.head-content-dashboard-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.head-content-profile-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+}
+
 .title-content-coaches {
   display: flex;
   flex-direction: column;
@@ -1025,6 +1041,13 @@ hr {
 .back-icon {
   margin-right: 8px;
   font-size: 18px;
+}
+
+.me-details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .customer-details {
