@@ -2,32 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import SideMenu from '../layout/SideMenu';
 import { useGetCustomerDetailsQuery } from '../../redux/api/customerApi';
+import { useGetPaymentsByCustomerQuery } from '../../redux/api/paymentApi';
 import Loader from '../layout/Loader';
 import toast from "react-hot-toast";
+import { ReactComponent as SaveIcon } from '../../assets/Save.svg';
+import { ReactComponent as MsgIcon } from '../../assets/Msg.svg';
 
 const CustomerPage = () => {
     const { id } = useParams();
-    const navigate = useNavigate(); // Hook pour la navigation
-    const { data, isLoading, error, isError } = useGetCustomerDetailsQuery(id);
+    const navigate = useNavigate();
+    const { data: customerData, isLoading: isCustomerLoading, error: customerError, isError: isCustomerError } = useGetCustomerDetailsQuery(id);
+    const { data: paymentsData, isLoading: isPaymentsLoading, error: paymentsError, isError: isPaymentsError } = useGetPaymentsByCustomerQuery(id);
     const [selectedUser, setSelectedUser] = useState(null);
     const customerImgData = "";
 
     useEffect(() => {
-        if (data) {
-            const user = data; // ou data.customers.find(user => user.id === parseInt(id, 10))
-            setSelectedUser(user);
+        if (customerData) {
+            setSelectedUser(customerData);
         }
-        if (isError) {
-            toast.error(error?.data?.message || "An error occurred.");
+        if (isCustomerError) {
+            toast.error(customerError?.data?.message || "An error occurred.");
         }
-    }, [data, isError, error, id]);
+    }, [customerData, isCustomerError, customerError]);
 
     const convertDate = (isoString) => {
         const date = new Date(isoString);
         return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
     };
 
-    if (isLoading) return <Loader />;
+    if (isCustomerLoading || isPaymentsLoading) return <Loader />;
 
     const renderTableRows = (items, fields) => {
         if (!items || items.length === 0) {
@@ -64,20 +67,35 @@ const CustomerPage = () => {
                     <div className="customer-details">
                         <div className="profile-section">
                             <div className="customer-info">
-                                {customerImgData ? (
-                                    <img src={customerImgData} alt="User" className="customer-image" />
-                                ) : (
-                                    <div className="avatar-circle-profile">
-                                        {selectedUser.name.charAt(0)}{selectedUser.surname?.charAt(0)}
+                                <div className="profile-header">
+                                    <div className="customer-image-container">
+                                        {customerImgData ? (
+                                            <img src={customerImgData} alt="User" className="customer-image" />
+                                        ) : (
+                                            <div className="avatar-circle-profile">
+                                                {selectedUser.name.charAt(0)}{selectedUser.surname?.charAt(0)}
+                                            </div>
+                                        )}
                                     </div>
-                                )}
+                                </div>
                                 <h2 className="user-name-profil">{selectedUser.name} {selectedUser.surname}</h2>
+                                <hr className="separator" />
+                                <div className="profile-buttons">
+                                        <button className="profile-button">
+                                            <SaveIcon />
+                                        </button>
+                                        <button className="profile-button">
+                                            <MsgIcon />
+                                        </button>
+                                    </div>
                                 <hr className="separator" />
                                 <div className="short-details">
                                     <strong>SHORT DETAILS</strong>
                                     <p>User ID: {selectedUser.id}</p>
-                                    <p>Email: {selectedUser.email}</p>
-                                    <p>Address: {selectedUser.address}</p>
+                                    <p>Email:</p>
+                                    <p>{selectedUser.email}</p>
+                                    <p>Address:</p>
+                                    <p>{selectedUser.address}</p>
                                     <p>Last Activity: {convertDate(selectedUser.createdAt)}</p>
                                     <p>Last Update: {convertDate(selectedUser.updatedAt)}</p>
                                     <p>Coach: {selectedUser.coach}</p>
@@ -112,7 +130,7 @@ const CustomerPage = () => {
                                         <div className="user-table-header-cell">Comment</div>
                                     </div>
                                     <div className="user-table-body">
-                                        {renderTableRows(selectedUser.payments, [
+                                        {renderTableRows(paymentsData || [], [
                                             { key: 'date', format: convertDate },
                                             { key: 'paymentMethod' },
                                             { key: 'amount' },

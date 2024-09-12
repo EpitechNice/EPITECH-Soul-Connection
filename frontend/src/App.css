@@ -1013,18 +1013,28 @@ hr {
 }
 
 .back-button {
-  background: none;
-  border: none;
-  color: #007bff;
+  background: white;
+  border: 1px solid #ccc;
+  color: #344761;
+  border-radius: 8px;
+  padding: 8px 16px;
   cursor: pointer;
   font-size: 16px;
   display: flex;
   align-items: center;
+  transition: background-color 0.3s, border-color 0.3s;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+}
+
+.back-button:hover {
+  background-color: #f1f1f1;
+  border-color: #aaa;
 }
 
 .back-icon {
   margin-right: 8px;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .customer-details {
@@ -1121,4 +1131,34 @@ hr {
 .profil .user-table {
   margin-left: 20px;
   border-collapse: collapse;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.profile-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+
+.customer-image-container {
+  display: flex;
+  align-items: center;
+}
+
+.customer-image {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }
