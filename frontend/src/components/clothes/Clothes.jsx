@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 
 const Clothes = () => {
   const { data: clothes, isLoading, error, isError } = useGetClothingImgQuery();
-  const [openIndex, setOpenIndex] = useState(null);
 
   useEffect(() => {
     if (isError) {
@@ -17,10 +16,6 @@ const Clothes = () => {
   if (isLoading) return <Loader />;
 
   const clothesArray = Array.isArray(clothes) ? clothes : clothes?.clothes;
-
-  const toggleClothing = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  }
 
   const [currentIndex, setCurrentIndex] = useState({
     hats: 0,
