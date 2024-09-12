@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const encounterApi = createApi({
-    reducerPath: "eventApi",
+    reducerPath: "encounterApi",
     baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
     endpoints: (builder) => ({
       getEncounters: builder.query({
