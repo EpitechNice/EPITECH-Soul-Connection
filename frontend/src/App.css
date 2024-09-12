@@ -202,6 +202,11 @@ nav {
   background-color: #f7f8fa;
 }
 
+.sous-titre-graph {
+  font-size: 15px;
+  color: gray;
+}
+
 .data-graph-event {
   display: flex;
   justify-content: space-between;

@@ -5,12 +5,13 @@ import PieChart from "./Pie";
 import LineChart from './Line';
 import { useGetEventsQuery } from '../../redux/api/eventApi';
 import { useGetCustomersQuery } from '../../redux/api/customerApi';
+import {useGetEncountersQuery} from '../../redux/api/encounterApi';
 import toast from 'react-hot-toast';
 import Loader from '../layout/Loader';
 
 const Dashboard = () => {
   const { data, isLoading, error, isError } = useGetEventsQuery();
-  const { data: customersData } = useGetCustomersQuery();
+  const { data: encountersData } = useGetEncountersQuery();
 
   useEffect(() => {
     if (isError) {
@@ -20,7 +21,7 @@ const Dashboard = () => {
 
   if (isLoading) return <Loader />;
   
-  const customersArray = Array.isArray(customersData) ? customersData : customersData?.customers || [];
+  const encountersArray = Array.isArray(encountersData) ? encountersData : encountersData?.encounters || [];
   const eventArray = Array.isArray(data) ? data : data?.events || [];
   // Count events per day
   const today = new Date();
@@ -66,17 +67,17 @@ const Dashboard = () => {
   };
 
   // Count events by type
-  const eventCountByType = eventArray.reduce((acc, event) => {
-    acc[event.type] = (acc[event.type] || 0) + 1;
+  const encounterCountByType = encountersArray.reduce((acc, encounter) => {
+    acc[encounter.type] = (acc[encounter.type] || 0) + 1;
     return acc;
   }, {});
 
   const pieData = {
-    labels: Object.keys(eventCountByType),
+    labels: Object.keys(encounterCountByType),
     datasets: [
       {
         label: 'Event Types',
-        data: Object.values(eventCountByType),
+        data: Object.values(encounterCountByType),
         backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40',
           '#E74C3C', '#8E44AD', '#3498DB', '#2ECC71', '#1ABC9C', '#34495E',
           '#2980B9', '#27AE60', '#F39C12', '#1F618D', '#7F8C8D',
@@ -143,11 +144,12 @@ const Dashboard = () => {
         <div className="overview">
           <div className="overview-item">
             <h3>Customers</h3>
+            <h4 className="sous-titre-graph">When customers have joined in the time.</h4>
             <span className="count">932</span>
             <span className="percentage positive">+12.37%</span>
           <div className="chart">
-            <h4>Customer Growth</h4>
-            <LineChart data={customerGrowthData} options={chartOptions} />
+          <h4 className="sous-titre-graph">Our events their status.</h4>
+          <LineChart data={customerGrowthData} options={chartOptions} />
           </div>
           </div>
           <div className="overview-item">
