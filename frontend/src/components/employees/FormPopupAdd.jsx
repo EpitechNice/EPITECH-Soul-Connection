@@ -5,7 +5,6 @@ const FormPopup = ({ onClose }) => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-        price: '',
         type: 'Coach',
         name: '',
         surname: '',
