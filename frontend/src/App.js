@@ -15,7 +15,7 @@ import Compatibility from "./components/compatibility/Compatibility"
 import Customers from "./components/customers/Customers"
 import CustomerPage from "./components/customers/CustomerPage"
 import ProfilePage from "./components/user/ProfilePage"
-import CoachPage from "./components/employees/ProfilePage"
+import CoachPage from "./components/employees/CoachPage"
 
 function App() {
   return (

@@ -35,7 +35,7 @@ const Header = () => {
     return (
       <header style={styles.header}>
         <div style={styles.logo}>
-          <h2><strong>Soul Connection</strong></h2>
+          <h2 className='logoheader'><strong>Soul Connection</strong></h2>
         </div>
 
       {/* Menu de navigation */}
@@ -105,7 +105,8 @@ const styles = {
   },
   logo: {
     fontSize: '24px',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: '#ee4218',
   },
   nav: {
     display: 'flex',

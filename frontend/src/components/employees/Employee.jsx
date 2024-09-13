@@ -8,7 +8,6 @@ import SortIcon from '../../assets/Sort.svg';
 import SettingsIcon from '../../assets/Settings.svg';
 import { useSelector } from 'react-redux';
 import FormPopup from './FormPopupAdd';
-import ProfilePage from './ProfilePage';
 import { useNavigate } from 'react-router-dom';
 
 const Employees = () => {
